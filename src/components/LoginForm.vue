@@ -1,10 +1,13 @@
 <template>
   <div class="form-signin">
-    <div class="alert alert-dismissible alert-danger">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <strong>Oh snap!</strong>Such a pair of login:password does not exist in our
-      database.
-    </div>
+
+    <transition name="fade">
+      <div class="alert alert-dismissible alert-danger" v-show="error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Oh snap!</strong> Such a pair of login:password does not exist in our
+        database.
+      </div>
+    </transition>
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <label for="inputEmail" class="sr-only">Email</label>
     <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus
@@ -27,12 +30,16 @@
     data () {
       return {
         email: '',
-        password: ''
+        password: '',
+        error: ''
       }
     },
     methods: {
       sendRequest () {
-        AuthService.login(this.email, this.password)
+        this.error = ''
+        AuthService.login(this.email, this.password).then((data) => {
+          this.error = data
+        })
       }
     }
   }
@@ -40,6 +47,13 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+    opacity: 0;
+  }
+
   body {
     padding-top: 40px;
     padding-bottom: 40px;

@@ -17,7 +17,7 @@ export default {
       this.saveToken(response.body.key)
       router.push(DASHBOARD_PAGE)
     }, (error) => {
-      alert(error.bodyText)
+      return error.bodyText
     })
   },
 

@@ -18,13 +18,13 @@
 
           <ul class="nav navbar-nav ml-auto">
             <li class="nav-item" v-if="!auth">
-              <router-link :to="{name: 'login'}" class="nav-link">LogIn <span class="glyphicon glyphicon-log-in"></span></router-link>
+              <router-link :to="{name: 'login'}" class="nav-link">LogIn <i class="fas fa-sign-in-alt"></i></router-link>
             </li>
             <li class="nav-item" v-else>
-              <a @click="logout" class="nav-link" href="#">LogOut <span class="glyphicon glyphicon-log-out"></span></a>
+              <a @click="logout" class="nav-link" href="#">LogOut <i class="fas fa-sign-out-alt"></i></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="https://wrapbootstrap.com/?ref=bsw" target="_blank">WrapBootstrap</a>
+              <a class="nav-link" href="https://bootswatch.com/minty/" target="_blank">Theme</a>
             </li>
           </ul>
 
