@@ -2,26 +2,32 @@
   <div class="container">
     <div class="row">
       <div class="col-sm list-tracks">
-        <h2>Tracks:</h2>
-        <music-track
-          v-for="track in tracks"
-          v-bind:key="track.id"
-          v-bind:title="track.title"
-          v-bind:author="track.author"
-          v-bind:price="track.price"
-        ></music-track>
-        <button @click="updateTrackList">Get Tracks</button>
+        <h2>Albums:</h2>
+        <ul class="list-group">
+          <music-album
+            v-for="album in albums"
+            v-bind:key="album.id"
+            v-bind:title="album.title"
+            v-bind:author="album.author"
+            v-bind:price="album.price"
+            class="list-group-item d-flex justify-content-between align-items-center"
+          ></music-album>
+        </ul>
+        <button @click="updateAlbumList" class="btn btn-primary btn-lg btn-block">Update Albums</button>
       </div>
       <div class="col-sm list-albums">
-        <h2>Albums:</h2>
-        <music-album
-          v-for="album in albums"
-          v-bind:key="album.id"
-          v-bind:title="album.title"
-          v-bind:author="album.author"
-          v-bind:price="album.price"
-        ></music-album>
-        <button @click="updateAlbumList">Get Albums</button>
+        <h2>Tracks:</h2>
+        <div class="list-group">
+          <music-track
+            v-for="track in tracks"
+            v-bind:key="track.id"
+            v-bind:title="track.title"
+            v-bind:author="track.author"
+            v-bind:price="track.price"
+            class="list-group-item list-group-item-action"
+          ></music-track>
+        </div>
+        <button @click="updateTrackList" class="btn btn-primary btn-lg btn-block">Update Tracks</button>
       </div>
     </div>
   </div>

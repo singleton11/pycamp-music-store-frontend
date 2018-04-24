@@ -7,6 +7,8 @@ Vue.use(VueRouter)
 const router = new VueRouter({
   mode: 'history',
   base: window.location.pathName,
+  // linkActiveClass: 'active',
+  linkExactActiveClass: 'active',
   routes
 })
 
