@@ -17,8 +17,11 @@
           </ul>
 
           <ul class="nav navbar-nav ml-auto">
-            <li class="nav-item">
-              <router-link :to="{name: 'login'}" class="nav-link">LogIn</router-link>
+            <li class="nav-item" v-if="!auth">
+              <router-link :to="{name: 'login'}" class="nav-link">LogIn <span class="glyphicon glyphicon-log-in"></span></router-link>
+            </li>
+            <li class="nav-item" v-else>
+              <a @click="logout" class="nav-link" href="#">LogOut <span class="glyphicon glyphicon-log-out"></span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="https://wrapbootstrap.com/?ref=bsw" target="_blank">WrapBootstrap</a>
@@ -39,7 +42,19 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+import AuthService from '@/services/AuthService'
+import {AUTHENTICATED_GETTER} from '@/store/getter-types'
+
 export default {
-  name: 'App'
+  name: 'App',
+  methods: {
+    logout () {
+      AuthService.logout()
+    }
+  },
+  computed: {
+    ...mapGetters({ auth: AUTHENTICATED_GETTER })
+  }
 }
 </script>

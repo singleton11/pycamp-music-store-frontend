@@ -3,30 +3,17 @@
     <div class="row">
       <div class="col-sm list-tracks">
         <h2>Albums:</h2>
-        <ul class="list-group">
-          <music-album
-            v-for="album in albums"
-            v-bind:key="album.id"
-            v-bind:title="album.title"
-            v-bind:author="album.author"
-            v-bind:price="album.price"
-            class="list-group-item d-flex justify-content-between align-items-center"
-          ></music-album>
-        </ul>
+        <music-albums-list
+          v-bind:albums="albums"
+        ></music-albums-list>
         <button @click="updateAlbumList" class="btn btn-primary btn-lg btn-block">Update Albums</button>
       </div>
       <div class="col-sm list-albums">
         <h2>Tracks:</h2>
-        <div class="list-group">
-          <music-track
-            v-for="track in tracks"
-            v-bind:key="track.id"
-            v-bind:title="track.title"
-            v-bind:author="track.author"
-            v-bind:price="track.price"
-            class="list-group-item list-group-item-action"
-          ></music-track>
-        </div>
+
+        <music-tracks-list
+          v-bind:tracks="tracks"
+          ></music-tracks-list>
         <button @click="updateTrackList" class="btn btn-primary btn-lg btn-block">Update Tracks</button>
       </div>
     </div>
@@ -34,8 +21,8 @@
 </template>
 
 <script>
-import MusicTrack from '@/components/MusicTrack'
-import MusicAlbum from '@/components/MusicAlbum'
+import MusicTracksList from '@/components/MusicTracksList'
+import MusicAlbumsList from '@/components/MusicAlbumsList'
 import MusicService from '@/services/MusicService'
 
 export default {
@@ -64,7 +51,8 @@ export default {
     }
   },
   components: {
-    MusicTrack, MusicAlbum
+    MusicTracksList,
+    MusicAlbumsList
   }
 }
 </script>
