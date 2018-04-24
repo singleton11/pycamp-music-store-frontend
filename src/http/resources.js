@@ -17,8 +17,36 @@ const authActions = {
 const authResource = Vue.resource('auth', {}, authActions)
 
 const musicActions = {
-  getTracks: { method: 'GET', url: 'music_store/tracks/' },
-  getAlbums: { method: 'GET', url: 'music_store/albums/' }
+  getTracks: {
+    method: 'GET',
+    url: 'music_store/tracks/'
+  },
+  getBoughtTracks: {
+    method: 'GET',
+    url: 'music_store/bought_tracks/'
+  },
+
+  getAlbums: {
+    method: 'GET',
+    url: 'music_store/albums/'
+  },
+  buyAlbum: {
+    method: 'POST',
+    url: 'music_store/tracks/{id}/buy'
+  },
+  getBoughtAlbums: {
+    method: 'GET',
+    url: 'music_store/bought_albums/'
+  },
+
+  getPaymentMethods: {
+    method: 'GET',
+    url: 'music_store/payment_methods/'
+  },
+  addPaymentMethod: {
+    method: 'POST',
+    url: 'music_store/payment_methods/'
+  }
 }
 const musicResource = Vue.resource('auth', {}, musicActions)
 

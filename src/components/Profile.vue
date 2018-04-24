@@ -1,15 +1,17 @@
 <template>
   <div class="container">
+    <h1> Your Profile</h1>
     <div class="row">
       <div class="col-sm list-tracks">
-        <h2>Albums:</h2>
+        <h2>Bought Albums:</h2>
         <music-albums-list
           v-bind:albums="albums"
         ></music-albums-list>
         <button @click="updateAlbumList" class="btn btn-primary btn-lg btn-block">Update Albums</button>
       </div>
+
       <div class="col-sm list-albums">
-        <h2>Tracks:</h2>
+        <h2>Bought Tracks:</h2>
 
         <music-tracks-list
           v-bind:tracks="tracks"
@@ -40,12 +42,12 @@ export default {
   },
   methods: {
     updateTrackList () {
-      MusicService.getTracks().then((data) => {
+      MusicService.getBoughtTracks().then((data) => {
         this.tracks = data
       })
     },
     updateAlbumList () {
-      MusicService.getAlbums().then((data) => {
+      MusicService.getBoughtAlbums().then((data) => {
         this.albums = data
       })
     }
