@@ -11,7 +11,7 @@ export default {
   getTrack (trackId) {
     let track = store.getters[TRACK_GETTER](trackId)
     if (track) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         resolve()
       }).then(() => track)
     }
@@ -24,9 +24,11 @@ export default {
 
   /**
    * Get array of all tracks info
+   *
+   * @param {String} search - string for searching
    */
-  getTracks () {
-    return music.getTracks().then((response) => {
+  getTracks (search = '') {
+    return music.getTracks(search).then((response) => {
       let items = response.data
       items.forEach((item) => {
         this.saveTrack(item)
@@ -45,13 +47,22 @@ export default {
   },
 
   /**
+   * Buy track
+   */
+  buyTrack (trackId) {
+    return music.buyTrack(trackId).then(response => {
+      return response.data
+    })
+  },
+
+  /**
    * Get one album.
    * Try get info from state, and if it's not exists, load from api
    */
   getAlbum (albumId) {
     let album = store.getters[TRACK_GETTER](albumId)
     if (album) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         resolve()
       }).then(() => album)
     }
@@ -64,6 +75,8 @@ export default {
 
   /**
    * Get array of all albums info
+   *
+   * @param {String} search - string for searching
    */
   getAlbums (search = '') {
     return music.getAlbums(search).then((response) => {

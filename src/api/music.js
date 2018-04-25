@@ -13,10 +13,15 @@ export function getTrack (trackId) {
 /**
  * Get all tracks
  *
+ * @param {String} search - string for searching
  * @returns {Promise}
  */
-export function getTracks () {
-  return axios.get('music_store/tracks/')
+export function getTracks (search = '') {
+  let q = ''
+  if (search) {
+    q = '?search=' + search
+  }
+  return axios.get('music_store/tracks/' + q)
 }
 
 /**
@@ -26,6 +31,15 @@ export function getTracks () {
  */
 export function getBoughtTracks () {
   return axios.get('music_store/bought_tracks/')
+}
+
+/**
+ * Buy track by id
+ *
+ * @returns {Promise}
+ */
+export function buyTrack (trackId) {
+  return axios.post('music_store/tracks/' + trackId + '/buy/')
 }
 
 /**
@@ -41,6 +55,7 @@ export function getAlbum (albumId) {
 /**
  * Get all albums
  *
+ * @param {String} search - string for searching
  * @returns {Promise}
  */
 export function getAlbums (search = '') {
@@ -73,6 +88,7 @@ export default {
   getTrack,
   getTracks,
   getBoughtTracks,
+  buyTrack,
   getAlbum,
   getAlbums,
   getBoughtAlbums,
