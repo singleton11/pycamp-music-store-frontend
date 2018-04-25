@@ -85,6 +85,15 @@ export default {
   },
 
   /**
+   * Buy album
+   */
+  buyAlbum (albumId) {
+    return music.buyAlbum(albumId).then(response => {
+      return response.data
+    })
+  },
+
+  /**
    * Saves the track to the storage.
    *
    * @param {string} track

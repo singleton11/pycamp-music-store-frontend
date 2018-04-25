@@ -56,11 +56,21 @@ export function getBoughtAlbums () {
   return axios.get('music_store/bought_albums/')
 }
 
+/**
+ * Buy album by id
+ *
+ * @returns {Promise}
+ */
+export function buyAlbum (albumId) {
+  return axios.post('music_store/albums/' + albumId + '/buy/')
+}
+
 export default {
   getTrack,
   getTracks,
   getBoughtTracks,
   getAlbum,
   getAlbums,
-  getBoughtAlbums
+  getBoughtAlbums,
+  buyAlbum
 }
