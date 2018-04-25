@@ -34,7 +34,8 @@
     data () {
       return {
         albums: [],
-        searchText: ''
+        searchText: '',
+        timer: 0
       }
     },
     beforeRouteEnter (to, from, next) {
@@ -71,7 +72,8 @@
     },
     watch: {
       searchText: function () {
-        this.updateAlbumList()
+        clearTimeout(this.timer)
+        this.timer = setTimeout(this.updateAlbumList, 300)
       }
     },
     components: {

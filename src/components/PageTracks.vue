@@ -36,7 +36,8 @@
     data () {
       return {
         tracks: [],
-        searchText: ''
+        searchText: '',
+        timer: 0
       }
     },
     beforeRouteEnter (to, from, next) {
@@ -62,7 +63,8 @@
     },
     watch: {
       searchText: function () {
-        this.updateTrackList()
+        clearTimeout(this.timer)
+        this.timer = setTimeout(this.updateTrackList, 300)
       }
     }
   }
