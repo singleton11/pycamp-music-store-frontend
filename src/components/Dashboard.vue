@@ -2,19 +2,19 @@
   <div class="container">
     <div class="row">
       <div class="col-sm list-tracks">
-        <h2>Albums:</h2>
+        <h2>Bought Albums:</h2>
         <music-albums-list
           v-bind:albums="albums"
         ></music-albums-list>
-        <button @click="updateAlbumList" class="btn btn-primary btn-lg btn-block">Update Albums</button>
+        <button @click="updateAlbumList" class="btn btn-primary btn-lg btn-block">Update list</button>
       </div>
       <div class="col-sm list-albums">
-        <h2>Tracks:</h2>
+        <h2>Bought Tracks:</h2>
 
         <music-tracks-list
           v-bind:tracks="tracks"
           ></music-tracks-list>
-        <button @click="updateTrackList" class="btn btn-primary btn-lg btn-block">Update Tracks</button>
+        <button @click="updateTrackList" class="btn btn-primary btn-lg btn-block">Update list</button>
       </div>
     </div>
   </div>
@@ -40,13 +40,26 @@ export default {
   },
   methods: {
     updateTrackList () {
-      MusicService.getTracks().then((data) => {
-        this.tracks = data
+      MusicService.getBoughtTracks().then((data) => {
+        this.tracks = []
+        data.forEach(boughtTrack => {
+          let trackId = boughtTrack.item
+          MusicService.getTrack(trackId).then(data => {
+            this.tracks.push(data)
+          })
+        })
       })
     },
     updateAlbumList () {
-      MusicService.getAlbums().then((data) => {
-        this.albums = data
+      MusicService.getBoughtAlbums().then((data) => {
+        this.albums = []
+        data.forEach(boughtAlbum => {
+          let albumId = boughtAlbum.item
+          MusicService.getAlbum(albumId).then(data => {
+            data.is_bought = true
+            this.albums.push(data)
+          })
+        })
       })
     }
   },

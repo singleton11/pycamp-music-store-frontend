@@ -20,6 +20,15 @@ export function getTracks () {
 }
 
 /**
+ * Get all bought tracks
+ *
+ * @returns {Promise}
+ */
+export function getBoughtTracks () {
+  return axios.get('music_store/bought_tracks/')
+}
+
+/**
  * Get album info by id
  *
  * @param {String} albumId - album id
@@ -38,9 +47,20 @@ export function getAlbums () {
   return axios.get('music_store/albums/')
 }
 
+/**
+ * Get all bought albums
+ *
+ * @returns {Promise}
+ */
+export function getBoughtAlbums () {
+  return axios.get('music_store/bought_albums/')
+}
+
 export default {
   getTrack,
   getTracks,
+  getBoughtTracks,
   getAlbum,
-  getAlbums
+  getAlbums,
+  getBoughtAlbums
 }
