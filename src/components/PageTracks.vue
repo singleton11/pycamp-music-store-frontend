@@ -1,7 +1,8 @@
 <template>
   <div class="container">
-    <div class="row">
+    <div class="row loader-in-input-parent">
       <input class="form-control" placeholder="Search" type="text" v-model="searchText">
+      <div class="loader-in-input" v-show="loading"></div>
     </div>
     <div class="row">
       <table class="table table-hover">
@@ -37,7 +38,8 @@
       return {
         tracks: [],
         searchText: '',
-        timer: 0
+        timer: 0,
+        loading: 0
       }
     },
     beforeRouteEnter (to, from, next) {
@@ -46,18 +48,29 @@
       })
     },
     methods: {
+      startLoader () {
+        this.loading = true
+      },
+      stopLoader () {
+        this.loading = false
+      },
       updateTrackList () {
+        this.startLoader()
         MusicService.getTracks(this.searchText).then(data => {
           this.tracks = data
+          this.stopLoader()
         })
       },
       buyTrack (track, index) {
+        this.startLoader()
         MusicService.buyTrack(track.id).then(() => {
           track.is_bought = 1
           Vue.set(this.tracks, index, track)
           MusicService.saveTrack(track)
+          this.stopLoader()
         }, error => {
           console.log(error.response.data.message)
+          this.stopLoader()
         })
       }
     },
