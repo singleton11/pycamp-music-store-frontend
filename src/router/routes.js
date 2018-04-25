@@ -1,10 +1,12 @@
 import LoginForm from '@/components/LoginForm'
 import Home from '@/components/Home'
 import Dashboard from '@/components/Dashboard'
+import PageAlbums from '@/components/PageAlbums'
 
 export const HOME_PAGE = '/'
 export const LOGIN_PAGE = '/login'
 export const DASHBOARD_PAGE = '/dashboard'
+export const ALBUMS_PAGE = '/albums'
 
 export default [
   {
@@ -21,5 +23,10 @@ export default [
     path: DASHBOARD_PAGE,
     name: 'dashboard',
     component: Dashboard
+  },
+  {
+    path: ALBUMS_PAGE,
+    name: 'albums',
+    component: PageAlbums
   }
 ]
