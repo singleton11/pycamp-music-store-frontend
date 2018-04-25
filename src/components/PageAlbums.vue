@@ -27,7 +27,7 @@
 
 <script>
   import MusicService from '@/services/MusicService'
-  import MusicTracksList from '@/components/MusicTracksList'
+  import MusicTracksList from '@/components/utils/MusicTracksList'
   import Vue from 'vue'
 
   export default {
@@ -60,7 +60,7 @@
         })
       },
       buyAlbum (album, index) {
-        MusicService.buyAlbum(album.id).then(data => {
+        MusicService.buyAlbum(album.id).then(() => {
           album.is_bought = 1
           Vue.set(this.albums, index, album)
           MusicService.saveAlbum(album)
@@ -70,7 +70,7 @@
       }
     },
     watch: {
-      searchText: function (val) {
+      searchText: function () {
         this.updateAlbumList()
       }
     },

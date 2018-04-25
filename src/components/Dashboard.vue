@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import MusicTracksList from '@/components/MusicTracksList'
-import MusicAlbumsList from '@/components/MusicAlbumsList'
+import MusicTracksList from '@/components/utils/MusicTracksList'
+import MusicAlbumsList from '@/components/utils/MusicAlbumsList'
 import MusicService from '@/services/MusicService'
 
 export default {

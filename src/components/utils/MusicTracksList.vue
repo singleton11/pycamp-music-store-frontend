@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import MusicTrack from '@/components/MusicTrack'
+import MusicTrack from '@/components/utils/MusicTrack'
 export default {
   props: [
     'tracks'
