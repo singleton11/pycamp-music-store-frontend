@@ -65,8 +65,8 @@ export default {
   /**
    * Get array of all albums info
    */
-  getAlbums () {
-    return music.getAlbums().then((response) => {
+  getAlbums (search = '') {
+    return music.getAlbums(search).then((response) => {
       let items = response.data
       items.forEach((item) => {
         this.saveAlbum(item)

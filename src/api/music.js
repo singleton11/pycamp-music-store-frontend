@@ -43,8 +43,12 @@ export function getAlbum (albumId) {
  *
  * @returns {Promise}
  */
-export function getAlbums () {
-  return axios.get('music_store/albums/')
+export function getAlbums (search = '') {
+  let q = ''
+  if (search) {
+    q = '?search=' + search
+  }
+  return axios.get('music_store/albums/' + q)
 }
 
 /**
