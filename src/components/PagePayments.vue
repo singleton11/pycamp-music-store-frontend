@@ -11,9 +11,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(paymentMethod, index) in paymentMethods" v-bind:key="paymentMethod.id" class="table-success text-white">
+        <tr v-for="(paymentMethod, index) in paymentMethods" v-bind:key="paymentMethod.id" class="text-white" :class="[paymentMethod.is_default ? 'table-info' : 'table-success' ]">
           <th scope="col">{{paymentMethod.title}}</th>
-          <th scope="col">{{paymentMethod.is_default}}</th>
+          <td scope="col">{{paymentMethod.is_default}}</td>
           <td scope="col">
             <a @click.prevent="showDelete(paymentMethod, index)" href="#"><i class="text-white fas fa-trash-alt"></i></a>
             <a @click.prevent="showEdit(paymentMethod, index)" href="#"><i class="text-white fas fa-edit"></i></a>
@@ -174,11 +174,11 @@
       },
 
       addPayment () {
-        MusicService.addPaymentMethod(this.selectedPayment.data).then(() => {
+        MusicService.addPaymentMethod(this.selectedPayment.data).then((data) => {
           this.removeDefault()
 
           // add new value of paymentMethod into payment list
-          this.paymentMethods.push(this.selectedPayment.data)
+          this.paymentMethods.push(data)
 
           // hide dialog
           this.showModal.add = false
