@@ -4,8 +4,10 @@
     <div class="row">
       <div class="card-columns">
         <div class="card" v-for="(album, index) in albums" v-bind:key="album.id">
-          <div class="card-header text-white" v-bind:class="[album.is_bought ? 'bg-primary' : 'bg-danger']">
-            <router-link :to="{name: 'albumDetail', params:{id: album.id}}">{{album.title}}</router-link>
+          <div class="card-header text-white" :class="[album.is_bought ? 'bg-primary' : 'bg-danger']">
+            <router-link :to="{name: 'albumDetail', params:{id: album.id}}" class="text-white">
+              {{album.title}}
+            </router-link>
           </div>
           <img class="card-img rounded-0" :src="album.image" alt="Card image cap" v-if="album.image">
           <ul class="list-group list-group-flush">
