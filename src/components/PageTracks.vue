@@ -36,34 +36,35 @@
       return {
         tracks: [],
         searchText: '',
-        timer: 0
+        timer: 0 // setTimeout id
       }
     },
-    beforeRouteEnter (to, from, next) {
-      next(vm => {
-        vm.updateTrackList()
-      })
+    created () {
+      this.updateTrackList()
     },
     methods: {
-      updateTrackList () {
+      updateTrackList () { // update list of tracks
+        // start spinner
         this.$refs.search.startLoader()
         MusicService.getTracks(this.searchText).then(data => {
           this.tracks = data
         }).then(this.$refs.search.stopLoader)
       },
-      buyTrack (track, index) {
+      buyTrack (track, index) { // buy selected track
+        // start spinner
         this.$refs.search.startLoader()
         MusicService.buyTrack(track.id).then(() => {
+          // set new value into album list
           track.is_bought = 1
           Vue.set(this.tracks, index, track)
+          // save it in store
           MusicService.saveTrack(track)
-        }, error => {
-          console.log(error.response.data.message)
         }).then(this.$refs.search.stopLoader)
       }
     },
     watch: {
       searchText: function () {
+        // for wait when user stop typing and start search tracks
         clearTimeout(this.timer)
         this.timer = setTimeout(this.updateTrackList, 300)
       }

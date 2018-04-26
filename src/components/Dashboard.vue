@@ -32,31 +32,32 @@ export default {
       albums: []
     }
   },
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
-      vm.updateTrackList()
-      vm.updateAlbumList()
-    })
+  created () {
+    this.updateTrackList()
+    this.updateAlbumList()
   },
   methods: {
     updateTrackList () {
+      // update list of bought tracks
       MusicService.getBoughtTracks().then((data) => {
         this.tracks = []
+
+        // get info for each trackId and push to tracks array
         data.forEach(boughtTrack => {
-          let trackId = boughtTrack.item
-          MusicService.getTrack(trackId).then(data => {
+          MusicService.getTrack(boughtTrack.item).then(data => {
             this.tracks.push(data)
           })
         })
       })
     },
     updateAlbumList () {
+      // update list of bought albums
       MusicService.getBoughtAlbums().then((data) => {
         this.albums = []
+
+        // get info for each albumId and push to tracks array
         data.forEach(boughtAlbum => {
-          let albumId = boughtAlbum.item
-          MusicService.getAlbum(albumId).then(data => {
-            data.is_bought = true
+          MusicService.getAlbum(boughtAlbum.item).then(data => {
             this.albums.push(data)
           })
         })
