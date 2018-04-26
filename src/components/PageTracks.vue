@@ -1,9 +1,6 @@
 <template>
   <div class="container">
-    <div class="row loader-in-input-parent">
-      <input class="form-control" placeholder="Search" type="text" v-model="searchText">
-      <div class="loader-in-input" v-show="loading"></div>
-    </div>
+    <SearchField v-model="searchText" ref="search"></SearchField>
     <div class="row">
       <table class="table table-hover">
         <thead>
@@ -31,6 +28,7 @@
 
 <script>
   import MusicService from '@/services/MusicService'
+  import SearchField from '@/components/utils/SearchField'
   import Vue from 'vue'
 
   export default {
@@ -38,8 +36,7 @@
       return {
         tracks: [],
         searchText: '',
-        timer: 0,
-        loading: 0
+        timer: 0
       }
     },
     beforeRouteEnter (to, from, next) {
@@ -48,30 +45,21 @@
       })
     },
     methods: {
-      startLoader () {
-        this.loading = true
-      },
-      stopLoader () {
-        this.loading = false
-      },
       updateTrackList () {
-        this.startLoader()
+        this.$refs.search.startLoader()
         MusicService.getTracks(this.searchText).then(data => {
           this.tracks = data
-          this.stopLoader()
-        })
+        }).then(this.$refs.search.stopLoader)
       },
       buyTrack (track, index) {
-        this.startLoader()
+        this.$refs.search.startLoader()
         MusicService.buyTrack(track.id).then(() => {
           track.is_bought = 1
           Vue.set(this.tracks, index, track)
           MusicService.saveTrack(track)
-          this.stopLoader()
         }, error => {
           console.log(error.response.data.message)
-          this.stopLoader()
-        })
+        }).then(this.$refs.search.stopLoader)
       }
     },
     watch: {
@@ -79,6 +67,9 @@
         clearTimeout(this.timer)
         this.timer = setTimeout(this.updateTrackList, 300)
       }
+    },
+    components: {
+      SearchField
     }
   }
 </script>
