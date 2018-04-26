@@ -21,15 +21,36 @@
         </tr>
         </tbody>
       </table>
+
+      <button type="button" class="btn btn-warning" @click="showAdd()">Add new</button>
     </div>
 
-    <Modal v-if="showModal" @close="showModal=false">
+    <Modal v-if="showModalEdit" @close="showModalEdit=false">
       <template slot="title">
         Edit payment Method
       </template>
       <template slot="body">
         <label for="editTitle">Title</label>
-        <input class="form-control" id="editTitle" aria-describedby="emailHelp" placeholder="Enter title of payment method" type="text" v-model="selectedPayment.data.title">
+        <input class="form-control" id="editTitle" placeholder="Enter title of payment method" type="text" v-model="selectedPayment.data.title">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" v-model="selectedPayment.data.is_default" type="checkbox">
+            set default?
+          </label>
+        </div>
+      </template>
+      <template slot="buttons">
+        <button type="button" class="btn btn-primary" @click="saveEdit()">Save changes</button>
+      </template>
+    </Modal>
+
+    <Modal v-if="showModalAdd" @close="showModalAdd=false">
+      <template slot="title">
+        Add new payment Method
+      </template>
+      <template slot="body">
+        <label for="addTitle">Title</label>
+        <input class="form-control" id="addTitle" placeholder="Enter title of payment method" type="text" v-model="selectedPayment.data.title">
         <div class="form-check">
           <label class="form-check-label">
             <input class="form-check-input" value="" v-model="selectedPayment.data.is_default" type="checkbox">
@@ -38,7 +59,7 @@
         </div>
       </template>
       <template slot="buttons">
-        <button type="button" class="btn btn-primary" @click="saveEdit()">Save changes</button>
+        <button type="button" class="btn btn-primary" @click="saveAdd()">Add</button>
       </template>
     </Modal>
 
@@ -54,8 +75,10 @@
     data () {
       return {
         paymentMethods: [],
-        // state of modal dialog visible
-        showModal: false,
+        // state of edit-modal dialog visible
+        showModalEdit: false,
+        // state of add-modal dialog visible
+        showModalAdd: false,
         // selected for edit payment
         selectedPayment: {
           data: {
@@ -85,7 +108,18 @@
           index: index
         }
         // show edit dialog
-        this.showModal = true
+        this.showModalEdit = true
+      },
+      showAdd () {
+        // set selected payment
+        this.selectedPayment = {
+          data: {
+            title: '',
+            is_default: false
+          }
+        }
+        // show edit dialog
+        this.showModalAdd = true
       },
       saveEdit () {
         MusicService.editPaymentMethod(this.selectedPayment.data).then(() => {
@@ -98,7 +132,24 @@
           Vue.set(this.paymentMethods, this.selectedPayment.index, this.selectedPayment.data)
 
           // hide dialog
-          this.showModal = false
+          this.showModalEdit = false
+        }, error => {
+          console.log(error)
+          alert(error)
+        })
+      },
+      saveAdd () {
+        MusicService.addPaymentMethod(this.selectedPayment.data).then(() => {
+          // set is_default = false for current default method
+          this.paymentMethods.forEach(payment => {
+            payment.is_default = false
+          })
+
+          // add new value of paymentMethod into payment list
+          this.paymentMethods.push(this.selectedPayment.data)
+
+          // hide dialog
+          this.showModalAdd = false
         }, error => {
           console.log(error)
           alert(error)

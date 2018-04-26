@@ -67,6 +67,18 @@ export default {
   },
 
   /**
+   * Method for add the payment Method
+   *
+   * @param {Object} data - object with 'title' and 'is_default' fields
+
+   */
+  addPaymentMethod (data) {
+    return music.addPaymentMethod(data).then((response) => {
+      return response.data
+    })
+  },
+
+  /**
    * Saves the track to the storage.
    *
    * @param {string} track

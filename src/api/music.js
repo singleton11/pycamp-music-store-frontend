@@ -60,11 +60,25 @@ export function editPaymentMethod (data) {
   })
 }
 
+/**
+ * Method for add the payment Method
+ *
+ * @param {Object} data - object with 'title' and 'is_default' fields
+ * @returns {Promise}
+ */
+export function addPaymentMethod (data) {
+  return axios.post('music_store/payment_methods/', {
+    title: data.title,
+    is_default: data.is_default
+  })
+}
+
 export default {
   getTrack,
   getTracks,
   getAlbum,
   getAlbums,
   getPaymentMethods,
-  editPaymentMethod
+  editPaymentMethod,
+  addPaymentMethod
 }
