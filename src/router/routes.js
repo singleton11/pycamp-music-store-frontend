@@ -10,25 +10,25 @@ export const LOGIN_PAGE = '/login'
 export const DASHBOARD_PAGE = '/dashboard'
 
 /**
- * Router Decorator: If user is not authenticated
+ * Router checker: If user is not authenticated
  */
 const ifNotAuthenticated = (to, from, next) => {
   if (!store.getters[AUTHENTICATED_GETTER]) {
     next()
     return
   }
-  next(DASHBOARD_PAGE)
+  next({name: 'dashboard'})
 }
 
 /**
- * Router Decorator: If user is authenticated
+ * Router checker: If user is authenticated
  */
 const ifAuthenticated = (to, from, next) => {
   if (store.getters[AUTHENTICATED_GETTER]) {
     next()
     return
   }
-  next(LOGIN_PAGE)
+  next({name: 'login'})
 }
 
 export default [
