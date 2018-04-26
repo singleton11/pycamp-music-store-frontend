@@ -15,7 +15,7 @@
           <th scope="col">{{paymentMethod.title}}</th>
           <th scope="col">{{paymentMethod.is_default}}</th>
           <td scope="col">
-            <!--a @click.prevent="" href="#"><i class="text-white fas fa-trash-alt"></i></a-->
+            <a @click.prevent="showDelete(paymentMethod, index)" href="#"><i class="text-white fas fa-trash-alt"></i></a>
             <a @click.prevent="showEdit(paymentMethod, index)" href="#"><i class="text-white fas fa-edit"></i></a>
           </td>
         </tr>
@@ -25,7 +25,8 @@
       <button type="button" class="btn btn-warning" @click="showAdd()">Add new</button>
     </div>
 
-    <Modal v-if="showModalEdit" @close="showModalEdit=false">
+    <!-- Modal dialog for edit -->
+    <Modal v-if="showModal.edit" @close="showModal.edit=false">
       <template slot="title">
         Edit payment Method
       </template>
@@ -40,11 +41,12 @@
         </div>
       </template>
       <template slot="buttons">
-        <button type="button" class="btn btn-primary" @click="saveEdit()">Save changes</button>
+        <button type="button" class="btn btn-primary" @click="editPayment()">Save changes</button>
       </template>
     </Modal>
 
-    <Modal v-if="showModalAdd" @close="showModalAdd=false">
+    <!-- Modal dialog for add -->
+    <Modal v-if="showModal.add" @close="showModal.add=false">
       <template slot="title">
         Add new payment Method
       </template>
@@ -59,7 +61,20 @@
         </div>
       </template>
       <template slot="buttons">
-        <button type="button" class="btn btn-primary" @click="saveAdd()">Add</button>
+        <button type="button" class="btn btn-primary" @click="addPayment()">Add</button>
+      </template>
+    </Modal>
+
+    <!-- Modal dialog for delete -->
+    <Modal v-if="showModal.delete" @close="showModal.delete=false">
+      <template slot="title">
+        Сonfirmation
+      </template>
+      <template slot="body">
+        Are you sure you want to delete the selected payment method?
+      </template>
+      <template slot="buttons">
+        <button type="button" class="btn btn-primary" @click="deletePayment()">Delete</button>
       </template>
     </Modal>
 
@@ -75,10 +90,12 @@
     data () {
       return {
         paymentMethods: [],
-        // state of edit-modal dialog visible
-        showModalEdit: false,
-        // state of add-modal dialog visible
-        showModalAdd: false,
+        // states of modal dialog visible
+        showModal: {
+          edit: false,
+          add: false,
+          delete: false
+        },
         // selected for edit payment
         selectedPayment: {
           data: {
@@ -101,6 +118,7 @@
           this.paymentMethods = data
         })
       },
+
       showEdit (paymentMethod, index) {
         // set selected payment
         this.selectedPayment = {
@@ -108,8 +126,9 @@
           index: index
         }
         // show edit dialog
-        this.showModalEdit = true
+        this.showModal.edit = true
       },
+
       showAdd () {
         // set selected payment
         this.selectedPayment = {
@@ -119,37 +138,63 @@
           }
         }
         // show edit dialog
-        this.showModalAdd = true
+        this.showModal.add = true
       },
-      saveEdit () {
+
+      showDelete (paymentMethod, index) {
+        // set selected payment
+        this.selectedPayment = {
+          data: Object.assign({}, paymentMethod),
+          index: index
+        }
+        // show edit dialog
+        this.showModal.delete = true
+      },
+
+      removeDefault () {
+        // set is_default = false for current default method
+        this.paymentMethods.forEach(payment => {
+          payment.is_default = false
+        })
+      },
+
+      editPayment () {
         MusicService.editPaymentMethod(this.selectedPayment.data).then(() => {
-          // set is_default = false for current default method
-          this.paymentMethods.forEach(payment => {
-            payment.is_default = false
-          })
+          this.removeDefault()
 
           // set new value of paymentMethod into payment list
           Vue.set(this.paymentMethods, this.selectedPayment.index, this.selectedPayment.data)
 
           // hide dialog
-          this.showModalEdit = false
+          this.showModal.edit = false
         }, error => {
           console.log(error)
           alert(error)
         })
       },
-      saveAdd () {
+
+      addPayment () {
         MusicService.addPaymentMethod(this.selectedPayment.data).then(() => {
-          // set is_default = false for current default method
-          this.paymentMethods.forEach(payment => {
-            payment.is_default = false
-          })
+          this.removeDefault()
 
           // add new value of paymentMethod into payment list
           this.paymentMethods.push(this.selectedPayment.data)
 
           // hide dialog
-          this.showModalAdd = false
+          this.showModal.add = false
+        }, error => {
+          console.log(error)
+          alert(error)
+        })
+      },
+
+      deletePayment () {
+        MusicService.delPaymentMethod(this.selectedPayment.data.id).then(() => {
+          // add new value of paymentMethod into payment list
+          this.paymentMethods.splice(this.selectedPayment.index, 1)
+
+          // hide dialog
+          this.showModal.delete = false
         }, error => {
           console.log(error)
           alert(error)

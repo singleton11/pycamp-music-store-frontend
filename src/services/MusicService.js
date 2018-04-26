@@ -79,6 +79,17 @@ export default {
   },
 
   /**
+   * Method for delete the payment Method
+   *
+   * @param {Object} paymentId - `id` of payment method
+   */
+  delPaymentMethod (paymentId) {
+    return music.delPaymentMethod(paymentId).then((response) => {
+      return response.data
+    })
+  },
+
+  /**
    * Saves the track to the storage.
    *
    * @param {string} track

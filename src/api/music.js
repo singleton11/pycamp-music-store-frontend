@@ -73,6 +73,16 @@ export function addPaymentMethod (data) {
   })
 }
 
+/**
+ * Method for delete the payment Method
+ *
+ * @param {Object} paymentId - `id` of payment method
+ * @returns {Promise}
+ */
+export function delPaymentMethod (paymentId) {
+  return axios.delete('music_store/payment_methods/' + paymentId + '/')
+}
+
 export default {
   getTrack,
   getTracks,
@@ -80,5 +90,6 @@ export default {
   getAlbums,
   getPaymentMethods,
   editPaymentMethod,
-  addPaymentMethod
+  addPaymentMethod,
+  delPaymentMethod
 }
