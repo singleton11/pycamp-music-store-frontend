@@ -32,7 +32,7 @@ export default {
       albums: []
     }
   },
-  created () {
+  mounted () {
     this.updateTrackList()
     this.updateAlbumList()
   },

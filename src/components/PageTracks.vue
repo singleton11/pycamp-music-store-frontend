@@ -2,6 +2,8 @@
   <div class="container">
     <SearchField v-model="searchText" ref="search"></SearchField>
     <div class="row">
+      <div class="col">
+        <h2>Tracks List</h2>
       <table class="table table-hover">
         <thead>
         <tr>
@@ -14,14 +16,24 @@
         <tbody>
         <tr v-for="track in tracks" v-bind:key="track.id" :class="[track.is_bought ? 'bg-primary text-white' : 'bg-light']">
           <td scope="col">{{track.author}}</td>
-          <th scope="col">{{track.title}}</th>
+          <th scope="col">
+            <a @click.prevent="selectedTrack=track" href="#" :class="{'text-white': track.is_bought}">
+              {{track.title}}
+            </a>
+          </th>
           <td scope="col">{{track.price}}</td>
           <td scope="col">
-            <a class="card-link" v-if="!track.is_bought" @click.prevent="buyTrack(track, index)" href="#"><i class="fas fa-dollar-sign"></i> Buy</a>
+            <a v-if="!track.is_bought" @click.prevent="buyTrack(track, index)" href="#"><i class="fas fa-dollar-sign"></i> Buy</a>
           </td>
         </tr>
         </tbody>
       </table>
+      </div>
+
+      <div class="col" v-if="selectedTrack.id">
+        <h2>Track Info</h2>
+        <TrackDetail :track="selectedTrack" :key="selectedTrack.id"></TrackDetail>
+      </div>
     </div>
   </div>
 </template>
@@ -29,6 +41,7 @@
 <script>
   import MusicService from '@/services/MusicService'
   import SearchField from '@/components/utils/SearchField'
+  import TrackDetail from '@/components/utils/TrackDetail'
   import Vue from 'vue'
 
   export default {
@@ -36,10 +49,11 @@
       return {
         tracks: [],
         searchText: '',
+        selectedTrack: {},
         timer: 0 // setTimeout id
       }
     },
-    created () {
+    mounted () {
       this.updateTrackList()
     },
     methods: {
@@ -52,14 +66,16 @@
       },
       buyTrack (track, index) { // buy selected track
         // start spinner
-        this.$refs.search.startLoader()
         MusicService.buyTrack(track.id).then(() => {
           // set new value into album list
           track.is_bought = 1
           Vue.set(this.tracks, index, track)
           // save it in store
           MusicService.saveTrack(track)
-        }).then(this.$refs.search.stopLoader)
+        }, error => {
+          console.log(error)
+          alert(error.response.data.message)
+        })
       }
     },
     watch: {
@@ -70,7 +86,8 @@
       }
     },
     components: {
-      SearchField
+      SearchField,
+      TrackDetail
     }
   }
 </script>

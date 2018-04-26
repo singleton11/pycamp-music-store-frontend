@@ -37,7 +37,7 @@
         timer: null // setTimeout id
       }
     },
-    created () {
+    mounted () {
       this.updateAlbumList()
     },
     methods: {
