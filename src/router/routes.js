@@ -2,12 +2,14 @@ import LoginForm from '@/components/LoginForm'
 import Home from '@/components/Home'
 import Dashboard from '@/components/Dashboard'
 import PageAlbums from '@/components/PageAlbums'
+import PageAlbumDetail from '@/components/PageAlbumDetail'
 import PageTracks from '@/components/PageTracks'
 
 export const HOME_PAGE = '/'
 export const LOGIN_PAGE = '/login'
 export const DASHBOARD_PAGE = '/dashboard'
 export const ALBUMS_PAGE = '/albums'
+export const ALBUM_DETAIL_PAGE = '/albums/:id'
 export const TRACKS_PAGE = '/tracks'
 
 export default [
@@ -35,5 +37,10 @@ export default [
     path: TRACKS_PAGE,
     name: 'tracks',
     component: PageTracks
+  },
+  {
+    path: ALBUM_DETAIL_PAGE,
+    name: 'albumDetail',
+    component: PageAlbumDetail
   }
 ]

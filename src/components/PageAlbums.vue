@@ -5,12 +5,12 @@
       <div class="card-columns">
         <div class="card" v-for="(album, index) in albums" v-bind:key="album.id">
           <div class="card-header text-white" v-bind:class="[album.is_bought ? 'bg-primary' : 'bg-danger']">
-            {{album.title}}
+            <router-link :to="{name: 'albumDetail', params:{id: album.id}}">{{album.title}}</router-link>
           </div>
           <img class="card-img rounded-0" :src="album.image" alt="Card image cap" v-if="album.image">
           <ul class="list-group list-group-flush">
             <music-tracks-list
-              v-bind:tracks="album.tracks"
+              v-bind:tracks="album.tracksInfo"
             ></music-tracks-list>
           </ul>
           <div class="card-body" v-if="!album.is_bought">
@@ -49,7 +49,7 @@
           // for each album get their tracks info
           data.forEach(album => {
             let trackIds = album.tracks
-            album.tracks = []
+            album.tracksInfo = []
 
             let data = []
             for (let i = 0; i < trackIds.length; i++) {
@@ -58,8 +58,8 @@
 
             // then all info was get, view tracks and stop spinner
             Promise.all(data).then(tracks => {
-              album.tracks = tracks
-            })
+              album.tracksInfo = tracks
+            }).then(this.$refs.search.stopLoader)
           })
 
           // if albums not found, stop spinner
@@ -79,7 +79,7 @@
           Vue.set(this.albums, index, album)
           // save it in store
           MusicService.saveAlbum(album)
-        }).then(this.$refs.search.stopLoader)
+        })
       }
     },
     watch: {
