@@ -47,6 +47,26 @@ export default {
   },
 
   /**
+   * get all payment methods
+   */
+  getPaymentMethods () {
+    return music.getPaymentMethods().then((response) => {
+      return response.data
+    })
+  },
+
+  /**
+   * Method to edit paymentMethod
+   *
+   * @param {Object} data - object with 'id', 'title' and 'is_default' fields
+   */
+  editPaymentMethod (data) {
+    return music.editPaymentMethod(data).then((response) => {
+      return response.data
+    })
+  },
+
+  /**
    * Saves the track to the storage.
    *
    * @param {string} track

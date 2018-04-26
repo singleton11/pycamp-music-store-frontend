@@ -14,6 +14,9 @@
             <li class="nav-item">
               <router-link :to="{name: 'dashboard'}" class="nav-link">Dashboard</router-link>
             </li>
+            <li class="nav-item">
+              <router-link :to="{name: 'payments'}" class="nav-link">Payments</router-link>
+            </li>
           </ul>
 
           <ul class="nav navbar-nav ml-auto">
