@@ -107,6 +107,9 @@
         }
       }
     },
+    created () {
+      this.updateList()
+    },
     beforeRouteEnter (to, from, next) {
       next(vm => {
         vm.updateList()
