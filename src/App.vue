@@ -12,15 +12,12 @@
               <router-link :to="{name: 'home'}" class="nav-link">Home</router-link>
             </li>
             <li class="nav-item">
-              <router-link :to="{name: 'dashboard'}" class="nav-link">Dashboard</router-link>
-            </li>
-            <li class="nav-item">
               <router-link :to="{name: 'payments'}" class="nav-link">Payments</router-link>
             </li>
           </ul>
 
           <ul class="nav navbar-nav ml-auto">
-            <li class="nav-item" v-if="!auth">
+            <li class="nav-item" v-if="!isAuthenticated">
               <router-link :to="{name: 'login'}" class="nav-link">LogIn <i class="fas fa-sign-in-alt"></i></router-link>
             </li>
             <li class="nav-item" v-else>
@@ -46,18 +43,22 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import AuthService from '@/services/AuthService'
-import {AUTHENTICATED_GETTER} from '@/store/getter-types'
+import { getters as authGetters } from '@/store/modules/auth'
+import { AUTH_LOGOUT } from '@/store/types/auth'
 
 export default {
   name: 'App',
   methods: {
     logout () {
-      AuthService.logout()
+      this.$store.dispatch(AUTH_LOGOUT).then(data => {
+        console.log('data:', data)
+      }, error => {
+        console.log('error:', error)
+      })
     }
   },
   computed: {
-    ...mapGetters({ auth: AUTHENTICATED_GETTER })
+    ...mapGetters(Object.keys(authGetters))
   }
 }
 </script>

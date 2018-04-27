@@ -11,18 +11,18 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(paymentMethod, index) in paymentMethods" v-bind:key="paymentMethod.id" class="text-white" :class="[paymentMethod.is_default ? 'table-info' : 'table-success' ]">
+        <tr v-for="(paymentMethod) in getPaymentMethods" v-bind:key="paymentMethod.id" class="text-white" :class="[paymentMethod.is_default ? 'table-info' : 'table-success' ]">
           <th scope="col">{{paymentMethod.title}}</th>
           <td scope="col">{{paymentMethod.is_default}}</td>
           <td scope="col">
-            <a @click.prevent="showDelete(paymentMethod, index)" href="#"><i class="text-white fas fa-trash-alt"></i></a>
-            <a @click.prevent="showEdit(paymentMethod, index)" href="#"><i class="text-white fas fa-edit"></i></a>
+            <a @click.prevent="paymentMethodSelect(paymentMethod, 'delete')" href="#"><i class="text-white fas fa-trash-alt"></i></a>
+            <a @click.prevent="paymentMethodSelect(paymentMethod, 'edit')" href="#"><i class="text-white fas fa-edit"></i></a>
           </td>
         </tr>
         </tbody>
       </table>
 
-      <button type="button" class="btn btn-warning" @click="showAdd()">Add new</button>
+      <button type="button" class="btn btn-warning" @click="paymentMethodSelect(null, 'add')">Add new</button>
     </div>
 
     <!-- Modal dialog for edit -->
@@ -82,127 +82,40 @@
 </template>
 
 <script>
-  import MusicService from '@/services/MusicService'
   import Modal from '@/components/utils/Modal'
-  import Vue from 'vue'
+  import { mapActions, mapGetters } from 'vuex'
+  import { paymentMethod as paymentMethodActions } from '@/store/types/'
+  import {getters as paymentMethodGetters} from '@/store/modules/paymentMethod'
 
   export default {
     data () {
       return {
-        paymentMethods: [],
         // states of modal dialog visible
         showModal: {
           edit: false,
           add: false,
           delete: false
-        },
-        // selected for edit payment
-        selectedPayment: {
-          data: {
-            id: null,
-            title: '',
-            is_default: false
-          },
-          index: null
         }
       }
     },
-    created () {
-      this.updateList()
-    },
-    beforeRouteEnter (to, from, next) {
-      next(vm => {
-        vm.updateList()
-      })
+    computed: {
+      ...mapGetters(Object.keys(paymentMethodGetters))
     },
     methods: {
-      updateList () {
-        MusicService.getPaymentMethods().then(data => {
-          this.paymentMethods = data
-        })
-      },
+      ...mapActions(paymentMethodActions),
+      paymentMethodSelect (paymentMethod, action) {
+        const { $store } = this
 
-      showEdit (paymentMethod, index) {
-        // set selected payment
-        this.selectedPayment = {
-          data: Object.assign({}, paymentMethod),
-          index: index
-        }
-        // show edit dialog
-        this.showModal.edit = true
-      },
-
-      showAdd () {
-        // set selected payment
-        this.selectedPayment = {
-          data: {
-            title: '',
-            is_default: false
-          }
-        }
-        // show edit dialog
-        this.showModal.add = true
-      },
-
-      showDelete (paymentMethod, index) {
-        // set selected payment
-        this.selectedPayment = {
-          data: Object.assign({}, paymentMethod),
-          index: index
-        }
-        // show edit dialog
-        this.showModal.delete = true
-      },
-
-      removeDefault () {
-        // set is_default = false for current default method
-        this.paymentMethods.forEach(payment => {
-          payment.is_default = false
-        })
-      },
-
-      editPayment () {
-        MusicService.editPaymentMethod(this.selectedPayment.data).then(() => {
-          this.removeDefault()
-
-          // set new value of paymentMethod into payment list
-          Vue.set(this.paymentMethods, this.selectedPayment.index, this.selectedPayment.data)
-
-          // hide dialog
-          this.showModal.edit = false
-        }, error => {
-          console.log(error)
-          alert(error)
-        })
-      },
-
-      addPayment () {
-        MusicService.addPaymentMethod(this.selectedPayment.data).then((data) => {
-          this.removeDefault()
-
-          // add new value of paymentMethod into payment list
-          this.paymentMethods.push(data)
-
-          // hide dialog
-          this.showModal.add = false
-        }, error => {
-          console.log(error)
-          alert(error)
-        })
-      },
-
-      deletePayment () {
-        MusicService.delPaymentMethod(this.selectedPayment.data.id).then(() => {
-          // add new value of paymentMethod into payment list
-          this.paymentMethods.splice(this.selectedPayment.index, 1)
-
-          // hide dialog
-          this.showModal.delete = false
-        }, error => {
-          console.log(error)
-          alert(error)
-        })
+        $store.dispatch(paymentMethodActions.PAYMENT_METHOD_SELECT, paymentMethod)
+        this.showModal[action] = true
       }
+
+      // removeDefault () {
+      //   // set is_default = false for current default method
+      //   this.paymentMethods.forEach(payment => {
+      //     payment.is_default = false
+      //   })
+      // },
     },
     components: {
       Modal

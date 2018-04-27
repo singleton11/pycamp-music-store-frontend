@@ -11,33 +11,36 @@
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <label for="inputEmail" class="sr-only">Email</label>
     <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus
-           v-model="email">
+           v-model="user.email">
     <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required v-model="password">
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required
+           v-model="user.password">
     <div class="checkbox mb-3">
       <label>
         <input type="checkbox" value="remember-me"> Remember me
       </label>
     </div>
 
-    <button class="btn btn-lg btn-primary btn-block" @click="sendRequest">Sign in</button></div>
+    <button class="btn btn-lg btn-primary btn-block" @click="login">Sign in</button></div>
 </template>
 
 <script>
-  import AuthService from '@/services/AuthService'
+  import { AUTH_LOGIN } from '@/store/types/auth'
 
   export default {
     data () {
       return {
-        email: '',
-        password: '',
+        user: {
+          email: '',
+          password: ''
+        },
         error: ''
       }
     },
     methods: {
-      sendRequest () {
+      login () {
         this.error = ''
-        AuthService.login(this.email, this.password).then((data) => {
+        this.$store.dispatch(AUTH_LOGIN, this.user).then((data) => {
           this.error = data
         })
       }

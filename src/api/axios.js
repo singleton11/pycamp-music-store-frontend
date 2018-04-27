@@ -1,6 +1,6 @@
 import axios from 'axios'
-import AuthService from '@/services/AuthService'
 import config from '@/config'
+import store from '@/store'
 
 // create instance with baseURL
 const instance = axios.create({
@@ -12,8 +12,8 @@ const instance = axios.create({
 // request, taken from a store
 //
 instance.interceptors.request.use(function (request) {
-  if (AuthService.isAuthenticated()) {
-    request.headers.Authorization = `Token ${AuthService.getToken()}`
+  if (store.getters.isAuthenticated) {
+    request.headers.Authorization = `Token ${store.getters.getToken}`
   }
   return request
 })
