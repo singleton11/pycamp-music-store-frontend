@@ -64,14 +64,13 @@ import { mapGetters } from 'vuex';
 import { getters as authGetters } from './store/modules/auth';
 import { AUTH_LOGOUT } from './store/types/auth';
 import router from './router/router';
-import { HOME_PAGE } from './router/routes';
 
 export default {
   name: 'App',
   methods: {
     logout() {
       this.$store.dispatch(AUTH_LOGOUT).then(() => {
-        router.push(HOME_PAGE);
+        router.push({ name: 'home' });
       });
     },
   },

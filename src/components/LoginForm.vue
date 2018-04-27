@@ -15,19 +15,12 @@
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" id="inputPassword" class="form-control" placeholder="Password" required
            v-model="user.password">
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
-
     <button class="btn btn-lg btn-primary btn-block" @click="login">Sign in</button></div>
 </template>
 
 <script>
   import { AUTH_LOGIN } from '../store/types/auth';
   import router from '../router/router';
-  import { PAYMENTS_PAGE } from '../router/routes';
 
   export default {
     data() {
@@ -43,7 +36,7 @@
       login() {
         this.error = '';
         this.$store.dispatch(AUTH_LOGIN, this.user).then(() => {
-          router.push(PAYMENTS_PAGE);
+          router.push({ name: 'payments' });
         }).catch((error) => {
           this.error = error.response.data.detail;
         });
