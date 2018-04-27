@@ -1,42 +1,57 @@
 <template>
   <div class="form-signin">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail" class="sr-only">Email</label>
-    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus
+    <label for="inputEmail"
+           class="sr-only">Email</label>
+    <input type="email"
+           id="inputEmail"
+           class="form-control"
+           placeholder="Email address"
+           required
+           autofocus
            v-model="user.email">
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required
+    <label for="inputPassword"
+           class="sr-only">Password</label>
+    <input type="password"
+           id="inputPassword"
+           class="form-control"
+           placeholder="Password"
+           required
            v-model="user.password">
-    <button class="btn btn-lg btn-primary btn-block" @click="login">Sign in</button></div>
+    <button class="btn btn-lg btn-primary btn-block"
+            @click="login">
+      Sign in
+    </button>
+  </div>
 </template>
 
 <script>
-  import { AUTH_LOGIN, } from '../store/types/auth';
-  import router from '../router/router';
-  import { NOTIFICATION_SHOW, NOTIFICATION_HIDE } from '../store/types/common';
+import { AUTH_LOGIN, } from '../store/types/auth';
+import router from '../router/router';
+import { NOTIFICATION_SHOW, NOTIFICATION_HIDE, } from '../store/types/common';
 
-  export default {
-    data() {
-      return {
-        user: {
-          email: '',
-          password: '',
-        },
-        error: '',
-      };
-    },
-    methods: {
-      login() {
-        this.error = '';
-        this.$store.dispatch(AUTH_LOGIN, this.user).then((data) => {
-          this.$store.dispatch(NOTIFICATION_HIDE);
-          router.push({ name: 'payments' });
-        }, (error) => {
-          this.$store.dispatch(NOTIFICATION_SHOW, error.response.data.detail);
-        });
+export default {
+  data() {
+    return {
+      user: {
+        email: '',
+        password: '',
       },
+      error: '',
+    };
+  },
+  methods: {
+    login() {
+      this.error = '';
+      this.$store.dispatch(AUTH_LOGIN, this.user).then(() => {
+        this.$store.dispatch(NOTIFICATION_HIDE);
+        router.push({ name: 'payments', });
+      }, (error) => {
+        this.$store.dispatch(NOTIFICATION_SHOW, error.response.data.detail);
+      });
     },
-  };
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

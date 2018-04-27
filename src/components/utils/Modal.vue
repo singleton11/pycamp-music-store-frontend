@@ -11,7 +11,10 @@
                 Title
               </slot>
             </h5>
-            <button type="button" class="close" aria-label="Close" @click="$emit('close')">
+            <button type="button"
+                    class="close"
+                    aria-label="Close"
+                    @click="$emit('close')">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -24,7 +27,9 @@
           </div>
           <div class="modal-footer">
             <slot name="buttons"></slot>
-            <button type="button" class="btn btn-secondary" @click="$emit('close')">Close</button>
+            <button type="button"
+                    class="btn btn-secondary"
+                    @click="$emit('close')">Close</button>
           </div>
         </div>
       </div>

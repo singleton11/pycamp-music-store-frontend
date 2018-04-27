@@ -5,11 +5,11 @@ import store from './store/index';
 import router from './router/router';
 import App from './App.vue';
 
-/* eslint-disable no-new */
+/* eslint-disable-next-line */
 new Vue({
   el: '#app',
   store,
   router,
-  components: { App },
+  components: { App, },
   template: '<App/>',
 });

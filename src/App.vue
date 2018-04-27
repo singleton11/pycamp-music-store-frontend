@@ -30,7 +30,9 @@
             <li v-if="!isAuthenticated"
                 class="nav-item">
               <router-link :to="{name: 'login'}"
-                           class="nav-link">LogIn <i class="fas fa-sign-in-alt"/></router-link>
+                           class="nav-link">
+                LogIn <i class="fas fa-sign-in-alt"/>
+              </router-link>
             </li>
             <li v-else
                 class="nav-item">
@@ -52,7 +54,8 @@
     <main role="main">
       <div class="container"
            style="margin-top: 75px;">
-        <MessageInTop v-show="getNotificationVisible" @close="NOTIFICATION_HIDE">
+        <MessageInTop v-show="getNotificationVisible"
+                      @close="NOTIFICATION_HIDE">
           {{getNotificationMessage}}
         </MessageInTop>
         <router-view/>
@@ -63,20 +66,20 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import { getters as authGetters } from './store/modules/auth';
-import { AUTH_LOGOUT } from './store/types/auth';
+import { mapGetters, mapActions, } from 'vuex';
+import { getters as authGetters, } from './store/modules/auth';
+import { AUTH_LOGOUT, } from './store/types/auth';
 import router from './router/router';
 import MessageInTop from './components/utils/MessageInTop.vue';
-import { NOTIFICATION_HIDE } from './store/types/common';
-import { getters as commonGetters } from './store/modules/common';
+import { NOTIFICATION_HIDE, } from './store/types/common';
+import { getters as commonGetters, } from './store/modules/common';
 
 export default {
   name: 'App',
   methods: {
     logout() {
       this.$store.dispatch(AUTH_LOGOUT).then(() => {
-        router.push({ name: 'home' });
+        router.push({ name: 'home', });
       });
     },
     ...mapActions({
@@ -89,6 +92,6 @@ export default {
   },
   components: {
     MessageInTop,
-  }
+  },
 };
 </script>

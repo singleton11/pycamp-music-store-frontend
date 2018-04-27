@@ -1,0 +1,81 @@
+#!/bin/bash
+
+
+# --------------------------------------------------------
+# DEFINE VARS
+# ========================================================
+
+NORMAL=$(tput sgr0)
+GREEN=$(tput setaf 2; tput bold)
+YELLOW='\033[1;33m'
+RED=$(tput setaf 1; tput bold)
+NC='\033[0m' # No Color
+
+CHECK_JS=true
+CHECK_CSS=true
+
+# --------------------------------------------------------
+# DEFINE COMMON FUNCTIONS
+# ========================================================
+
+function red() {
+  echo -e "$RED$*$NORMAL"
+}
+
+function green() {
+  echo -e "$GREEN$*$NORMAL"
+}
+
+function message() {
+  printf "%0.s$1-" {1..80}.; printf "\n"
+  echo $2
+  printf "%0.s=" {1..80}; printf "\n"
+  printf "${NC}"
+}
+
+jserrors=0
+csserrors=0
+
+function check_js {
+    message $GREEN "Running Frontend JS Code Linters..."
+
+    npm run lint-js
+    jserrors=$?
+
+    if [[ "$jserrors" != 0 ]]; then
+        red "You got eslint problems"
+        red "Pls run [npm run lint-js] to see errors"
+        printf "\n"
+    fi
+}
+
+function check_css {
+    message $GREEN "Running Frontend CSS Linters..."
+
+    npm run lint-sass
+    csserrors=$?
+
+    if [[ -n "$csslint" ]]; then
+        red "You got CSS problems "
+        red "Pls run [npm run lint-css] to see errors"
+        printf "\n\n"
+    fi
+}
+
+if [[ "$CHECK_JS" = true ]]; then
+    check_js
+fi
+
+if [[ "$CHECK_CSS" = true ]]; then
+    check_css
+fi
+
+
+if [[ "$jserrors" != 0 ]] ||
+        [[ "$csserrors" != 0 ]]; then
+    RED='\033[0;31m'
+    NC='\033[0m' # No Color
+    YELLOW='\033[1;33m'
+    printf "${YELLOW}!!! ${RED}Push aborted due to errors - pls fix them first!${NC}\n\n"
+    exit 1
+fi
