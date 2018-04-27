@@ -1,13 +1,5 @@
 <template>
   <div class="form-signin">
-
-    <transition name="fade">
-      <div class="alert alert-dismissible alert-danger" v-show="error">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Oh snap!</strong> Such a pair of login:password does not exist in our
-        database.
-      </div>
-    </transition>
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <label for="inputEmail" class="sr-only">Email</label>
     <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus
@@ -19,8 +11,9 @@
 </template>
 
 <script>
-  import { AUTH_LOGIN } from '../store/types/auth';
+  import { AUTH_LOGIN, } from '../store/types/auth';
   import router from '../router/router';
+  import { NOTIFICATION_SHOW, NOTIFICATION_HIDE } from '../store/types/common';
 
   export default {
     data() {
@@ -35,10 +28,11 @@
     methods: {
       login() {
         this.error = '';
-        this.$store.dispatch(AUTH_LOGIN, this.user).then(() => {
+        this.$store.dispatch(AUTH_LOGIN, this.user).then((data) => {
+          this.$store.dispatch(NOTIFICATION_HIDE);
           router.push({ name: 'payments' });
-        }).catch((error) => {
-          this.error = error.response.data.detail;
+        }, (error) => {
+          this.$store.dispatch(NOTIFICATION_SHOW, error.response.data.detail);
         });
       },
     },

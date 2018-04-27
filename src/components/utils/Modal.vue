@@ -1,7 +1,9 @@
 <template>
   <transition name="modal">
-    <div class="modal modal-mask" style="display: block">
-      <div class="modal-dialog" role="document">
+    <div class="modal modal-mask"
+         style="display: block">
+      <div class="modal-dialog"
+           role="document">
         <div class="modal-container modal-content" >
           <div class="modal-header">
             <h5 class="modal-title">

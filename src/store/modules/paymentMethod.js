@@ -8,7 +8,7 @@ import {
   PAYMENT_METHOD_SAVE,
 } from '../types/paymentMethod';
 
-import { AUTH_LOGOUT } from '../types/auth';
+import { AUTH_LOGOUT, } from '../types/auth';
 
 /**
  * Payment method Vuex Store Module State
@@ -41,12 +41,12 @@ const state = {
  * @property {Array} getPaymentMethods - Get full list of payment method
  */
 export const getters = {
-  getPaymentMethodById: st =>
-    st.paymentMethods.find(paymentMethod => paymentMethod.id === paymentMethod),
-  getActivePaymentMethod: st => st.activePaymentMethod,
-  getActivePaymentMethodIndex: st => st.activePaymentMethodIndex,
-  getPaymentMethods: st => st.paymentMethods,
-  getNewPaymentMethod: st => st.newPaymentMethod,
+  getPaymentMethodById: state => state.paymentMethods
+    .find(paymentMethod => paymentMethod.id === paymentMethod),
+  getActivePaymentMethod: state => state.activePaymentMethod,
+  getActivePaymentMethodIndex: state => state.activePaymentMethodIndex,
+  getPaymentMethods: state => state.paymentMethods,
+  getNewPaymentMethod: state => state.newPaymentMethod,
 };
 
 /**
@@ -58,15 +58,16 @@ const actions = {
    *
    * @returns {Promise} List of payment methods
    */
-  [PAYMENT_METHOD_LIST]: ({ commit }) => api.paymentMethod.list().then((response) => {
-    commit(PAYMENT_METHOD_LIST, response.data);
-  }),
+  [PAYMENT_METHOD_LIST]: ({ commit, }) => api.paymentMethod.list()
+    .then((response) => {
+      commit(PAYMENT_METHOD_LIST, response.data);
+    }),
 
   /**
    * Select the payment method in the list
    * @param {object} paymentMethod - Payment method to be selected
    */
-  [PAYMENT_METHOD_SELECT]: ({ commit }, paymentMethod) => {
+  [PAYMENT_METHOD_SELECT]: ({ commit, }, paymentMethod) => {
     commit(PAYMENT_METHOD_SELECT, paymentMethod);
   },
 
@@ -77,7 +78,7 @@ const actions = {
    * @property {string} update.field - Name of the field of payment method
    * @property {string} update.value - Value of the field
    */
-  [PAYMENT_METHOD_EDIT]: ({ commit }, update) => {
+  [PAYMENT_METHOD_EDIT]: ({ commit, }, update) => {
     commit(PAYMENT_METHOD_EDIT, update);
   },
 
@@ -88,8 +89,8 @@ const actions = {
    *
    * @param {object} paymentMethod - Payment method to be created or updated
    */
-  [PAYMENT_METHOD_SAVE]: ({ commit }, paymentMethod) =>
-    api.paymentMethod.save({ paymentMethod }).then((response) => {
+  [PAYMENT_METHOD_SAVE]: ({ commit, }, paymentMethod) =>
+    api.paymentMethod.save({ paymentMethod, }).then((response) => {
       commit(PAYMENT_METHOD_SAVE, response.data);
     }),
 
@@ -98,14 +99,15 @@ const actions = {
    *
    * @param {object} paymentMethod
    */
-  [PAYMENT_METHOD_DELETE]: ({ commit }, paymentMethod) => {
+  [PAYMENT_METHOD_DELETE]: ({ commit, }, paymentMethod) => {
     if (!paymentMethod.id) {
       commit(PAYMENT_METHOD_DELETE, paymentMethod);
 
+      /* eslint-disable-next-line */
       return Promise.resolve(true);
     }
 
-    return api.paymentMethod.disable({ paymentMethod }).then(() => {
+    return api.paymentMethod.disable({ paymentMethod, }).then(() => {
       commit(PAYMENT_METHOD_DELETE, paymentMethod);
     });
   },
@@ -123,8 +125,8 @@ const mutations = {
    * @param {object} st - state of the module
    * @param {Array} paymentMethods - Array of payment methods (API response)
    */
-  [PAYMENT_METHOD_LIST]: (st, paymentMethods) => {
-    st.paymentMethods = [
+  [PAYMENT_METHOD_LIST]: (state, paymentMethods) => {
+    state.paymentMethods = [
       ...paymentMethods,
     ];
   },
@@ -135,13 +137,14 @@ const mutations = {
    * @param {object} state - state of the module
    * @param {object} paymentMethod - payment method to be selected
    */
-  [PAYMENT_METHOD_SELECT]: (st, paymentMethod) => {
-    st.activePaymentMethodIndex = st.paymentMethods.findIndex(item => item.id === paymentMethod.id);
-    if (st.activePaymentMethodIndex >= 0) {
-      st.activePaymentMethod = paymentMethod;
+  [PAYMENT_METHOD_SELECT]: (state, paymentMethod) => {
+    state.activePaymentMethodIndex = state.paymentMethods
+      .findIndex(item => item.id === paymentMethod.id);
+    if (state.activePaymentMethodIndex >= 0) {
+      state.activePaymentMethod = paymentMethod;
     } else {
-      st.activePaymentMethodIndex = null;
-      st.activePaymentMethod = null;
+      state.activePaymentMethodIndex = null;
+      state.activePaymentMethod = null;
     }
   },
 
@@ -151,8 +154,8 @@ const mutations = {
    * @param {object} state - state of the module
    * @param {object} { field, value, } - patch for the record
    */
-  [PAYMENT_METHOD_EDIT]: (st, { field, value }) => {
-    Object.assign(st.activePaymentMethod, {
+  [PAYMENT_METHOD_EDIT]: (state, { field, value, }) => {
+    Object.assign(state.activePaymentMethod, {
       [field]: value,
     });
   },
@@ -163,17 +166,20 @@ const mutations = {
    * @param {object} st - state of the module
    * @param {object} agent - updated agent
    */
-  [PAYMENT_METHOD_SAVE]: (st, paymentMethod) => {
-    if (paymentMethod.id === st.activePaymentMethod.id) {
-      Object.assign(st.activePaymentMethod, paymentMethod);
+  [PAYMENT_METHOD_SAVE]: (state, paymentMethod) => {
+    if (paymentMethod.id === state.activePaymentMethod.id) {
+      Object.assign(state.activePaymentMethod, paymentMethod);
     } else {
-      st.paymentMethods.push(paymentMethod);
+      state.paymentMethods.push(paymentMethod);
     }
+
     if (!paymentMethod.is_default) {
       return;
     }
-    const oldDefault = st.paymentMethods
+
+    const oldDefault = state.paymentMethods
       .find(item => item.is_default && item.id !== paymentMethod.id);
+
     oldDefault.is_default = false;
   },
 
@@ -184,19 +190,20 @@ const mutations = {
    * @param {object} st - state of the module
    * @param {object} paymentMethod - payment method to be deleted
    */
-  [PAYMENT_METHOD_DELETE]: (st, paymentMethod) => {
-    const idx = st.paymentMethods.findIndex(item => item.id === paymentMethod.id);
+  [PAYMENT_METHOD_DELETE]: (state, paymentMethod) => {
+    const idx = state.paymentMethods
+      .findIndex(item => item.id === paymentMethod.id);
 
-    st.paymentMethods.splice(idx, 1);
+    state.paymentMethods.splice(idx, 1);
 
     // jump to previous index and select previous
     // house automatically
-    st.activePaymentMethodIndex -= 1;
-    if (!st.activePaymentMethodIndex) {
-      st.activePaymentMethodIndex = 0;
+    state.activePaymentMethodIndex -= 1;
+    if (!state.activePaymentMethodIndex) {
+      state.activePaymentMethodIndex = 0;
     }
-    st.activePaymentMethod =
-      st.paymentMethods[st.activePaymentMethodIndex];
+    state.activePaymentMethod =
+      state.paymentMethods[state.activePaymentMethodIndex];
   },
 
   /**
@@ -205,10 +212,10 @@ const mutations = {
    *
    * @param {object} st - state of the module
    */
-  [AUTH_LOGOUT]: (st) => {
-    st.paymentMethods = [];
-    st.activePaymentMethod = null;
-    st.activePaymentMethodIndex = null;
+  [AUTH_LOGOUT]: (state) => {
+    state.paymentMethods = [];
+    state.activePaymentMethod = null;
+    state.activePaymentMethodIndex = null;
   },
 };
 

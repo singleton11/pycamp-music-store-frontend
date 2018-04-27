@@ -16,7 +16,7 @@ export default {
    * @param {object} paymentMethod - payment method data
    * @returns {Promise}
    */
-  create({ paymentMethod }) {
+  create({ paymentMethod, }) {
     return axios.post('music_store/payment_methods/', paymentMethod);
   },
 
@@ -26,13 +26,20 @@ export default {
    * @param {object} paymentMethod - payment method data
    * @returns {Promise}
    */
-  update({ paymentMethod }) {
+  update({ paymentMethod, }) {
     return axios.put(`music_store/payment_methods/${paymentMethod.id}/`, paymentMethod);
   },
 
-  save({ paymentMethod }) {
+  /**
+   * @summary Save or Update payment method
+   *
+   * @param {object} paymentMethod - payment method data
+   * @returns {Promise}
+   */
+  save({ paymentMethod, }) {
     const operation = paymentMethod.id ? this.update : this.create;
-    return operation({ paymentMethod });
+
+    return operation({ paymentMethod, });
   },
 
   /**
@@ -41,7 +48,7 @@ export default {
    * @param {Object} paymentId - `id` of payment method
    * @returns {Promise}
    */
-  disable({ paymentMethod }) {
+  disable({ paymentMethod, }) {
     return axios.delete(`music_store/payment_methods/${paymentMethod.id}/`);
   },
 };

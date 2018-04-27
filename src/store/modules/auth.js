@@ -1,5 +1,5 @@
 import api from '../../api';
-import { AUTH_LOGIN, AUTH_LOGOUT } from '../types/auth';
+import { AUTH_LOGIN, AUTH_LOGOUT, } from '../types/auth';
 
 /**
  * Auth Vuex Store Module State
@@ -19,8 +19,8 @@ const state = {
  * @property {bool} isAuthenticated
  */
 export const getters = {
-  getToken: st => st.token,
-  isAuthenticated: st => st.authenticated,
+  getToken: state => state.token,
+  isAuthenticated: state => state.authenticated,
 };
 
 /**
@@ -30,10 +30,17 @@ const actions = {
   /**
    * @param user - credentials of the user
    */
-  [AUTH_LOGIN]: ({ commit }, user) => api.auth.login(user.email, user.password).then((response) => {
-    commit(AUTH_LOGIN, response.data.key);
-  }),
-  [AUTH_LOGOUT]: ({ commit }) => api.auth.logout().then(() => {
+  [AUTH_LOGIN]: ({ commit, }, user) => api.auth.login(user.email, user.password)
+    .then((response) => {
+      if (response.data) {
+        commit(AUTH_LOGIN, response.data.key);
+
+        return response;
+      }
+      throw response;
+    }),
+
+  [AUTH_LOGOUT]: ({ commit, }) => api.auth.logout().then(() => {
     commit(AUTH_LOGOUT);
   }),
 };
@@ -42,14 +49,14 @@ const actions = {
  * Auth Vuex Store Module Mutations
  */
 const mutations = {
-  [AUTH_LOGIN]: (st, token) => {
-    st.token = token;
-    st.authenticated = true;
+  [AUTH_LOGIN]: (state, token) => {
+    state.token = token;
+    state.authenticated = true;
   },
 
-  [AUTH_LOGOUT]: (st) => {
-    st.token = null;
-    st.authenticated = false;
+  [AUTH_LOGOUT]: (state) => {
+    state.token = null;
+    state.authenticated = false;
   },
 };
 

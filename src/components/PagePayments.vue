@@ -27,7 +27,7 @@
 
     <!-- Modal dialog for edit -->
     <Modal v-if="showModal.edit" @close="showModal.edit=false">
-      <template slot="title" v-if="!getActivePaymentMethod.id">
+      <template slot="title" v-if="!tmpItem.id">
         Add new payment Method
       </template>
       <template slot="title" v-else>
@@ -50,7 +50,7 @@
       </template>
 
       <template slot="buttons">
-          <button v-if="!getActivePaymentMethod.id" type="button" class="btn btn-primary" @click="paymentMethodSave()">Add</button>
+          <button v-if="!tmpItem.id" type="button" class="btn btn-primary" @click="paymentMethodSave()">Add</button>
           <button v-else type="button" class="btn btn-primary" @click="paymentMethodSave()">Save</button>
       </template>
     </Modal>
@@ -75,7 +75,10 @@
   import { mapActions, mapGetters } from 'vuex';
   import Modal from './utils/Modal.vue';
   import { paymentMethod as paymentMethodActions } from '../store/types/';
-  import { getters as paymentMethodGetters } from '../store/modules/paymentMethod';
+  import {
+    getters as paymentMethodGetters,
+  } from '../store/modules/paymentMethod';
+  import { NOTIFICATION_SHOW } from '../store/types/common';
 
   export default {
     data() {
@@ -113,10 +116,13 @@
       paymentMethodSave() {
         this.showModal.edit = false;
         this.PAYMENT_METHOD_SAVE(this.tmpItem);
+        this.$store.dispatch(NOTIFICATION_SHOW, 'Success!');
       },
       paymentMethodDelete() {
-        this.PAYMENT_METHOD_DELETE(this.getActivePaymentMethod);
-        this.showModal.delete = false;
+        this.PAYMENT_METHOD_DELETE(this.getActivePaymentMethod).then(() => {
+          this.showModal.delete = false;
+          this.$store.dispatch(NOTIFICATION_SHOW, 'Payment was been deleted!');
+        })
       },
     },
     components: {

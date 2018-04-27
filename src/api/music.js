@@ -1,4 +1,4 @@
-import axios from './axios'
+import axios from './axios';
 
 /**
  * Get track info by id
@@ -6,8 +6,8 @@ import axios from './axios'
  * @param {String} trackId - track id
  * @returns {Promise}
  */
-export function getTrack (trackId) {
-  return axios.get('music_store/tracks/' + trackId + '/')
+export function getTrack(trackId) {
+  return axios.get(`music_store/tracks/${trackId}/`);
 }
 
 /**
@@ -15,8 +15,8 @@ export function getTrack (trackId) {
  *
  * @returns {Promise}
  */
-export function getTracks () {
-  return axios.get('music_store/tracks/')
+export function getTracks() {
+  return axios.get('music_store/tracks/');
 }
 
 /**
@@ -25,8 +25,8 @@ export function getTracks () {
  * @param {String} albumId - album id
  * @returns {Promise}
  */
-export function getAlbum (albumId) {
-  return axios.get('music_store/albums/' + albumId + '/')
+export function getAlbum(albumId) {
+  return axios.get(`music_store/albums/${albumId}/`);
 }
 
 /**
@@ -34,13 +34,13 @@ export function getAlbum (albumId) {
  *
  * @returns {Promise}
  */
-export function getAlbums () {
-  return axios.get('music_store/albums/')
+export function getAlbums() {
+  return axios.get('music_store/albums/');
 }
 
 export default {
   getTrack,
   getTracks,
   getAlbum,
-  getAlbums
-}
+  getAlbums,
+};
