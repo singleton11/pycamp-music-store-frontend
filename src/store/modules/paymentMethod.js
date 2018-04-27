@@ -169,6 +169,12 @@ const mutations = {
     } else {
       st.paymentMethods.push(paymentMethod);
     }
+    if (!paymentMethod.is_default) {
+      return;
+    }
+    const oldDefault = st.paymentMethods
+      .find(item => item.is_default && item.id !== paymentMethod.id);
+    oldDefault.is_default = false;
   },
 
   /**
