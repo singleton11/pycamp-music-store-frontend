@@ -1,4 +1,4 @@
-import axios from './axios'
+import axios from './axios';
 
 /**
  * Login user
@@ -7,8 +7,8 @@ import axios from './axios'
  * @param {String} password - user password
  * @returns {Promise}
  */
-export function login (email, password) {
-  return axios.post('auth/login/', { email, password })
+export function login(email, password) {
+  return axios.post('auth/login/', { email, password });
 }
 
 /**
@@ -16,11 +16,11 @@ export function login (email, password) {
  *
  * @returns {Promise}
  */
-function logout () {
-  return axios.get('auth/logout/')
+function logout() {
+  return axios.get('auth/logout/');
 }
 
 export default {
   login,
-  logout
-}
+  logout,
+};

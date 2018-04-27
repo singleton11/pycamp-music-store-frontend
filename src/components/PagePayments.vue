@@ -15,53 +15,43 @@
           <th scope="col">{{paymentMethod.title}}</th>
           <td scope="col">{{paymentMethod.is_default}}</td>
           <td scope="col">
-            <a @click.prevent="paymentMethodSelect(paymentMethod, 'delete')" href="#"><i class="text-white fas fa-trash-alt"></i></a>
-            <a @click.prevent="paymentMethodSelect(paymentMethod, 'edit')" href="#"><i class="text-white fas fa-edit"></i></a>
+            <a @click.prevent="paymentMethodSelectToDelete(paymentMethod)" href="#"><i class="text-white fas fa-trash-alt"></i></a>
+            <a @click.prevent="paymentMethodSelectToEdit(paymentMethod, 'edit')" href="#"><i class="text-white fas fa-edit"></i></a>
           </td>
         </tr>
         </tbody>
       </table>
 
-      <button type="button" class="btn btn-warning" @click="paymentMethodSelect(null, 'add')">Add new</button>
+      <button type="button" class="btn btn-warning" @click="paymentMethodCreate()">Add new</button>
     </div>
 
     <!-- Modal dialog for edit -->
     <Modal v-if="showModal.edit" @close="showModal.edit=false">
-      <template slot="title">
-        Edit payment Method
-      </template>
-      <template slot="body">
-        <label for="editTitle">Title</label>
-        <input class="form-control" id="editTitle" placeholder="Enter title of payment method" type="text" v-model="selectedPayment.data.title">
-        <div class="form-check">
-          <label class="form-check-label">
-            <input class="form-check-input" v-model="selectedPayment.data.is_default" type="checkbox">
-            set default?
-          </label>
-        </div>
-      </template>
-      <template slot="buttons">
-        <button type="button" class="btn btn-primary" @click="editPayment()">Save changes</button>
-      </template>
-    </Modal>
-
-    <!-- Modal dialog for add -->
-    <Modal v-if="showModal.add" @close="showModal.add=false">
-      <template slot="title">
+      <template slot="title" v-if="!getActivePaymentMethod.id">
         Add new payment Method
       </template>
+      <template slot="title" v-else>
+        Edit payment Method
+      </template>
+
       <template slot="body">
         <label for="addTitle">Title</label>
-        <input class="form-control" id="addTitle" placeholder="Enter title of payment method" type="text" v-model="selectedPayment.data.title">
+        <input v-model="tmpItem.title"
+               class="form-control"
+               id="addTitle"
+               placeholder="Enter title of payment method"
+               type="text">
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" value="" v-model="selectedPayment.data.is_default" type="checkbox">
+            <input v-model="tmpItem.is_default" class="form-check-input" type="checkbox">
             set default?
           </label>
         </div>
       </template>
+
       <template slot="buttons">
-        <button type="button" class="btn btn-primary" @click="addPayment()">Add</button>
+          <button v-if="!getActivePaymentMethod.id" type="button" class="btn btn-primary" @click="paymentMethodSave()">Add</button>
+          <button v-else type="button" class="btn btn-primary" @click="paymentMethodSave()">Save</button>
       </template>
     </Modal>
 
@@ -74,7 +64,7 @@
         Are you sure you want to delete the selected payment method?
       </template>
       <template slot="buttons">
-        <button type="button" class="btn btn-primary" @click="deletePayment()">Delete</button>
+        <button type="button" class="btn btn-primary" @click="paymentMethodDelete()">Delete</button>
       </template>
     </Modal>
 
@@ -82,43 +72,55 @@
 </template>
 
 <script>
-  import Modal from '@/components/utils/Modal'
-  import { mapActions, mapGetters } from 'vuex'
-  import { paymentMethod as paymentMethodActions } from '@/store/types/'
-  import {getters as paymentMethodGetters} from '@/store/modules/paymentMethod'
+  import { mapActions, mapGetters } from 'vuex';
+  import Modal from './utils/Modal.vue';
+  import { paymentMethod as paymentMethodActions } from '../store/types/';
+  import { getters as paymentMethodGetters } from '../store/modules/paymentMethod';
 
   export default {
-    data () {
+    data() {
       return {
         // states of modal dialog visible
         showModal: {
           edit: false,
-          add: false,
-          delete: false
-        }
-      }
+          delete: false,
+        },
+        tmpItem: {},
+      };
+    },
+    mounted() {
+      this.PAYMENT_METHOD_LIST();
     },
     computed: {
-      ...mapGetters(Object.keys(paymentMethodGetters))
+      ...mapGetters(Object.keys(paymentMethodGetters)),
     },
     methods: {
       ...mapActions(paymentMethodActions),
-      paymentMethodSelect (paymentMethod, action) {
-        const { $store } = this
 
-        $store.dispatch(paymentMethodActions.PAYMENT_METHOD_SELECT, paymentMethod)
-        this.showModal[action] = true
-      }
-
-      // removeDefault () {
-      //   // set is_default = false for current default method
-      //   this.paymentMethods.forEach(payment => {
-      //     payment.is_default = false
-      //   })
-      // },
+      paymentMethodSelectToEdit(paymentMethod) {
+        this.PAYMENT_METHOD_SELECT(paymentMethod);
+        this.tmpItem = { ...this.getActivePaymentMethod };
+        this.showModal.edit = true;
+      },
+      paymentMethodSelectToDelete(paymentMethod) {
+        this.PAYMENT_METHOD_SELECT(paymentMethod);
+        this.showModal.delete = true;
+      },
+      paymentMethodCreate() {
+        this.tmpItem = { ...this.getNewPaymentMethod };
+        this.showModal.edit = true;
+      },
+      paymentMethodSave() {
+        this.showModal.edit = false;
+        this.PAYMENT_METHOD_SAVE(this.tmpItem);
+      },
+      paymentMethodDelete() {
+        this.PAYMENT_METHOD_DELETE(this.getActivePaymentMethod);
+        this.showModal.delete = false;
+      },
     },
     components: {
-      Modal
-    }
-  }
+      Modal,
+    },
+  };
 </script>

@@ -1,13 +1,19 @@
-import Vuex from 'vuex'
-import auth from './modules/auth'
-import paymentMethod from './modules/paymentMethod'
-import Vue from 'vue'
+import Vuex from 'vuex';
+import Vue from 'vue';
+import persistedState from 'vuex-persistedstate';
+import auth from './modules/auth';
+import paymentMethod from './modules/paymentMethod';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
     auth,
-    paymentMethod
-  }
-})
+    paymentMethod,
+  },
+  plugins: [
+    persistedState({
+      paths: ['auth'],
+    }),
+  ],
+});

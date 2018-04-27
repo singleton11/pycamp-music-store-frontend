@@ -1,21 +1,21 @@
-import axios from 'axios'
-import config from '@/config'
-import store from '@/store'
+import axios from 'axios';
+import config from '../config';
+import store from '../store';
 
 // create instance with baseURL
 const instance = axios.create({
-  baseURL: config.api.url
-})
+  baseURL: config.api.url,
+});
 
 //
 // Provides auth header token dynamically with each API
 // request, taken from a store
 //
-instance.interceptors.request.use(function (request) {
+instance.interceptors.request.use((request) => {
   if (store.getters.isAuthenticated) {
-    request.headers.Authorization = `Token ${store.getters.getToken}`
+    request.headers.Authorization = `Token ${store.getters.getToken}`;
   }
-  return request
-})
+  return request;
+});
 
-export default instance
+export default instance;

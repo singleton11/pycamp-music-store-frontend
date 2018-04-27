@@ -25,27 +25,31 @@
 </template>
 
 <script>
-  import { AUTH_LOGIN } from '@/store/types/auth'
+  import { AUTH_LOGIN } from '../store/types/auth';
+  import router from '../router/router';
+  import { PAYMENTS_PAGE } from '../router/routes';
 
   export default {
-    data () {
+    data() {
       return {
         user: {
           email: '',
-          password: ''
+          password: '',
         },
-        error: ''
-      }
+        error: '',
+      };
     },
     methods: {
-      login () {
-        this.error = ''
-        this.$store.dispatch(AUTH_LOGIN, this.user).then((data) => {
-          this.error = data
-        })
-      }
-    }
-  }
+      login() {
+        this.error = '';
+        this.$store.dispatch(AUTH_LOGIN, this.user).then(() => {
+          router.push(PAYMENTS_PAGE);
+        }).catch((error) => {
+          this.error = error.response.data.detail;
+        });
+      },
+    },
+  };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -2,29 +2,46 @@
   <div id="app">
     <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
       <div class="container">
-        <router-link :to="{name: 'home'}" class="navbar-brand">MusicStore</router-link>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+        <router-link :to="{name: 'home'}"
+                     class="navbar-brand">MusicStore</router-link>
+        <button class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"/>
         </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
+        <div id="navbarResponsive"
+             class="collapse navbar-collapse">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <router-link :to="{name: 'home'}" class="nav-link">Home</router-link>
+              <router-link :to="{name: 'home'}"
+                           class="nav-link">Home</router-link>
             </li>
             <li class="nav-item">
-              <router-link :to="{name: 'payments'}" class="nav-link">Payments</router-link>
+              <router-link :to="{name: 'payments'}"
+                           class="nav-link">Payments</router-link>
             </li>
           </ul>
 
           <ul class="nav navbar-nav ml-auto">
-            <li class="nav-item" v-if="!isAuthenticated">
-              <router-link :to="{name: 'login'}" class="nav-link">LogIn <i class="fas fa-sign-in-alt"></i></router-link>
+            <li v-if="!isAuthenticated"
+                class="nav-item">
+              <router-link :to="{name: 'login'}"
+                           class="nav-link">LogIn <i class="fas fa-sign-in-alt"/></router-link>
             </li>
-            <li class="nav-item" v-else>
-              <a @click="logout" class="nav-link" href="#">LogOut <i class="fas fa-sign-out-alt"></i></a>
+            <li v-else
+                class="nav-item">
+              <a class="nav-link"
+                 href="#"
+                 @click="logout">LogOut <i class="fas fa-sign-out-alt"/></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="https://bootswatch.com/minty/" target="_blank">Theme</a>
+              <a class="nav-link"
+                 href="https://bootswatch.com/minty/"
+                 target="_blank">Theme</a>
             </li>
           </ul>
 
@@ -33,7 +50,8 @@
     </div>
 
     <main role="main">
-      <div class="container" style="margin-top: 75px;">
+      <div class="container"
+           style="margin-top: 75px;">
         <router-view/>
         <hr>
       </div>
@@ -42,23 +60,23 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-import { getters as authGetters } from '@/store/modules/auth'
-import { AUTH_LOGOUT } from '@/store/types/auth'
+import { mapGetters } from 'vuex';
+import { getters as authGetters } from './store/modules/auth';
+import { AUTH_LOGOUT } from './store/types/auth';
+import router from './router/router';
+import { HOME_PAGE } from './router/routes';
 
 export default {
   name: 'App',
   methods: {
-    logout () {
-      this.$store.dispatch(AUTH_LOGOUT).then(data => {
-        console.log('data:', data)
-      }, error => {
-        console.log('error:', error)
-      })
-    }
+    logout() {
+      this.$store.dispatch(AUTH_LOGOUT).then(() => {
+        router.push(HOME_PAGE);
+      });
+    },
   },
   computed: {
-    ...mapGetters(Object.keys(authGetters))
-  }
-}
+    ...mapGetters(Object.keys(authGetters)),
+  },
+};
 </script>

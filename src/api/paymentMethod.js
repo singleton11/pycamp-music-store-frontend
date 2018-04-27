@@ -1,4 +1,4 @@
-import axios from './axios'
+import axios from './axios';
 
 export default {
   /**
@@ -6,8 +6,8 @@ export default {
    *
    * @returns {Promise}
    */
-  list () {
-    return axios.get('music_store/payment_methods/')
+  list() {
+    return axios.get('music_store/payment_methods/');
   },
 
   /**
@@ -16,8 +16,8 @@ export default {
    * @param {object} paymentMethod - payment method data
    * @returns {Promise}
    */
-  create ({ paymentMethod }) {
-    return axios.post('music_store/payment_methods/', paymentMethod)
+  create({ paymentMethod }) {
+    return axios.post('music_store/payment_methods/', paymentMethod);
   },
 
   /**
@@ -26,14 +26,13 @@ export default {
    * @param {object} paymentMethod - payment method data
    * @returns {Promise}
    */
-  update ({ paymentMethod }) {
-    const id = paymentMethod.id
-    return axios.put('music_store/payment_methods/' + id + '/', paymentMethod)
+  update({ paymentMethod }) {
+    return axios.put(`music_store/payment_methods/${paymentMethod.id}/`, paymentMethod);
   },
 
-  save ({ paymentMethod }) {
-    const operation = paymentMethod.id ? this.update : this.create
-    return operation({ paymentMethod })
+  save({ paymentMethod }) {
+    const operation = paymentMethod.id ? this.update : this.create;
+    return operation({ paymentMethod });
   },
 
   /**
@@ -42,8 +41,7 @@ export default {
    * @param {Object} paymentId - `id` of payment method
    * @returns {Promise}
    */
-  disable ({ paymentMethod }) {
-    const id = paymentMethod.id
-    return axios.delete('music_store/payment_methods/' + id + '/')
-  }
-}
+  disable({ paymentMethod }) {
+    return axios.delete(`music_store/payment_methods/${paymentMethod.id}/`);
+  },
+};
