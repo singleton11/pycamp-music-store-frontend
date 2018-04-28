@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <SearchField @change='TRACK_SEARCH'></SearchField>
+    <SearchField @change="TRACK_SEARCH"></SearchField>
     <div class="row">
       <div class="col">
         <h2>Tracks List</h2>
@@ -20,9 +20,11 @@
 
 <script>
 import { mapActions, mapGetters, } from 'vuex';
-import { track as trackActions, } from '../store/types/';
+import {
+  track as trackActions,
+  common as commonActions,
+} from '../store/types/';
 import { getters as trackGetters, } from '../store/modules/track';
-import { NOTIFICATION_SHOW_SUCCESS, } from '../store/types/common';
 import TracksTable from './track/TracksTable.vue';
 import TrackDetail from './track/TrackDetail.vue';
 import SearchField from './utils/SearchField.vue';
@@ -32,6 +34,7 @@ export default {
    * update payment method list after mount component
    */
   mounted() {
+    this.SEARCH_FIELD_CLEAR();
     this.TRACK_LIST();
   },
   computed: {
@@ -39,15 +42,13 @@ export default {
   },
   methods: {
     ...mapActions(trackActions),
+    ...mapActions(commonActions),
     /**
      * Event of buying a track.
      */
     buy() {
       this.TRACK_BUY();
-      this.$store.dispatch(
-        NOTIFICATION_SHOW_SUCCESS,
-        'Purchase of the track was successful',
-      );
+      this.NOTIFICATION_SHOW_SUCCESS('Purchase of the track was successful');
     },
   },
   components: {
