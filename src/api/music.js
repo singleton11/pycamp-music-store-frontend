@@ -18,11 +18,7 @@ export default {
    * @returns {Promise}
    */
   getTracks (search = '') {
-    let q = ''
-    if (search) {
-      q = '?search=' + search
-    }
-    return axios.get('music_store/tracks/' + q)
+    return axios.get('music_store/tracks/', {params: {search}})
   },
 
   /**
@@ -60,11 +56,7 @@ export default {
    * @returns {Promise}
    */
   getAlbums (search = '') {
-    let q = ''
-    if (search) {
-      q = '?search=' + search
-    }
-    return axios.get('music_store/albums/' + q)
+    return axios.get('music_store/albums/', {params: {search}})
   },
 
   /**
