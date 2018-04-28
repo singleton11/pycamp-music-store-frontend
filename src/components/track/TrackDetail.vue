@@ -1,5 +1,6 @@
 <template>
-  <div class="container" v-if="track">
+  <div class="container"
+       v-if="track">
     <div class="card mb-3">
       <h3 class="card-header">{{track.title}}</h3>
       <ul class="list-group list-group-flush">
@@ -25,9 +26,9 @@
 </template>
 
 <script>
-  export default {
-    props: [
-      'track'
-    ]
-  }
+export default {
+  props: [
+    'track',
+  ],
+};
 </script>

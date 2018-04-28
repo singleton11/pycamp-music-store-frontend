@@ -8,7 +8,8 @@
                      @select="TRACK_SELECT"></TracksTable>
       </div>
 
-      <div class="col" v-if="getActiveTrack">
+      <div class="col"
+           v-if="getActiveTrack">
         <h2>Tracks Info</h2>
         <TrackDetail :track="getActiveTrack"
                      @buy="buy"></TrackDetail>
@@ -45,10 +46,8 @@ export default {
     ...mapActions(trackActions),
     /**
      * Event of buying a track.
-     *
-     * @param track
      */
-    buy(track) {
+    buy() {
       this.TRACK_BUY();
       this.$store.dispatch(
         NOTIFICATION_SHOW_SUCCESS,
