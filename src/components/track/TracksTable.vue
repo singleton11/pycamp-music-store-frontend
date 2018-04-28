@@ -1,6 +1,7 @@
 <template>
   <div>
-    <table class="table table-hover" v-if="tracks.length">
+    <table class="table table-hover"
+           v-if="tracks.length">
       <thead>
       <tr>
         <th scope="col">Author</th>
@@ -21,7 +22,8 @@
       </tr>
       </tbody>
     </table>
-    <blockquote class="blockquote text-center" v-else>
+    <blockquote class="blockquote text-center"
+                v-else>
       <p class="mb-0">Nothing to show</p>
     </blockquote>
   </div>
