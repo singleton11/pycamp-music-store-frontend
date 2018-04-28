@@ -27,7 +27,7 @@
 
 <script>
   import MusicService from '@/services/MusicService'
-  import MusicTracksList from '@/components/utils/MusicTracksList'
+  import MusicTracksList from '@/components/MusicTracksList'
   import SearchField from '@/components/utils/SearchField'
   import Vue from 'vue'
 

@@ -41,7 +41,7 @@
 <script>
   import MusicService from '@/services/MusicService'
   import SearchField from '@/components/utils/SearchField'
-  import TrackDetail from '@/components/utils/TrackDetail'
+  import TrackDetail from '@/components/TrackDetail'
   import Vue from 'vue'
 
   export default {

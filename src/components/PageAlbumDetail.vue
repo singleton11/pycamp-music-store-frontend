@@ -21,7 +21,7 @@
 
 <script>
   import MusicService from '@/services/MusicService'
-  import MusicTracksList from '@/components/utils/MusicTracksList'
+  import MusicTracksList from '@/components/MusicTracksList'
 
   export default {
     data () {

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import MusicAlbum from '@/components/utils/MusicAlbum'
+import MusicAlbum from '@/components/MusicAlbum'
 export default {
   props: [
     'albums'
