@@ -41,8 +41,8 @@ export default [
   {
     path: LOGIN_PAGE,
     name: 'login',
-    component: LoginForm,
-    beforeEnter: ifNotAuthenticated
+    beforeEnter: ifNotAuthenticated,
+    component: LoginForm
   },
   {
     path: HOME_PAGE,
@@ -52,8 +52,7 @@ export default [
   {
     path: DASHBOARD_PAGE,
     name: 'dashboard',
-    component: Dashboard,
-    beforeEnter: ifAuthenticated
+    beforeEnter: ifAuthenticated,
     component: Dashboard
   },
   {
