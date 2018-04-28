@@ -2,19 +2,19 @@
   <div class="container">
     <div class="row">
       <div class="col-sm list-tracks">
-        <h2>Albums:</h2>
+        <h2>Bought Albums:</h2>
         <music-albums-list
           v-bind:albums="albums"
         ></music-albums-list>
-        <button @click="updateAlbumList" class="btn btn-primary btn-lg btn-block">Update Albums</button>
+        <button @click="updateAlbumList" class="btn btn-primary btn-lg btn-block">Update list</button>
       </div>
       <div class="col-sm list-albums">
-        <h2>Tracks:</h2>
+        <h2>Bought Tracks:</h2>
 
         <music-tracks-list
           v-bind:tracks="tracks"
           ></music-tracks-list>
-        <button @click="updateTrackList" class="btn btn-primary btn-lg btn-block">Update Tracks</button>
+        <button @click="updateTrackList" class="btn btn-primary btn-lg btn-block">Update list</button>
       </div>
     </div>
   </div>
@@ -32,21 +32,35 @@ export default {
       albums: []
     }
   },
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
-      vm.updateTrackList()
-      vm.updateAlbumList()
-    })
+  mounted () {
+    this.updateTrackList()
+    this.updateAlbumList()
   },
   methods: {
     updateTrackList () {
-      MusicService.getTracks().then((data) => {
-        this.tracks = data
+      // update list of bought tracks
+      MusicService.getBoughtTracks().then((data) => {
+        this.tracks = []
+
+        // get info for each trackId and push to tracks array
+        data.forEach(boughtTrack => {
+          MusicService.getTrack(boughtTrack.item).then(data => {
+            this.tracks.push(data)
+          })
+        })
       })
     },
     updateAlbumList () {
-      MusicService.getAlbums().then((data) => {
-        this.albums = data
+      // update list of bought albums
+      MusicService.getBoughtAlbums().then((data) => {
+        this.albums = []
+
+        // get info for each albumId and push to tracks array
+        data.forEach(boughtAlbum => {
+          MusicService.getAlbum(boughtAlbum.item).then(data => {
+            this.albums.push(data)
+          })
+        })
       })
     }
   },

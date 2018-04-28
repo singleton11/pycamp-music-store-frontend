@@ -1,12 +1,34 @@
 import music from '@/api/music'
 import {ALBUM_MUTATION, TRACK_MUTATION} from '@/store/mutations-types'
 import store from '@/store/store'
+import {TRACK_GETTER} from '@/store/getter-types'
 export default {
+
+  /**
+   * Get one track.
+   * Try get info from state, and if it's not exists, load from api
+   */
+  getTrack (trackId) {
+    let track = store.getters[TRACK_GETTER](trackId)
+    if (track) {
+      return new Promise((resolve) => {
+        resolve()
+      }).then(() => track)
+    }
+    return music.getTrack(trackId).then((response) => {
+      let item = response.data
+      this.saveTrack(item)
+      return item
+    })
+  },
+
   /**
    * Get array of all tracks info
+   *
+   * @param {String} search - string for searching
    */
-  getTracks () {
-    return music.getTracks().then((response) => {
+  getTracks (search = '') {
+    return music.getTracks(search).then((response) => {
       let items = response.data
       items.forEach((item) => {
         this.saveTrack(item)
@@ -25,10 +47,39 @@ export default {
   },
 
   /**
-   * Get array of all albums info
+   * Buy track
    */
-  getAlbums () {
-    return music.getAlbums().then((response) => {
+  buyTrack (trackId) {
+    return music.buyTrack(trackId).then(response => {
+      return response.data
+    })
+  },
+
+  /**
+   * Get one album.
+   * Try get info from state, and if it's not exists, load from api
+   */
+  getAlbum (albumId) {
+    let album = store.getters[TRACK_GETTER](albumId)
+    if (album) {
+      return new Promise((resolve) => {
+        resolve()
+      }).then(() => album)
+    }
+    return music.getAlbum(albumId).then((response) => {
+      let item = response.data
+      this.saveTrack(item)
+      return item
+    })
+  },
+
+  /**
+   * Get array of all albums info
+   *
+   * @param {String} search - string for searching
+   */
+  getAlbums (search = '') {
+    return music.getAlbums(search).then((response) => {
       let items = response.data
       items.forEach((item) => {
         this.saveAlbum(item)
@@ -42,6 +93,15 @@ export default {
    */
   getBoughtAlbums () {
     return music.getBoughtAlbums().then((response) => {
+      return response.data
+    })
+  },
+
+  /**
+   * Buy album
+   */
+  buyAlbum (albumId) {
+    return music.buyAlbum(albumId).then(response => {
       return response.data
     })
   },

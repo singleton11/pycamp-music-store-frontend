@@ -9,7 +9,7 @@
       </span>
     </div>
     <div v-bind:id="'demo-'+id" class="collapse">
-      <button @click="buyAlbum" type="button" class="btn btn-info btn-lg btn-block">buy for {{price}} <i class="fas fa-dollar-sign"></i></button>
+      <button v-if="!is_bought" @click="buyAlbum" type="button" class="btn btn-info btn-lg btn-block">buy for {{price}} <i class="fas fa-dollar-sign"></i></button>
     </div>
   </div>
 
@@ -24,7 +24,8 @@ export default {
     'title',
     'price',
     'image',
-    'tracks'
+    'tracks',
+    'is_bought'
   ],
   methods: {
     buyAlbum () {

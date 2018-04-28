@@ -8,6 +8,7 @@
       v-bind:author="album.author"
       v-bind:price="album.price"
       v-bind:tracks="album.tracks"
+      v-bind:is_bought="album.is_bought"
       class="list-group-item list-group-item-action"
     ></music-album>
   </div>

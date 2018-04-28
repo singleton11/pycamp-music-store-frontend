@@ -14,11 +14,6 @@
            v-model="email">
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" id="inputPassword" class="form-control" placeholder="Password" required v-model="password">
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
 
     <button class="btn btn-lg btn-primary btn-block" @click="sendRequest">Sign in</button></div>
 </template>
@@ -45,7 +40,6 @@
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .fade-enter-active, .fade-leave-active {
     transition: opacity .5s;
@@ -66,13 +60,8 @@
     margin: 0 auto;
   }
 
-  .form-signin,
-  .form-signin .checkbox {
+  .form-signin {
     margin-bottom: 10px;
-  }
-
-  .form-signin .checkbox {
-    font-weight: normal;
   }
 
   .form-signin .form-control {
