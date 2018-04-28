@@ -7,7 +7,7 @@ import axios from './axios';
  * @param {String} password - user password
  * @returns {Promise}
  */
-export function login(email, password) {
+function login(email, password) {
   return axios.post('auth/login/', { email, password, });
 }
 
