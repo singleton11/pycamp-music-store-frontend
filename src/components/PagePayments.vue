@@ -105,6 +105,9 @@ import { getters as paymentMethodGetters, }
 import { NOTIFICATION_SHOW, } from '../store/types/common';
 
 export default {
+  /**
+   * Define data model properties available for the component
+   */
   data() {
     return {
       // states of modal dialog visible
@@ -115,6 +118,9 @@ export default {
       tmpItem: {},
     };
   },
+  /**
+   * update payment method list after mount component
+   */
   mounted() {
     this.PAYMENT_METHOD_LIST();
   },
@@ -124,24 +130,43 @@ export default {
   methods: {
     ...mapActions(paymentMethodActions),
 
+    /**
+     * Select payment method for further editing and show modal window
+     */
     paymentMethodSelectToEdit(paymentMethod) {
       this.PAYMENT_METHOD_SELECT(paymentMethod);
       this.tmpItem = { ...this.getActivePaymentMethod, };
       this.showModal.edit = true;
     },
+
+    /**
+     * Select payment method for deleting and show confirm window
+     */
     paymentMethodSelectToDelete(paymentMethod) {
       this.PAYMENT_METHOD_SELECT(paymentMethod);
       this.showModal.delete = true;
     },
+
+    /**
+     * Create new empty payment method and show the window for editing it
+     */
     paymentMethodCreate() {
       this.tmpItem = { ...this.getNewPaymentMethod, };
       this.showModal.edit = true;
     },
+
+    /**
+     * Save edited or created payment method
+     */
     paymentMethodSave() {
       this.showModal.edit = false;
       this.PAYMENT_METHOD_SAVE(this.tmpItem);
       this.$store.dispatch(NOTIFICATION_SHOW, 'Success!');
     },
+
+    /**
+     * Delete payment method
+     */
     paymentMethodDelete() {
       this.PAYMENT_METHOD_DELETE(this.getActivePaymentMethod).then(() => {
         this.showModal.delete = false;

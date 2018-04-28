@@ -31,6 +31,9 @@ import router from '../router/router';
 import { NOTIFICATION_SHOW, NOTIFICATION_HIDE, } from '../store/types/common';
 
 export default {
+  /**
+   * Define data model properties available for the component
+   */
   data() {
     return {
       user: {
@@ -41,13 +44,20 @@ export default {
     };
   },
   methods: {
+    /**
+     * Method for user login and redirect on payments page.
+     * If an error occurs during authorization, it is displayed
+     */
     login() {
-      this.error = '';
       this.$store.dispatch(AUTH_LOGIN, this.user).then(() => {
+        // hide notification and redirect
         this.$store.dispatch(NOTIFICATION_HIDE);
         router.push({ name: 'payments', });
       }, (error) => {
-        this.$store.dispatch(NOTIFICATION_SHOW, error.response.data.detail);
+        // show notification about error
+        const message = error.response.data.detail;
+
+        this.$store.dispatch(NOTIFICATION_SHOW, message);
       });
     },
   },
@@ -76,11 +86,11 @@ export default {
   }
 
   .form-signin,
-  .form-signin .checkbox {
+  .form-signin {
     margin-bottom: 10px;
   }
 
-  .form-signin .checkbox {
+  .form-signin {
     font-weight: normal;
   }
 

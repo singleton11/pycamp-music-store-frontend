@@ -11,7 +11,7 @@
                 aria-controls="navbarResponsive"
                 aria-expanded="false"
                 aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"/>
+          <span class="navbar-toggler-icon"></span>
         </button>
         <div id="navbarResponsive"
              class="collapse navbar-collapse">
@@ -31,14 +31,14 @@
                 class="nav-item">
               <router-link :to="{name: 'login'}"
                            class="nav-link">
-                LogIn <i class="fas fa-sign-in-alt"/>
+                LogIn <i class="fas fa-sign-in-alt"></i>
               </router-link>
             </li>
             <li v-else
                 class="nav-item">
               <a class="nav-link"
                  href="#"
-                 @click="logout">LogOut <i class="fas fa-sign-out-alt"/></a>
+                 @click="logout">LogOut <i class="fas fa-sign-out-alt"></i></a>
             </li>
             <li class="nav-item">
               <a class="nav-link"
@@ -77,6 +77,9 @@ import { getters as commonGetters, } from './store/modules/common';
 export default {
   name: 'App',
   methods: {
+    /**
+     * Method for user logout and redirect on home page.
+     */
     logout() {
       this.$store.dispatch(AUTH_LOGOUT).then(() => {
         router.push({ name: 'home', });
