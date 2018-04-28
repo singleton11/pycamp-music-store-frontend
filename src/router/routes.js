@@ -1,11 +1,13 @@
 import LoginForm from '../components/LoginForm.vue';
 import Home from '../components/Home.vue';
 import PagePayments from '../components/PagePayments.vue';
+import PageTracks from '../components/PageTracks.vue';
 import store from '../store';
 
 export const HOME_PAGE = '/';
 export const LOGIN_PAGE = '/login';
 export const PAYMENTS_PAGE = '/payments';
+export const TRACKS_PAGE = '/tracks';
 
 
 /**
@@ -49,6 +51,12 @@ export default [
     path: PAYMENTS_PAGE,
     name: 'payments',
     component: PagePayments,
+    beforeEnter: ifAuthenticated,
+  },
+  {
+    path: TRACKS_PAGE,
+    name: 'tracks',
+    component: PageTracks,
     beforeEnter: ifAuthenticated,
   },
 ];
