@@ -102,7 +102,7 @@ import Modal from './utils/Modal.vue';
 import { paymentMethod as paymentMethodActions, } from '../store/types/';
 import { getters as paymentMethodGetters, }
   from '../store/modules/paymentMethod';
-import { NOTIFICATION_SHOW, } from '../store/types/common';
+import { NOTIFICATION_SHOW_SUCCESS, } from '../store/types/common';
 
 export default {
   /**
@@ -161,7 +161,7 @@ export default {
     paymentMethodSave() {
       this.showModal.edit = false;
       this.PAYMENT_METHOD_SAVE(this.tmpItem);
-      this.$store.dispatch(NOTIFICATION_SHOW, 'Success!');
+      this.$store.dispatch(NOTIFICATION_SHOW_SUCCESS, 'Success!');
     },
 
     /**
@@ -170,7 +170,10 @@ export default {
     paymentMethodDelete() {
       this.PAYMENT_METHOD_DELETE(this.getActivePaymentMethod).then(() => {
         this.showModal.delete = false;
-        this.$store.dispatch(NOTIFICATION_SHOW, 'Payment was been deleted!');
+        this.$store.dispatch(
+          NOTIFICATION_SHOW_SUCCESS,
+          'Payment was been deleted!'
+        );
       });
     },
   },

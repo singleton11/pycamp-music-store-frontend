@@ -54,10 +54,11 @@
     <main role="main">
       <div class="container"
            style="margin-top: 75px;">
-        <MessageInTop v-show="getNotificationVisible"
-                      @close="NOTIFICATION_HIDE">
+        <Notification v-show="getNotificationVisible"
+                      @close="NOTIFICATION_HIDE"
+                      :level="getNotificationLevel">
           {{getNotificationMessage}}
-        </MessageInTop>
+        </Notification>
         <router-view/>
         <hr>
       </div>
@@ -70,8 +71,11 @@ import { mapGetters, mapActions, } from 'vuex';
 import { getters as authGetters, } from './store/modules/auth';
 import { AUTH_LOGOUT, } from './store/types/auth';
 import router from './router/router';
-import MessageInTop from './components/utils/MessageInTop.vue';
-import { NOTIFICATION_HIDE, } from './store/types/common';
+import Notification from './components/utils/Notification.vue';
+import {
+  NOTIFICATION_HIDE,
+  NOTIFICATION_SHOW_INFO,
+} from './store/types/common';
 import { getters as commonGetters, } from './store/modules/common';
 
 export default {
@@ -82,11 +86,13 @@ export default {
      */
     logout() {
       this.$store.dispatch(AUTH_LOGOUT).then(() => {
+        this.NOTIFICATION_SHOW_INFO('You are signed out');
         router.push({ name: 'home', });
       });
     },
     ...mapActions({
       NOTIFICATION_HIDE,
+      NOTIFICATION_SHOW_INFO,
     }),
   },
   computed: {
@@ -94,7 +100,7 @@ export default {
     ...mapGetters(Object.keys(commonGetters)),
   },
   components: {
-    MessageInTop,
+    Notification,
   },
 };
 </script>
