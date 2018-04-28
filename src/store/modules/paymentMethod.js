@@ -6,6 +6,7 @@ import {
   PAYMENT_METHOD_EDIT,
   PAYMENT_METHOD_DELETE,
   PAYMENT_METHOD_SAVE,
+  PAYMENT_METHOD_DISABLE_DEFAULT,
 } from '../types/paymentMethod';
 
 import { AUTH_LOGOUT, } from '../types/auth';
@@ -91,6 +92,9 @@ const actions = {
    */
   [PAYMENT_METHOD_SAVE]: ({ commit, }, paymentMethod) =>
     api.paymentMethod.save({ paymentMethod, }).then((response) => {
+      if (response.data.is_default) {
+        commit(PAYMENT_METHOD_DISABLE_DEFAULT);
+      }
       commit(PAYMENT_METHOD_SAVE, response.data);
     }),
 
@@ -122,7 +126,7 @@ const mutations = {
    * Mutate the state.paymentMethods variable based on the agents param, which
    * is API based json response
    *
-   * @param {object} st - state of the module
+   * @param {object} state - state of the module
    * @param {Array} paymentMethods - Array of payment methods (API response)
    */
   [PAYMENT_METHOD_LIST]: (state, paymentMethods) => {
@@ -134,7 +138,7 @@ const mutations = {
   /**
    * Mutate the state and set proper reference for state.activePaymentMethod
    *
-   * @param {object} state - state of the module
+   * @param {object} state -  state of the module
    * @param {object} paymentMethod - payment method to be selected
    */
   [PAYMENT_METHOD_SELECT]: (state, paymentMethod) => {
@@ -151,7 +155,7 @@ const mutations = {
   /**
    * Mutate state.activePaymentMethod by modifying key/value of the record
    *
-   * @param {object} state - state of the module
+   * @param {object} state -  state of the module
    * @param {object} { field, value, } - patch for the record
    */
   [PAYMENT_METHOD_EDIT]: (state, { field, value, }) => {
@@ -163,22 +167,26 @@ const mutations = {
   /**
    * Mutate payment method
    *
-   * @param {object} st - state of the module
-   * @param {object} agent - updated agent
+   * @param {object} state -  state of the module
+   * @param {object} paymentMethod - updated payment method
    */
   [PAYMENT_METHOD_SAVE]: (state, paymentMethod) => {
-    if (paymentMethod.id === state.activePaymentMethod.id) {
+    if (state.activePaymentMethod &&
+      paymentMethod.id === state.activePaymentMethod.id) {
       Object.assign(state.activePaymentMethod, paymentMethod);
     } else {
       state.paymentMethods.push(paymentMethod);
     }
+  },
 
-    if (!paymentMethod.is_default) {
-      return;
-    }
-
+  /**
+   * Remove the "is_default" flag of the default method
+   *
+   * @param {object} state -  state of the module
+   */
+  [PAYMENT_METHOD_DISABLE_DEFAULT]: (state) => {
     const oldDefault = state.paymentMethods
-      .find(item => item.is_default && item.id !== paymentMethod.id);
+      .find(item => item.is_default);
 
     oldDefault.is_default = false;
   },
@@ -187,7 +195,7 @@ const mutations = {
    * Mutate state.paymentMethods by deleting the payment method from the list
    * of payment methods
    *
-   * @param {object} st - state of the module
+   * @param {object} state - state of the module
    * @param {object} paymentMethod - payment method to be deleted
    */
   [PAYMENT_METHOD_DELETE]: (state, paymentMethod) => {
@@ -210,7 +218,7 @@ const mutations = {
    * When we send AUTH_LOGOUT action we then endup here, and reset the state
    * of the module to empty
    *
-   * @param {object} st - state of the module
+   * @param {object} state - state of the module
    */
   [AUTH_LOGOUT]: (state) => {
     state.paymentMethods = [];
