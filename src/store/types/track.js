@@ -13,9 +13,14 @@ export const TRACK_SELECT = 'TRACK_SELECT';
  */
 export const TRACK_BUY = 'TRACK_BUY';
 
+/**
+ * Search tracks
+ */
+export const TRACK_SEARCH = 'TRACK_SEARCH';
 
 export default {
   TRACK_LIST,
   TRACK_SELECT,
   TRACK_BUY,
+  TRACK_SEARCH,
 };

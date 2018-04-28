@@ -1,6 +1,11 @@
 import api from '../../api';
 
-import { TRACK_BUY, TRACK_LIST, TRACK_SELECT, } from '../types/track';
+import {
+  TRACK_BUY,
+  TRACK_LIST,
+  TRACK_SELECT,
+  TRACK_SEARCH,
+} from '../types/track';
 
 import { AUTH_LOGOUT, } from '../types/auth';
 
@@ -45,6 +50,16 @@ const actions = {
    */
   [TRACK_LIST]: ({ commit, }) => api.track.list()
     .then((response) => {
+      commit(TRACK_LIST, response.data);
+    }),
+
+  /**
+   * Search tracks
+   *
+   * @returns {Promise} List of founded tracks
+   */
+  [TRACK_SEARCH]: ({ commit, getters, }) =>
+    api.track.list(getters.getSearchText).then((response) => {
       commit(TRACK_LIST, response.data);
     }),
 

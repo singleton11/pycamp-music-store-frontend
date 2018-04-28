@@ -6,8 +6,8 @@ export default {
    *
    * @returns {Promise}
    */
-  list() {
-    return axios.get('music_store/tracks/');
+  list(search) {
+    return axios.get('music_store/tracks/', { params: { search, }, });
   },
 
   /**

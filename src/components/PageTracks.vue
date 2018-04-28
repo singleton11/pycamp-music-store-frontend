@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <!--SearchField v-model="searchText" ref="search"></SearchField-->
+    <SearchField @change='TRACK_SEARCH'></SearchField>
     <div class="row">
       <div class="col">
         <h2>Tracks List</h2>
@@ -22,17 +22,12 @@
 import { mapActions, mapGetters, } from 'vuex';
 import { track as trackActions, } from '../store/types/';
 import { getters as trackGetters, } from '../store/modules/track';
+import { NOTIFICATION_SHOW_SUCCESS, } from '../store/types/common';
 import TracksTable from './track/TracksTable.vue';
 import TrackDetail from './track/TrackDetail.vue';
-import { NOTIFICATION_SHOW_SUCCESS, } from '../store/types/common';
+import SearchField from './utils/SearchField.vue';
 
 export default {
-  /**
-   * Define data model properties available for the component
-   */
-  data() {
-    return {};
-  },
   /**
    * update payment method list after mount component
    */
@@ -58,6 +53,7 @@ export default {
   components: {
     TracksTable,
     TrackDetail,
+    SearchField,
   },
 };
 </script>
