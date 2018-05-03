@@ -2,13 +2,14 @@ import LoginForm from '../components/LoginForm.vue';
 import Home from '../components/Home.vue';
 import PagePayments from '../components/PagePayments.vue';
 import PageTracks from '../components/PageTracks.vue';
+import PageAlbums from '../components/PageAlbums.vue';
 import { CheckAuthorization, CheckAuthorizationFalse, } from './utils';
-
 
 export const HOME_PAGE = '/';
 export const LOGIN_PAGE = '/login';
 export const PAYMENTS_PAGE = '/payments';
 export const TRACKS_PAGE = '/tracks';
+export const ALBUMS_PAGE = '/albums';
 
 
 export default [
@@ -33,6 +34,12 @@ export default [
     path: TRACKS_PAGE,
     name: 'tracks',
     component: PageTracks,
+    beforeEnter: CheckAuthorization,
+  },
+  {
+    path: ALBUMS_PAGE,
+    name: 'albums',
+    component: PageAlbums,
     beforeEnter: CheckAuthorization,
   },
 ];
