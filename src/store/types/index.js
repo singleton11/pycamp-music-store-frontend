@@ -9,10 +9,3 @@ export {
   common,
   account,
 };
-
-export default {
-  auth,
-  paymentMethod,
-  common,
-  account,
-};
