@@ -2,7 +2,8 @@ import LoginForm from '../components/LoginForm.vue';
 import Home from '../components/Home.vue';
 import PagePayments from '../components/PagePayments.vue';
 import PageTracks from '../components/PageTracks.vue';
-import store from '../store';
+import { CheckAuthorization, CheckAuthorizationFalse, } from './utils';
+
 
 export const HOME_PAGE = '/';
 export const LOGIN_PAGE = '/login';
@@ -10,37 +11,12 @@ export const PAYMENTS_PAGE = '/payments';
 export const TRACKS_PAGE = '/tracks';
 
 
-/**
- * Router checker: If user is authenticated
- */
-const ifAuthenticated = (to, from, next) => {
-  if (store.getters.isAuthenticated) {
-    next();
-
-    return;
-  }
-  next({ name: 'login', });
-};
-
-
-/**
- * Router checker: If user is not authenticated
- */
-const ifNotAuthenticated = (to, from, next) => {
-  if (!store.getters.isAuthenticated) {
-    next();
-
-    return;
-  }
-  next({ name: 'payments', });
-};
-
 export default [
   {
     path: LOGIN_PAGE,
     name: 'login',
     component: LoginForm,
-    beforeEnter: ifNotAuthenticated,
+    beforeEnter: CheckAuthorizationFalse,
   },
   {
     path: HOME_PAGE,
@@ -51,12 +27,12 @@ export default [
     path: PAYMENTS_PAGE,
     name: 'payments',
     component: PagePayments,
-    beforeEnter: ifAuthenticated,
+    beforeEnter: CheckAuthorization,
   },
   {
     path: TRACKS_PAGE,
     name: 'tracks',
     component: PageTracks,
-    beforeEnter: ifAuthenticated,
+    beforeEnter: CheckAuthorization,
   },
 ];
