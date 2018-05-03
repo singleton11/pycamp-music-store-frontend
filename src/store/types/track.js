@@ -1,21 +1,13 @@
-/**
- * List tracks
- */
+// Get list of tracks from backend API.
 export const TRACK_LIST = 'TRACK_LIST';
 
-/**
- * Select the track in the track list
- */
+// Select the track in the track list
 export const TRACK_SELECT = 'TRACK_SELECT';
 
-/**
- * Buy track
- */
+// Buy selected track
 export const TRACK_BUY = 'TRACK_BUY';
 
-/**
- * Search tracks
- */
+// Search tracks
 export const TRACK_SEARCH = 'TRACK_SEARCH';
 
 export default {

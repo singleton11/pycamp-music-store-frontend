@@ -1,11 +1,7 @@
-/**
- * Login to the app
- */
+// Login to the app
 export const AUTH_LOGIN = 'AUTH_LOGIN';
 
-/**
- * Logout
- */
+// Logout
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 
 export default {

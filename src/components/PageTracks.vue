@@ -44,7 +44,7 @@ export default {
     ...mapActions(trackActions),
     ...mapActions(commonActions),
     /**
-     * Event of buying a track.
+     * Method of buying a track.
      */
     buy() {
       this.TRACK_BUY();
