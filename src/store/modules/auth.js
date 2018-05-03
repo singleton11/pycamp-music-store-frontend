@@ -1,5 +1,5 @@
 import api from '../../api';
-import { AUTH_LOGIN, AUTH_LOGOUT, } from '../types/auth';
+import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_REGISTER, } from '../types/auth';
 
 /**
  * Auth Vuex Store Module State
@@ -40,9 +40,26 @@ const actions = {
       throw response;
     }),
 
+  /**
+   * Logout user from app
+   */
   [AUTH_LOGOUT]: ({ commit, }) => api.auth.logout().then(() => {
     commit(AUTH_LOGOUT);
   }),
+
+  /**
+   * Register new user from credentials
+   *
+   * @param user - credentials of the user
+   */
+  /* eslint-disable-next-line */
+  [AUTH_REGISTER]: ({ commit }, user) => api.auth.register(user)
+    .then((response) => {
+      if (response.data) {
+        return response.data;
+      }
+      throw response;
+    }),
 };
 
 /**

@@ -1,4 +1,5 @@
 import LoginForm from '../components/LoginForm.vue';
+import RegisterForm from '../components/RegisterForm.vue';
 import Home from '../components/Home.vue';
 import PagePayments from '../components/PagePayments.vue';
 import PageTracks from '../components/PageTracks.vue';
@@ -7,6 +8,7 @@ import { CheckAuthorization, CheckAuthorizationFalse, } from './utils';
 
 export const HOME_PAGE = '/';
 export const LOGIN_PAGE = '/login';
+export const REGISTER_PAGE = '/register';
 export const PAYMENTS_PAGE = '/payments';
 export const TRACKS_PAGE = '/tracks';
 export const ALBUMS_PAGE = '/albums';
@@ -17,6 +19,12 @@ export default [
     path: LOGIN_PAGE,
     name: 'login',
     component: LoginForm,
+    beforeEnter: CheckAuthorizationFalse,
+  },
+  {
+    path: REGISTER_PAGE,
+    name: 'register',
+    component: RegisterForm,
     beforeEnter: CheckAuthorizationFalse,
   },
   {

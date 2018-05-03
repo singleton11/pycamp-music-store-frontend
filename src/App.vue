@@ -35,13 +35,20 @@
           </ul>
 
           <ul class="nav navbar-nav ml-auto">
-            <li v-if="!isAuthenticated"
-                class="nav-item">
-              <router-link :to="{name: 'login'}"
-                           class="nav-link">
-                LogIn <i class="fas fa-sign-in-alt"></i>
-              </router-link>
-            </li>
+            <template v-if="!isAuthenticated">
+              <li class="nav-item">
+                <router-link :to="{name: 'login'}"
+                             class="nav-link">
+                  LogIn <i class="fas fa-sign-in-alt"></i>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link :to="{name: 'register'}"
+                             class="nav-link">
+                  Register <i class="fas fa-user-plus"></i>
+                </router-link>
+              </li>
+            </template>
             <li v-else
                 class="nav-item">
               <a class="nav-link"

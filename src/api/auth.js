@@ -20,7 +20,25 @@ function logout() {
   return axios.get('auth/logout/');
 }
 
+/**
+ * Register new user
+ *
+ * @returns {Promise}
+ */
+function register({
+  email, password1, password2, firstName, lastName,
+}) {
+  return axios.post('auth/register/', {
+    email,
+    password1,
+    password2,
+    first_name: firstName,
+    last_name: lastName,
+  });
+}
+
 export default {
   login,
   logout,
+  register,
 };
