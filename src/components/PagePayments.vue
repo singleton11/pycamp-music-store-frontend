@@ -2,6 +2,9 @@
   <div class="container">
     <h1>Payment Methods</h1>
     <div class="row">
+      <p class="text-muted">
+        Current balance: <span>{{getBalance}}</span>
+      </p>
       <table class="table table-hover">
         <thead>
         <tr>
@@ -99,9 +102,13 @@
 <script>
 import { mapActions, mapGetters, } from 'vuex';
 import Modal from './utils/Modal.vue';
-import { paymentMethod as paymentMethodActions, } from '../store/types/';
+import {
+  paymentMethod as paymentMethodActions,
+  account as accountActions,
+} from '../store/types/';
 import { getters as paymentMethodGetters, }
   from '../store/modules/paymentMethod';
+import { getters as accountGetters, } from '../store/modules/account';
 import { NOTIFICATION_SHOW_SUCCESS, } from '../store/types/common';
 
 export default {
@@ -122,13 +129,16 @@ export default {
    * update payment method list after mount component
    */
   mounted() {
+    this.ACCOUNT_BALANCE_UPDATE();
     this.PAYMENT_METHOD_LIST();
   },
   computed: {
     ...mapGetters(Object.keys(paymentMethodGetters)),
+    ...mapGetters(Object.keys(accountGetters)),
   },
   methods: {
     ...mapActions(paymentMethodActions),
+    ...mapActions(accountActions),
 
     /**
      * Select payment method for further editing and show modal window

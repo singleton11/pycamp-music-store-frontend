@@ -4,6 +4,7 @@ import persistedState from 'vuex-persistedstate';
 import auth from './modules/auth';
 import paymentMethod from './modules/paymentMethod';
 import common from './modules/common';
+import account from './modules/account';
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
     auth,
     paymentMethod,
     common,
+    account,
   },
   plugins: [
     persistedState({
