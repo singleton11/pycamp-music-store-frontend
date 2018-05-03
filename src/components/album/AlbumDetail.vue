@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import { TRACK_GET_BY_ID, } from '../../store/types/track';
 
 export default {
@@ -61,7 +60,7 @@ export default {
       if (this.album.tracksInfo) {
         return;
       }
-      Vue.set(this.album, 'tracksInfo', []);
+      this.$set(this.album, 'tracksInfo', []);
       this.album.tracks.forEach((trackId) => {
         this.$store.dispatch(TRACK_GET_BY_ID, trackId).then((track) => {
           this.album.tracksInfo.push(track);
