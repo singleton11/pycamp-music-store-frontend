@@ -12,5 +12,4 @@ export {
   track,
   album,
   account,
-  track,
 };
