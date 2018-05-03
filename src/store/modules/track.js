@@ -5,6 +5,8 @@ import {
   TRACK_LIST,
   TRACK_SELECT,
   TRACK_SEARCH,
+  TRACK_GET_BY_ID,
+  TRACK_ADD_TO_LIST,
 } from '../types/track';
 
 import { AUTH_LOGOUT, } from '../types/auth';
@@ -33,7 +35,8 @@ const state = {
  * @property {Array} getTracks - Get full list of tracks
  */
 export const getters = {
-  getTrackById: state => state.tracks.find(item => item.id === item),
+  getTrackById: state => trackId =>
+    state.tracks.find(item => item.id === trackId),
   getActiveTrack: state => state.activeTrack,
   getActiveTrackIndex: state => state.activeTrackIndex,
   getTracks: state => state.tracks,
@@ -52,6 +55,25 @@ const actions = {
     .then((response) => {
       commit(TRACK_LIST, response.data);
     }),
+
+  /**
+   * Get track by ID
+   *
+   * @returns {Promise} Track info
+   */
+  [TRACK_GET_BY_ID]: ({ commit, getters, }, trackId) => {
+    const track = getters.getTrackById(trackId);
+
+    if (track) {
+      return track;
+    }
+
+    return api.track.getById({ trackId, }).then((response) => {
+      commit(TRACK_ADD_TO_LIST, response.data);
+
+      return response.data;
+    });
+  },
 
   /**
    * Search tracks
@@ -99,6 +121,16 @@ const mutations = {
     state.tracks = [
       ...tracks,
     ];
+  },
+
+  /**
+   * Add track to list
+   *
+   * @param {object} state - state of the module
+   * @param {Array} tracks - Array of tracks (API response)
+   */
+  [TRACK_ADD_TO_LIST]: (state, track) => {
+    state.tracks.push(track);
   },
 
   /**

@@ -28,6 +28,10 @@
               <router-link :to="{name: 'tracks'}"
                            class="nav-link">Tracks</router-link>
             </li>
+            <li class="nav-item">
+              <router-link :to="{name: 'albums'}"
+                           class="nav-link">Albums</router-link>
+            </li>
           </ul>
 
           <ul class="nav navbar-nav ml-auto">

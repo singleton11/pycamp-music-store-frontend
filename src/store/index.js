@@ -5,6 +5,7 @@ import auth from './modules/auth';
 import paymentMethod from './modules/paymentMethod';
 import common from './modules/common';
 import track from './modules/track';
+import album from './modules/album';
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     paymentMethod,
     common,
     track,
+    album,
   },
   plugins: [
     persistedState({

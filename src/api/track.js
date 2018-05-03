@@ -11,6 +11,16 @@ export default {
   },
 
   /**
+   * @summary Get track by id
+   *
+   * @param {object} trackId - id of track
+   * @returns {Promise}
+   */
+  getById({ trackId, }) {
+    return axios.get(`music_store/tracks/${trackId}/`);
+  },
+
+  /**
    * @summary Buy the track
    *
    * @param {object} track - payment method data, or it's `id`
