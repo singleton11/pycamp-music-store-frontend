@@ -28,7 +28,10 @@
 <script>
 import { AUTH_LOGIN, } from '../store/types/auth';
 import router from '../router/router';
-import { NOTIFICATION_SHOW, NOTIFICATION_HIDE, } from '../store/types/common';
+import {
+  NOTIFICATION_SHOW_DANGER,
+  NOTIFICATION_HIDE,
+} from '../store/types/common';
 
 export default {
   /**
@@ -57,7 +60,7 @@ export default {
         // show notification about error
         const message = error.response.data.detail;
 
-        this.$store.dispatch(NOTIFICATION_SHOW, message);
+        this.$store.dispatch(NOTIFICATION_SHOW_DANGER, message);
       });
     },
   },

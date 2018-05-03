@@ -24,6 +24,10 @@
               <router-link :to="{name: 'payments'}"
                            class="nav-link">Payments</router-link>
             </li>
+            <li class="nav-item">
+              <router-link :to="{name: 'tracks'}"
+                           class="nav-link">Tracks</router-link>
+            </li>
           </ul>
 
           <ul class="nav navbar-nav ml-auto">

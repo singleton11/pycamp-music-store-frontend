@@ -5,6 +5,7 @@ import auth from './modules/auth';
 import paymentMethod from './modules/paymentMethod';
 import common from './modules/common';
 import account from './modules/account';
+import track from './modules/track';
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     paymentMethod,
     common,
     account,
+    track,
   },
   plugins: [
     persistedState({
