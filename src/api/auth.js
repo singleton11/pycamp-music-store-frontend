@@ -25,9 +25,8 @@ function logout() {
  *
  * @returns {Promise}
  */
-function register({
-  email, password1, password2, firstName, lastName,
-}) {
+/* eslint-disable-next-line */
+function register({ email, password1, password2, firstName, lastName, }) {
   return axios.post('auth/register/', {
     email,
     password1,
