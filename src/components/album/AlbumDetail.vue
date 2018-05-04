@@ -13,14 +13,8 @@
            :src="album.image"
            alt="Card image cap"
            v-if="album.image">
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item"
-            v-if="album.tracksInfo"
-            v-for="track in album.tracksInfo"
-            v-bind:key="track.id">
-          {{track.title}}
-        </li>
-      </ul>
+
+      <TrackList :tracks="album.tracksInfo"></TrackList>
 
       <div class="card-footer">
         <button v-if="!album.is_bought"
@@ -40,7 +34,9 @@
 </template>
 
 <script>
-import { TRACK_GET_BY_ID, } from '../../store/types/track';
+import TrackList from '../track/TracksList.vue';
+import { ALBUM_GET_TRACKS, } from '../../store/types/album';
+import store from '../../store';
 
 export default {
   props: [
@@ -50,31 +46,21 @@ export default {
    * update tracks of album after mount component
    */
   mounted() {
-    this.updateTrackInfo();
+    this.updateInfo();
   },
   methods: {
-    /**
-     * update tracks of album
-     */
-    updateTrackInfo() {
-      if (this.album.tracksInfo) {
-        return;
-      }
-      this.$set(this.album, 'tracksInfo', []);
-      this.album.tracks.forEach((trackId) => {
-        this.$store.dispatch(TRACK_GET_BY_ID, trackId).then((track) => {
-          this.album.tracksInfo.push(track);
-        });
-      });
-    },
+    updateInfo: () => store.dispatch(ALBUM_GET_TRACKS),
   },
   watch: {
     /**
      * follow the change of the album
      */
     album() {
-      this.updateTrackInfo();
+      this.updateInfo();
     },
+  },
+  components: {
+    TrackList,
   },
 };
 </script>
