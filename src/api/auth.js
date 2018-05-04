@@ -26,13 +26,13 @@ function logout() {
  * @returns {Promise}
  */
 /* eslint-disable-next-line */
-function register({ email, password1, password2, firstName, lastName, }) {
+function register(user) {
   return axios.post('auth/register/', {
-    email,
-    password1,
-    password2,
-    first_name: firstName,
-    last_name: lastName,
+    email: user.email,
+    password1: user.password1,
+    password2: user.password2,
+    first_name: user.firstName,
+    last_name: user.lastName,
   });
 }
 
