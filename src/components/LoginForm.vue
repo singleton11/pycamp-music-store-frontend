@@ -1,6 +1,7 @@
 <template>
   <div class="form-signin">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+
     <label for="inputEmail"
            class="sr-only">Email</label>
     <input type="email"
@@ -22,6 +23,11 @@
             @click="login">
       Sign in
     </button>
+
+    <p>
+      New user?
+      <router-link :to="{name: 'register'}">create account</router-link>
+    </p>
   </div>
 </template>
 

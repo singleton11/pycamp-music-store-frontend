@@ -2,7 +2,7 @@
   <div class="form-signin">
     <h1 class="h3 mb-3 font-weight-normal">Register</h1>
 
-    <div class="form-group has-danger">
+    <div class="form-group">
       <label class="form-control-label"
              for="inputEmail">
         Email</label>
@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div class="form-group has-danger">
+    <div class="form-group">
       <label class="form-control-label"
              for="inputPassword1">
         Password</label>
@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <div class="form-group has-danger">
+    <div class="form-group">
       <label class="form-control-label"
              for="inputPassword2">
         Repeat password</label>
@@ -53,7 +53,7 @@
       </div>
     </div>
 
-    <div class="form-group has-danger">
+    <div class="form-group">
       <label class="form-control-label"
              for="firstName">
         First name</label>
@@ -70,7 +70,7 @@
       </div>
     </div>
 
-    <div class="form-group has-danger">
+    <div class="form-group">
       <label class="form-control-label"
              for="lastName">
         Last name</label>
