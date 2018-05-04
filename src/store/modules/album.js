@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import api from '../../api';
 
 import {
@@ -6,6 +7,7 @@ import {
   ALBUM_SEARCH,
   ALBUM_SELECT,
   ALBUM_UNSELECT,
+  ALBUM_GET_TRACKS,
 } from '../types/album';
 
 import { AUTH_LOGOUT, } from '../types/auth';
@@ -89,6 +91,21 @@ const actions = {
         commit(ALBUM_BUY);
       });
   },
+
+  /**
+   * Get info about all tracks from selected album
+   */
+  [ALBUM_GET_TRACKS]: ({ commit, getters, }) => {
+    const album = getters.getActiveAlbum;
+
+    if (!album) {
+      return;
+    }
+    api.track.getTracksFromAlbum({ album, })
+      .then((response) => {
+        commit(ALBUM_GET_TRACKS, response.data);
+      });
+  },
 };
 
 /**
@@ -143,6 +160,17 @@ const mutations = {
    */
   [ALBUM_BUY]: (state) => {
     state.activeAlbum.is_bought = true;
+  },
+
+  /**
+   * Mutate album object.
+   * Set info about all tracks from current album into field `tracksInfo`
+   *
+   * @param {object} state - state of the module
+   * @param {object} tracks - array of tracks objects
+   */
+  [ALBUM_GET_TRACKS]: (state, tracks) => {
+    Vue.set(state.activeAlbum, 'tracksInfo', tracks);
   },
 
   /**
