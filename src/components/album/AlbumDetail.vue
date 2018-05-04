@@ -49,7 +49,12 @@ export default {
     this.updateInfo();
   },
   methods: {
-    updateInfo: () => store.dispatch(ALBUM_GET_TRACKS),
+    /**
+     * Method for calling action to update album tracks
+     */
+    updateInfo() {
+      store.dispatch(ALBUM_GET_TRACKS);
+    },
   },
   watch: {
     /**
