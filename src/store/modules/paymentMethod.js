@@ -47,12 +47,11 @@ const state = {
  */
 export const getters = {
   getPaymentMethodById: state => paymentMethodId => state.paymentMethods
-    .find(paymentMethod => paymentMethod.id === paymentMethodId),
+    .find(item => item.id === paymentMethodId),
   getActivePaymentMethod: state => state.activePaymentMethod,
   getActivePaymentMethodIndex: state => state.activePaymentMethodIndex,
   getPaymentMethods: state => state.paymentMethods,
   getNewPaymentMethod: state => state.newPaymentMethod,
-
   getSelectPaymentMethodVisible: state => state.selectPaymentMethodVisible,
 };
 
@@ -128,7 +127,6 @@ const actions = {
   [PAYMENT_METHOD_SHOW_SELECT_DIALOG]: ({ commit, }) => {
     commit(PAYMENT_METHOD_SHOW_SELECT_DIALOG);
   },
-
 
   /**
    * Action for hide select payment method for buy

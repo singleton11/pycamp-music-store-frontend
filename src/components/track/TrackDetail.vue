@@ -16,7 +16,7 @@
       <div class="card-footer">
         <button type="button"
                 class="btn btn-primary btn-lg btn-block"
-                @click.prevent="$emit('buy', track)"
+                @click.prevent="$emit('buy')"
                 v-if="!track.is_bought">
           Buy for {{track.price}} <i class="fas fa-dollar-sign"></i>
         </button>

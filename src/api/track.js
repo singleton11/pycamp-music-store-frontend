@@ -35,8 +35,8 @@ export default {
   /**
    * Buy the track
    *
-   * @param {object} payment - payment method for buy
    * @param {object} track - track object, or track id
+   * @param {object} payment - payment method for buy
    * @returns {Promise}
    */
   buy({ track, payment, }) {

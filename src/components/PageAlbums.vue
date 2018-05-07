@@ -54,7 +54,7 @@ export default {
     ...mapActions(commonActions),
     ...mapActions(paymentMethodActions),
     /**
-     * Buy album
+     * Buy selected album
      */
     buy() {
       this.ALBUM_BUY().then(() => {
@@ -64,7 +64,7 @@ export default {
       });
     },
     /**
-     * Event of closing a album detail.
+     * Method for closing a album detail.
      */
     close() {
       this.ALBUM_UNSELECT();
