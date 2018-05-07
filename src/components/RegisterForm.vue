@@ -131,7 +131,7 @@ export default {
           'Register successful! Please login'
         );
         router.push({ name: 'login', });
-      }, (error) => {
+      }).catch((error) => {
         // show notification about error
         const message = error.response.data.detail;
 

@@ -1,6 +1,4 @@
-/**
- * Login to the app
- */
+// Login to the app
 export const ACCOUNT_BALANCE_UPDATE = 'ACCOUNT_BALANCE_UPDATE';
 
 export default {

@@ -2,7 +2,7 @@ import axios from './axios';
 
 export default {
   /**
-   * @summary Get all albums
+   * Get all albums
    *
    * @returns {Promise}
    */
@@ -11,7 +11,7 @@ export default {
   },
 
   /**
-   * @summary Buy the album
+   * Buy the album
    *
    * @param {object} album - album for buy
    * @returns {Promise}

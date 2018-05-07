@@ -109,7 +109,7 @@ const actions = {
 };
 
 /**
- * Album method Vuex Store Module Mutations
+ * Album Vuex Store Module Mutations
  */
 const mutations = {
 

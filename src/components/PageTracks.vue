@@ -31,7 +31,7 @@ import SearchField from './utils/SearchField.vue';
 
 export default {
   /**
-   * update payment method list after mount component
+   * update track list after mount component
    */
   mounted() {
     this.SEARCH_FIELD_CLEAR();

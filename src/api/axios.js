@@ -26,7 +26,7 @@ instance.interceptors.response.use(response => response, (error) => {
     store.commit(AUTH_LOGOUT);
   }
 
-  return error;
+  throw error;
 });
 
 export default instance;

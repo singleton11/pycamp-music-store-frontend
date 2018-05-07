@@ -2,7 +2,7 @@ import axios from './axios';
 
 export default {
   /**
-   * @summary Get all tracks
+   * Get all tracks
    *
    * @returns {Promise}
    */
@@ -11,7 +11,7 @@ export default {
   },
 
   /**
-   * @summary Get track by id
+   * Get track by id
    *
    * @param {object} trackId - id of track
    * @returns {Promise}
@@ -21,7 +21,7 @@ export default {
   },
 
   /**
-   * @summary Get full info about all tracks from album
+   * Get full info about all tracks from album
    *
    * @param {object} album - album object, or album id
    * @returns {Promise}
@@ -33,7 +33,7 @@ export default {
   },
 
   /**
-   * @summary Buy the track
+   * Buy the track
    *
    * @param {object} track - track object, or track id
    * @returns {Promise}

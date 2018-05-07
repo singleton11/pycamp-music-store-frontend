@@ -107,7 +107,7 @@ const actions = {
 };
 
 /**
- * Track method Vuex Store Module Mutations
+ * Track Vuex Store Module Mutations
  */
 const mutations = {
 

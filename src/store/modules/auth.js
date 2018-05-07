@@ -54,12 +54,7 @@ const actions = {
    */
   /* eslint-disable-next-line */
   [AUTH_REGISTER]: ({ commit }, user) => {
-    api.auth.register(user).then((response) => {
-      if (response.data) {
-        return response.data;
-      }
-      throw response;
-    });
+    return api.auth.register(user).then(response => response.data);
   },
 };
 

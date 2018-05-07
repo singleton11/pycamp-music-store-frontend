@@ -2,7 +2,7 @@ import axios from './axios';
 
 export default {
   /**
-   * @summary Get all payment methods
+   * Get all payment methods
    *
    * @returns {Promise}
    */
@@ -11,7 +11,7 @@ export default {
   },
 
   /**
-   * @summary Create a New payment method
+   * Create a New payment method
    *
    * @param {object} paymentMethod - payment method data
    * @returns {Promise}
@@ -21,7 +21,7 @@ export default {
   },
 
   /**
-   * @summary Update an Existing payment method
+   * Update an Existing payment method
    *
    * @param {object} paymentMethod - payment method data
    * @returns {Promise}
@@ -31,7 +31,7 @@ export default {
   },
 
   /**
-   * @summary Save or Update payment method
+   * Save or Update payment method
    *
    * @param {object} paymentMethod - payment method data
    * @returns {Promise}

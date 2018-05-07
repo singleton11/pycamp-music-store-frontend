@@ -3,6 +3,7 @@ import paymentMethod from './paymentMethod';
 import account from './account';
 import track from './track';
 import album from './album';
+import transaction from './transaction';
 
 export default {
   auth,
@@ -10,4 +11,5 @@ export default {
   account,
   track,
   album,
+  transaction,
 };

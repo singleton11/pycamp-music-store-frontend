@@ -4,6 +4,7 @@ import Home from '../components/Home.vue';
 import PagePayments from '../components/PagePayments.vue';
 import PageTracks from '../components/PageTracks.vue';
 import PageAlbums from '../components/PageAlbums.vue';
+import PageTransactions from '../components/PageTransactions.vue';
 import { CheckAuthorization, CheckAuthorizationFalse, } from './utils';
 
 export const HOME_PAGE = '/';
@@ -12,6 +13,7 @@ export const REGISTER_PAGE = '/register';
 export const PAYMENTS_PAGE = '/payments';
 export const TRACKS_PAGE = '/tracks';
 export const ALBUMS_PAGE = '/albums';
+export const TRANSACTIONS_PAGE = '/transactions';
 
 
 export default [
@@ -48,6 +50,12 @@ export default [
     path: ALBUMS_PAGE,
     name: 'albums',
     component: PageAlbums,
+    beforeEnter: CheckAuthorization,
+  },
+  {
+    path: TRANSACTIONS_PAGE,
+    name: 'transactions',
+    component: PageTransactions,
     beforeEnter: CheckAuthorization,
   },
 ];
