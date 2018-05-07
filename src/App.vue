@@ -111,7 +111,7 @@ import {
 export default {
   name: 'App',
   /**
-   * Update info after creating component
+   * Update info after mounting component
    */
   mounted() {
     this.ACCOUNT_UPDATE_INFO();

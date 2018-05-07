@@ -6,7 +6,7 @@ import { AUTH_LOGOUT, } from '../types/auth';
 /**
  * Account Vuex Store Module State
  *
- * @property {number} email - user email
+ * @property {string} email - user email
  * @property {number} balance - user balance
  */
 const state = {
@@ -62,8 +62,8 @@ const mutations = {
    * @param {object} state - state of the module
    */
   [AUTH_LOGOUT]: (state) => {
-    state.email = null;
-    state.balance = null;
+    state.email = '';
+    state.balance = 0;
   },
 };
 
