@@ -12,11 +12,13 @@
            v-if="getActiveAlbum">
         <h2>Album Info</h2>
         <AlbumDetail :album="getActiveAlbum"
-                     @buy="buy"
+                     @buy="PAYMENT_METHOD_SHOW_SELECT_DIALOG"
                      @close="close"
         ></AlbumDetail>
       </div>
     </div>
+    <SelectPayment v-show="getSelectPaymentMethodVisible"
+                   @confirmSelect="buy"></SelectPayment>
   </div>
 </template>
 
@@ -24,12 +26,16 @@
 import { mapActions, mapGetters, } from 'vuex';
 import {
   album as albumActions,
+  paymentMethod as paymentMethodActions,
   common as commonActions,
 } from '../store/types/';
 import { getters as albumGetters, } from '../store/modules/album';
+import { getters as paymentMethodGetters, }
+  from '../store/modules/paymentMethod';
 import AlbumsTable from './album/AlbumsTable.vue';
 import AlbumDetail from './album/AlbumDetail.vue';
 import SearchField from './utils/SearchField.vue';
+import SelectPayment from './utils/SelectPayment.vue';
 
 export default {
   /**
@@ -41,28 +47,34 @@ export default {
   },
   computed: {
     ...mapGetters(Object.keys(albumGetters)),
+    ...mapGetters(Object.keys(paymentMethodGetters)),
   },
   methods: {
     ...mapActions(albumActions),
     ...mapActions(commonActions),
+    ...mapActions(paymentMethodActions),
     /**
-     * Event of buying a album.
+     * Buy album
      */
     buy() {
-      this.ALBUM_BUY();
-      this.NOTIFICATION_SHOW_SUCCESS('Purchase of the album was successful');
+      this.ALBUM_BUY().then(() => {
+        this.NOTIFICATION_SHOW_SUCCESS('Purchase of the album was successful');
+      }).catch((error) => {
+        this.NOTIFICATION_SHOW_DANGER(error.response.data.message);
+      });
     },
     /**
      * Event of closing a album detail.
      */
     close() {
-      this.ALBUM_UNSELECT(null);
+      this.ALBUM_UNSELECT();
     },
   },
   components: {
     AlbumsTable,
     AlbumDetail,
     SearchField,
+    SelectPayment,
   },
 };
 </script>

@@ -85,12 +85,12 @@ const actions = {
    *
    * @param {object} album
    */
-  [ALBUM_BUY]: ({ commit, getters, }) => {
-    api.album.buy({ album: getters.getActiveAlbum, })
-      .then(() => {
-        commit(ALBUM_BUY);
-      });
-  },
+  [ALBUM_BUY]: ({ commit, getters, }) => api.album.buy({
+    album: getters.getActiveAlbum,
+    payment: getters.getActivePaymentMethod,
+  }).then(() => {
+    commit(ALBUM_BUY);
+  }),
 
   /**
    * Get info about all tracks from selected album

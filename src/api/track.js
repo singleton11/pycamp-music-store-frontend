@@ -35,12 +35,14 @@ export default {
   /**
    * Buy the track
    *
+   * @param {object} payment - payment method for buy
    * @param {object} track - track object, or track id
    * @returns {Promise}
    */
-  buy({ track, }) {
+  buy({ track, payment, }) {
     const id = track.id ? track.id : track;
+    const paymentId = payment.id ? payment.id : payment;
 
-    return axios.post(`music_store/tracks/${id}/buy/`);
+    return axios.post(`music_store/tracks/${id}/buy/${paymentId}/`);
   },
 };

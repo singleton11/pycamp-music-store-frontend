@@ -7,6 +7,8 @@ import {
   PAYMENT_METHOD_DELETE,
   PAYMENT_METHOD_SAVE,
   PAYMENT_METHOD_DISABLE_DEFAULT,
+  PAYMENT_METHOD_SHOW_SELECT_DIALOG,
+  PAYMENT_METHOD_HIDE_SELECT_DIALOG,
 } from '../types/paymentMethod';
 
 import { AUTH_LOGOUT, } from '../types/auth';
@@ -28,6 +30,8 @@ const state = {
     title: '',
     is_default: false,
   },
+  // visible of select payment dialog
+  selectPaymentMethodVisible: false,
 };
 
 /**
@@ -42,12 +46,14 @@ const state = {
  * @property {Array} getPaymentMethods - Get full list of payment method
  */
 export const getters = {
-  getPaymentMethodById: state => state.paymentMethods
-    .find(paymentMethod => paymentMethod.id === paymentMethod),
+  getPaymentMethodById: state => paymentMethodId => state.paymentMethods
+    .find(paymentMethod => paymentMethod.id === paymentMethodId),
   getActivePaymentMethod: state => state.activePaymentMethod,
   getActivePaymentMethodIndex: state => state.activePaymentMethodIndex,
   getPaymentMethods: state => state.paymentMethods,
   getNewPaymentMethod: state => state.newPaymentMethod,
+
+  getSelectPaymentMethodVisible: state => state.selectPaymentMethodVisible,
 };
 
 /**
@@ -114,6 +120,21 @@ const actions = {
     return api.paymentMethod.disable({ paymentMethod, }).then(() => {
       commit(PAYMENT_METHOD_DELETE, paymentMethod);
     });
+  },
+
+  /**
+   * Action for show select payment method for buy
+   */
+  [PAYMENT_METHOD_SHOW_SELECT_DIALOG]: ({ commit, }) => {
+    commit(PAYMENT_METHOD_SHOW_SELECT_DIALOG);
+  },
+
+
+  /**
+   * Action for hide select payment method for buy
+   */
+  [PAYMENT_METHOD_HIDE_SELECT_DIALOG]: ({ commit, }) => {
+    commit(PAYMENT_METHOD_HIDE_SELECT_DIALOG);
   },
 };
 
@@ -212,6 +233,20 @@ const mutations = {
     }
     state.activePaymentMethod =
       state.paymentMethods[state.activePaymentMethodIndex];
+  },
+
+  /**
+   * Mutation for show select payment method for buy
+   */
+  [PAYMENT_METHOD_SHOW_SELECT_DIALOG]: () => {
+    state.selectPaymentMethodVisible = true;
+  },
+
+  /**
+   * Mutation for hide select payment method for buy
+   */
+  [PAYMENT_METHOD_HIDE_SELECT_DIALOG]: () => {
+    state.selectPaymentMethodVisible = false;
   },
 
   /**
