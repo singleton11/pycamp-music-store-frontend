@@ -2,90 +2,26 @@
   <div class="form-signin">
     <h1 class="h3 mb-3 font-weight-normal">Register</h1>
 
-    <div class="form-group">
-      <label class="form-control-label"
-             for="inputEmail">
-        Email</label>
-      <input class="form-control"
-             id="inputEmail"
-             type="text"
-             required
-             autofocus
-             :class="{'is-invalid': errors.email}"
-             v-model="user.email">
-      <div class="invalid-feedback"
-           v-if="errors.email">
-        {{ errors.email[0] }}
-      </div>
-    </div>
+    <FormGroup v-model="user.email"
+               :errors="errors.email"
+               type="text"
+               autofocus>Email</FormGroup>
 
-    <div class="form-group">
-      <label class="form-control-label"
-             for="inputPassword1">
-        Password</label>
-      <input class="form-control"
-             id="inputPassword1"
-             type="text"
-             required
-             autofocus
-             :class="{'is-invalid': errors.password1}"
-             v-model="user.password1">
-      <div class="invalid-feedback"
-           v-if="errors.password1">
-        {{ errors.password1[0] }}
-      </div>
-    </div>
+    <FormGroup v-model="user.password1"
+               :errors="errors.password1"
+               type="password">Password</FormGroup>
 
-    <div class="form-group">
-      <label class="form-control-label"
-             for="inputPassword2">
-        Repeat password</label>
-      <input class="form-control"
-             id="inputPassword2"
-             type="text"
-             required
-             autofocus
-             :class="{'is-invalid': errors.password2}"
-             v-model="user.password2">
-      <div class="invalid-feedback"
-           v-if="errors.password2">
-        {{ errors.password2[0] }}
-      </div>
-    </div>
+    <FormGroup v-model="user.password2"
+               :errors="errors.password2"
+               type="password">Repeat password</FormGroup>
 
-    <div class="form-group">
-      <label class="form-control-label"
-             for="firstName">
-        First name</label>
-      <input class="form-control"
-             id="firstName"
-             type="text"
-             required
-             autofocus
-             :class="{'is-invalid': errors.first_name}"
-             v-model="user.firstName">
-      <div class="invalid-feedback"
-           v-if="errors.first_name">
-        {{ errors.first_name[0] }}
-      </div>
-    </div>
+    <FormGroup v-model="user.firstName"
+               :errors="errors.first_name"
+               type="text">First name</FormGroup>
 
-    <div class="form-group">
-      <label class="form-control-label"
-             for="lastName">
-        Last name</label>
-      <input class="form-control"
-             id="lastName"
-             type="text"
-             required
-             autofocus
-             :class="{'is-invalid': errors.last_name}"
-             v-model="user.lastName">
-      <div class="invalid-feedback"
-           v-if="errors.last_name">
-        {{ errors.last_name[0] }}
-      </div>
-    </div>
+    <FormGroup v-model="user.lastName"
+               :errors="errors.last_name"
+               type="text">Last name</FormGroup>
 
     <button class="btn btn-lg btn-primary btn-block"
             @click="register">
@@ -101,6 +37,7 @@ import {
   NOTIFICATION_SHOW_DANGER,
   NOTIFICATION_SHOW_SUCCESS,
 } from '../store/types/common';
+import FormGroup from './utils/FormGroup.vue';
 
 export default {
   /**
@@ -139,6 +76,9 @@ export default {
         this.$store.dispatch(NOTIFICATION_SHOW_DANGER, message);
       });
     },
+  },
+  components: {
+    FormGroup,
   },
 };
 </script>

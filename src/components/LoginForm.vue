@@ -2,27 +2,17 @@
   <div class="form-signin">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
-    <label for="inputEmail"
-           class="sr-only">Email</label>
-    <input type="email"
-           id="inputEmail"
-           class="form-control"
-           placeholder="Email address"
-           required
-           autofocus
-           v-model="user.email">
-    <label for="inputPassword"
-           class="sr-only">Password</label>
-    <input type="password"
-           id="inputPassword"
-           class="form-control"
-           placeholder="Password"
-           required
-           v-model="user.password">
+    <FormGroup v-model="user.email"
+               :errors="errors.email"
+               type="text"
+               autofocus>Email</FormGroup>
+
+    <FormGroup v-model="user.password"
+               :errors="errors.password"
+               type="password">Password</FormGroup>
+
     <button class="btn btn-lg btn-primary btn-block"
-            @click="login">
-      Sign in
-    </button>
+            @click="login">Sign in</button>
 
     <p>
       New user?
@@ -38,6 +28,7 @@ import {
   NOTIFICATION_SHOW_DANGER,
   NOTIFICATION_HIDE,
 } from '../store/types/common';
+import FormGroup from './utils/FormGroup.vue';
 
 export default {
   /**
@@ -49,7 +40,7 @@ export default {
         email: '',
         password: '',
       },
-      error: '',
+      errors: {},
     };
   },
   methods: {
@@ -62,13 +53,17 @@ export default {
         // hide notification and redirect
         this.$store.dispatch(NOTIFICATION_HIDE);
         router.push({ name: 'payments', });
-      }, (error) => {
+      }).catch((error) => {
         // show notification about error
         const message = error.response.data.detail;
 
+        this.errors = error.response.data.data;
         this.$store.dispatch(NOTIFICATION_SHOW_DANGER, message);
       });
     },
+  },
+  components: {
+    FormGroup,
   },
 };
 </script>
