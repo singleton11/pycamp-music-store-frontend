@@ -1,23 +1,27 @@
 import api from '../../api';
 
-import { ACCOUNT_BALANCE_UPDATE, } from '../types/account';
+import { ACCOUNT_UPDATE_INFO, } from '../types/account';
 import { AUTH_LOGOUT, } from '../types/auth';
 
 /**
  * Account Vuex Store Module State
  *
+ * @property {number} email - user email
  * @property {number} balance - user balance
  */
 const state = {
+  email: null,
   balance: null,
 };
 
 /**
  * Account Vuex Store Module Getters
  *
+ * @property {object} getEmail - Get user's email
  * @property {object} getBalance - Get user's balance
  */
 export const getters = {
+  getEmail: state => state.email,
   getBalance: state => state.balance,
 };
 
@@ -28,11 +32,12 @@ const actions = {
   /**
    * Update the balance
    */
-  [ACCOUNT_BALANCE_UPDATE]: ({ commit, }) => {
-    api.account.getBalance().then((response) => {
-      commit(ACCOUNT_BALANCE_UPDATE, response.data.balance);
+  [ACCOUNT_UPDATE_INFO]: ({ commit, }) => {
+    api.account.getInfo().then((response) => {
+      commit(ACCOUNT_UPDATE_INFO, response.data);
     });
   },
+
 };
 
 /**
@@ -40,13 +45,14 @@ const actions = {
  */
 const mutations = {
   /**
-   * Set balance to state
+   * Mutate user information
    *
    * @param {object} state -  state of the module
-   * @param {object} balance - current balance
+   * @param {object} data - account information
    */
-  [ACCOUNT_BALANCE_UPDATE]: (state, balance) => {
-    state.balance = balance;
+  [ACCOUNT_UPDATE_INFO]: (state, data) => {
+    state.email = data.email;
+    state.balance = data.balance;
   },
 
   /**
@@ -56,6 +62,7 @@ const mutations = {
    * @param {object} state - state of the module
    */
   [AUTH_LOGOUT]: (state) => {
+    state.email = null;
     state.balance = null;
   },
 };
