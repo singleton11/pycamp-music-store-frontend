@@ -21,7 +21,7 @@ export default {
 <style scoped>
   .notification {
     display: block;
-    position: absolute;
+    position: fixed;
     right: 10px;
     bottom: 10px;
     max-width: 20%;
