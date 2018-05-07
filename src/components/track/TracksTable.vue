@@ -11,7 +11,7 @@
       </thead>
       <tbody>
       <tr v-for="track in tracks"
-          v-bind:key="track.id"
+          :key="track.id"
           @click.prevent="$emit('select', track)"
           :class="[track.is_bought ? 'table-success' : 'table-primary']">
         <td scope="col">{{track.author}}</td>

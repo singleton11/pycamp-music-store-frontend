@@ -15,7 +15,7 @@
         </thead>
         <tbody>
         <tr v-for="(payment) in getPaymentMethods"
-            v-bind:key="payment.id"
+            :key="payment.id"
             class="text-white"
             :class="[payment.is_default ? 'table-info' : 'table-success' ]">
           <th scope="col">{{payment.title}}</th>

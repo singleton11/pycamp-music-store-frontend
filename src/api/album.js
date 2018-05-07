@@ -13,7 +13,7 @@ export default {
   /**
    * Buy the album
    *
-   * @param {object} album - album for buy
+   * @param {(object|number)} album - album for buy
    * @param {object} payment - payment method for buy
    * @returns {Promise}
    */

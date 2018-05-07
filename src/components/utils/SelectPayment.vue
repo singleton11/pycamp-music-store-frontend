@@ -21,8 +21,8 @@
               <select v-model="selected"
                       title="Payment Method">
                 <option v-for="paymentMethod in getPaymentMethods"
-                        v-bind:value="paymentMethod.id"
-                        v-bind:key="paymentMethod.id">
+                        :value="paymentMethod.id"
+                        :key="paymentMethod.id">
                   {{ paymentMethod.title }}
                 </option>
               </select>
