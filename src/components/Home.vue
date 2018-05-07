@@ -1,8 +1,14 @@
 <template>
   <div class="jumbotron">
-    <h1 class="display-3">Hello, world!</h1>
-    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+    <h1 class="">Welcome to MusicStore!</h1>
+    <p class="lead">
+      Look for tracks and albums, make purchases using various payment methods,
+      read the lyrics!
+    </p>
+    <p class="lead">
+      This is the best music store that you just saw!
+    </p>
     <hr class="my-4">
-    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+    <p>But it's not exactly с:</p>
   </div>
 </template>

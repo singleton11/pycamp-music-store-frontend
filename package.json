@@ -9,12 +9,18 @@
     "start": "npm run dev",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "test": "npm run unit",
-    "lint": "eslint --ext .js,.vue src test/unit",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "lint": "eslint --ext .js,.vue src",
+    "lint:fix": "npm run lint-js -s -- --fix",
+    "preinstall": "git config core.hooksPath .githooks"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "axios-token-interceptor": "^0.1.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-compat": "^2.2.0",
+    "eslint-plugin-eslint-comments": "^2.0.2",
+    "eslint-plugin-html": "^4.0.3",
     "vue": "^2.5.2",
     "vue-resource": "^1.5.0",
     "vue-router": "^3.0.1",

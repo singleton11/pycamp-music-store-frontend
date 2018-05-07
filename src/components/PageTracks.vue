@@ -1,93 +1,60 @@
 <template>
   <div class="container">
-    <SearchField v-model="searchText" ref="search"></SearchField>
+    <SearchField @change="TRACK_SEARCH"></SearchField>
     <div class="row">
       <div class="col">
         <h2>Tracks List</h2>
-      <table class="table table-hover">
-        <thead>
-        <tr>
-          <th scope="col">Author</th>
-          <th scope="col">Title</th>
-          <th scope="col">Price</th>
-          <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="track in tracks" v-bind:key="track.id" :class="[track.is_bought ? 'bg-primary text-white' : 'bg-light']">
-          <td scope="col">{{track.author}}</td>
-          <th scope="col">
-            <a @click.prevent="selectedTrack=track" href="#" :class="{'text-white': track.is_bought}">
-              {{track.title}}
-            </a>
-          </th>
-          <td scope="col">{{track.price}}</td>
-          <td scope="col">
-            <a v-if="!track.is_bought" @click.prevent="buyTrack(track, index)" href="#"><i class="fas fa-dollar-sign"></i> Buy</a>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+        <TracksTable :tracks="getTracks"
+                     @select="TRACK_SELECT"></TracksTable>
       </div>
 
-      <div class="col" v-if="selectedTrack.id">
-        <h2>Track Info</h2>
-        <TrackDetail :track="selectedTrack" :key="selectedTrack.id"></TrackDetail>
+      <div class="col"
+           v-if="getActiveTrack">
+        <h2>Tracks Info</h2>
+        <TrackDetail :track="getActiveTrack"
+                     @buy="buy"></TrackDetail>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import MusicService from '@/services/MusicService'
-  import SearchField from '@/components/utils/SearchField'
-  import TrackDetail from '@/components/TrackDetail'
-  import Vue from 'vue'
+import { mapActions, mapGetters, } from 'vuex';
+import {
+  track as trackActions,
+  common as commonActions,
+} from '../store/types/';
+import { getters as trackGetters, } from '../store/modules/track';
+import TracksTable from './track/TracksTable.vue';
+import TrackDetail from './track/TrackDetail.vue';
+import SearchField from './utils/SearchField.vue';
 
-  export default {
-    data () {
-      return {
-        tracks: [],
-        searchText: '',
-        selectedTrack: {},
-        timer: 0 // setTimeout id
-      }
+export default {
+  /**
+   * update track list after mount component
+   */
+  mounted() {
+    this.SEARCH_FIELD_CLEAR();
+    this.TRACK_LIST();
+  },
+  computed: {
+    ...mapGetters(Object.keys(trackGetters)),
+  },
+  methods: {
+    ...mapActions(trackActions),
+    ...mapActions(commonActions),
+    /**
+     * Method of buying a track.
+     */
+    buy() {
+      this.TRACK_BUY();
+      this.NOTIFICATION_SHOW_SUCCESS('Purchase of the track was successful');
     },
-    mounted () {
-      this.updateTrackList()
-    },
-    methods: {
-      updateTrackList () { // update list of tracks
-        // start spinner
-        this.$refs.search.startLoader()
-        MusicService.getTracks(this.searchText).then(data => {
-          this.tracks = data
-        }).then(this.$refs.search.stopLoader)
-      },
-      buyTrack (track, index) { // buy selected track
-        // start spinner
-        MusicService.buyTrack(track.id).then(() => {
-          // set new value into album list
-          track.is_bought = 1
-          Vue.set(this.tracks, index, track)
-          // save it in store
-          MusicService.saveTrack(track)
-        }, error => {
-          console.log(error)
-          alert(error.response.data.message)
-        })
-      }
-    },
-    watch: {
-      searchText: function () {
-        // for wait when user stop typing and start search tracks
-        clearTimeout(this.timer)
-        this.timer = setTimeout(this.updateTrackList, 300)
-      }
-    },
-    components: {
-      SearchField,
-      TrackDetail
-    }
-  }
+  },
+  components: {
+    TracksTable,
+    TrackDetail,
+    SearchField,
+  },
+};
 </script>

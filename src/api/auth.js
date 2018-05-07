@@ -1,26 +1,38 @@
-import axios from './axios'
-
-/**
- * Login user
- *
- * @param {String} email - user email
- * @param {String} password - user password
- * @returns {Promise}
- */
-export function login (email, password) {
-  return axios.post('auth/login/', { email, password })
-}
-
-/**
- * Logout user
- *
- * @returns {Promise}
- */
-function logout () {
-  return axios.get('auth/logout/')
-}
+import axios from './axios';
 
 export default {
-  login,
-  logout
-}
+  /**
+   * Login user
+   *
+   * @param {String} email - user email
+   * @param {String} password - user password
+   * @returns {Promise}
+   */
+  login(email, password) {
+    return axios.post('auth/login/', { email, password, });
+  },
+
+  /**
+   * Logout user
+   *
+   * @returns {Promise}
+   */
+  logout() {
+    return axios.get('auth/logout/');
+  },
+
+  /**
+   * Register new user
+   *
+   * @returns {Promise}
+   */
+  register(user) {
+    return axios.post('auth/register/', {
+      email: user.email,
+      password1: user.password1,
+      password2: user.password2,
+      first_name: user.firstName,
+      last_name: user.lastName,
+    });
+  },
+};

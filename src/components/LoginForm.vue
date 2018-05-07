@@ -1,50 +1,83 @@
 <template>
   <div class="form-signin">
-
-    <transition name="fade">
-      <div class="alert alert-dismissible alert-danger" v-show="error">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Oh snap!</strong> Such a pair of login:password does not exist in our
-        database.
-      </div>
-    </transition>
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail" class="sr-only">Email</label>
-    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus
-           v-model="email">
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required v-model="password">
 
-    <button class="btn btn-lg btn-primary btn-block" @click="sendRequest">Sign in</button></div>
+    <label for="inputEmail"
+           class="sr-only">Email</label>
+    <input type="email"
+           id="inputEmail"
+           class="form-control"
+           placeholder="Email address"
+           required
+           autofocus
+           v-model="user.email">
+    <label for="inputPassword"
+           class="sr-only">Password</label>
+    <input type="password"
+           id="inputPassword"
+           class="form-control"
+           placeholder="Password"
+           required
+           v-model="user.password">
+    <button class="btn btn-lg btn-primary btn-block"
+            @click="login">
+      Sign in
+    </button>
+
+    <p>
+      New user?
+      <router-link :to="{name: 'register'}">create account</router-link>
+    </p>
+  </div>
 </template>
 
 <script>
-  import AuthService from '@/services/AuthService'
+import { AUTH_LOGIN, } from '../store/types/auth';
+import router from '../router/router';
+import {
+  NOTIFICATION_SHOW_DANGER,
+  NOTIFICATION_HIDE,
+} from '../store/types/common';
 
-  export default {
-    data () {
-      return {
+export default {
+  /**
+   * Define data model properties available for the component
+   */
+  data() {
+    return {
+      user: {
         email: '',
         password: '',
-        error: ''
-      }
+      },
+      error: '',
+    };
+  },
+  methods: {
+    /**
+     * Method for user login and redirect on payments page.
+     * If an error occurs during authorization, it is displayed
+     */
+    login() {
+      this.$store.dispatch(AUTH_LOGIN, this.user).then(() => {
+        // hide notification and redirect
+        this.$store.dispatch(NOTIFICATION_HIDE);
+        router.push({ name: 'payments', });
+      }, (error) => {
+        // show notification about error
+        const message = error.response.data.detail;
+
+        this.$store.dispatch(NOTIFICATION_SHOW_DANGER, message);
+      });
     },
-    methods: {
-      sendRequest () {
-        this.error = ''
-        AuthService.login(this.email, this.password).then((data) => {
-          this.error = data
-        })
-      }
-    }
-  }
+  },
+};
 </script>
 
 <style scoped>
   .fade-enter-active, .fade-leave-active {
     transition: opacity .5s;
   }
-  .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  .fade-enter, .fade-leave-to {
     opacity: 0;
   }
 
@@ -60,8 +93,13 @@
     margin: 0 auto;
   }
 
+  .form-signin,
   .form-signin {
     margin-bottom: 10px;
+  }
+
+  .form-signin {
+    font-weight: normal;
   }
 
   .form-signin .form-control {

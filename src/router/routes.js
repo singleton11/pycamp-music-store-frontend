@@ -1,76 +1,61 @@
-import LoginForm from '@/components/LoginForm'
-import Home from '@/components/Home'
-import Dashboard from '@/components/Dashboard'
-import PageAlbums from '@/components/PageAlbums'
-import PageAlbumDetail from '@/components/PageAlbumDetail'
-import PageTracks from '@/components/PageTracks'
+import LoginForm from '../components/LoginForm.vue';
+import RegisterForm from '../components/RegisterForm.vue';
+import Home from '../components/Home.vue';
+import PagePayments from '../components/PagePayments.vue';
+import PageTracks from '../components/PageTracks.vue';
+import PageAlbums from '../components/PageAlbums.vue';
+import PageTransactions from '../components/PageTransactions.vue';
+import { CheckAuthorization, CheckAuthorizationFalse, } from './utils';
 
-import store from '@/store/store'
-import { AUTHENTICATED_GETTER } from '@/store/getter-types'
+export const HOME_PAGE = '/';
+export const LOGIN_PAGE = '/login';
+export const REGISTER_PAGE = '/register';
+export const PAYMENTS_PAGE = '/payments';
+export const TRACKS_PAGE = '/tracks';
+export const ALBUMS_PAGE = '/albums';
+export const TRANSACTIONS_PAGE = '/transactions';
 
-export const HOME_PAGE = '/'
-export const LOGIN_PAGE = '/login'
-export const DASHBOARD_PAGE = '/dashboard'
-export const ALBUMS_PAGE = '/albums'
-export const ALBUM_DETAIL_PAGE = '/albums/:id'
-export const TRACKS_PAGE = '/tracks'
-
-/**
- * Router checker: If user is not authenticated
- */
-const ifNotAuthenticated = (to, from, next) => {
-  if (!store.getters[AUTHENTICATED_GETTER]) {
-    next()
-    return
-  }
-  next({name: 'dashboard'})
-}
-
-/**
- * Router checker: If user is authenticated
- */
-const ifAuthenticated = (to, from, next) => {
-  if (store.getters[AUTHENTICATED_GETTER]) {
-    next()
-    return
-  }
-  next({name: 'login'})
-}
 
 export default [
   {
     path: LOGIN_PAGE,
     name: 'login',
-    beforeEnter: ifNotAuthenticated,
-    component: LoginForm
+    component: LoginForm,
+    beforeEnter: CheckAuthorizationFalse,
+  },
+  {
+    path: REGISTER_PAGE,
+    name: 'register',
+    component: RegisterForm,
+    beforeEnter: CheckAuthorizationFalse,
   },
   {
     path: HOME_PAGE,
     name: 'home',
-    component: Home
+    component: Home,
   },
   {
-    path: DASHBOARD_PAGE,
-    name: 'dashboard',
-    beforeEnter: ifAuthenticated,
-    component: Dashboard
-  },
-  {
-    path: ALBUMS_PAGE,
-    name: 'albums',
-    beforeEnter: ifAuthenticated,
-    component: PageAlbums
+    path: PAYMENTS_PAGE,
+    name: 'payments',
+    component: PagePayments,
+    beforeEnter: CheckAuthorization,
   },
   {
     path: TRACKS_PAGE,
     name: 'tracks',
-    beforeEnter: ifAuthenticated,
-    component: PageTracks
+    component: PageTracks,
+    beforeEnter: CheckAuthorization,
   },
   {
-    path: ALBUM_DETAIL_PAGE,
-    name: 'albumDetail',
-    beforeEnter: ifAuthenticated,
-    component: PageAlbumDetail
-  }
-]
+    path: ALBUMS_PAGE,
+    name: 'albums',
+    component: PageAlbums,
+    beforeEnter: CheckAuthorization,
+  },
+  {
+    path: TRANSACTIONS_PAGE,
+    name: 'transactions',
+    component: PageTransactions,
+    beforeEnter: CheckAuthorization,
+  },
+];
