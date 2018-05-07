@@ -163,7 +163,7 @@ const mutations = {
   },
 
   /**
-   * Mutate album object.
+   * Mutate album object
    * Set info about all tracks from current album into field `tracksInfo`
    *
    * @param {object} state - state of the module

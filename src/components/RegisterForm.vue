@@ -120,7 +120,7 @@ export default {
   },
   methods: {
     /**
-     * Method register user.
+     * Method register user
      * If register successful, redirect on login page
      */
     register() {

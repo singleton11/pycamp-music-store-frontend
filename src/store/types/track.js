@@ -1,4 +1,4 @@
-// Get list of tracks from backend API.
+// Get list of tracks from backend API
 export const TRACK_LIST = 'TRACK_LIST';
 
 // Get track by id

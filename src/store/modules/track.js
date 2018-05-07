@@ -88,6 +88,7 @@ const actions = {
 
   /**
    * Select the track in the list
+   *
    * @param {object} track - Track to be selected
    */
   [TRACK_SELECT]: ({ commit, }, track) => {

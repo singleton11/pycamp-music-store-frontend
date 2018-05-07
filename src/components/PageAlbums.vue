@@ -64,7 +64,7 @@ export default {
       });
     },
     /**
-     * Method for closing a album detail.
+     * Method for closing a album detail
      */
     close() {
       this.ALBUM_UNSELECT();

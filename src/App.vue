@@ -94,7 +94,7 @@ export default {
   name: 'App',
   methods: {
     /**
-     * Method for user logout and redirect on home page.
+     * Method for user logout and redirect on home page
      */
     logout() {
       this.$store.dispatch(AUTH_LOGOUT).then(() => {

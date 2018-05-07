@@ -13,7 +13,7 @@ export default {
   /**
    * Create a New payment method
    *
-   * @param {object} paymentMethod - payment method data
+   * @param {object} paymentMethod - payment method object
    * @returns {Promise}
    */
   create({ paymentMethod, }) {
@@ -23,7 +23,7 @@ export default {
   /**
    * Update an Existing payment method
    *
-   * @param {object} paymentMethod - payment method data
+   * @param {object} paymentMethod - payment method object
    * @returns {Promise}
    */
   update({ paymentMethod, }) {
@@ -33,7 +33,7 @@ export default {
   /**
    * Save or Update payment method
    *
-   * @param {object} paymentMethod - payment method data
+   * @param {object} paymentMethod - payment method object
    * @returns {Promise}
    */
   save({ paymentMethod, }) {
@@ -45,7 +45,7 @@ export default {
   /**
    * Method for delete the payment Method
    *
-   * @param {Object} paymentId - `id` of payment method
+   * @param {object} paymentMethod - payment method object
    * @returns {Promise}
    */
   disable({ paymentMethod, }) {

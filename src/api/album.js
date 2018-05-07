@@ -14,7 +14,7 @@ export default {
    * Buy the album
    *
    * @param {(object|number)} album - album for buy
-   * @param {object} payment - payment method for buy
+   * @param {(object|number)} payment - payment method for buy
    * @returns {Promise}
    */
   buy({ album, payment, }) {

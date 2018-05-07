@@ -13,7 +13,7 @@ export default {
   /**
    * Get track by id
    *
-   * @param {object} trackId - id of track
+   * @param {number} trackId - id of track
    * @returns {Promise}
    */
   getById({ trackId, }) {
@@ -23,7 +23,7 @@ export default {
   /**
    * Get full info about all tracks from album
    *
-   * @param {object} album - album object, or album id
+   * @param {(object|number)} album - album for getting tracks
    * @returns {Promise}
    */
   getTracksFromAlbum({ album, }) {
@@ -35,8 +35,8 @@ export default {
   /**
    * Buy the track
    *
-   * @param {object} track - track object, or track id
-   * @param {object} payment - payment method for buy
+   * @param {(object|number)} track - track object, or track id
+   * @param {(object|number)} payment - payment method for buy
    * @returns {Promise}
    */
   buy({ track, payment, }) {
