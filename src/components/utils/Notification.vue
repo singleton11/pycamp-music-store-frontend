@@ -3,8 +3,7 @@
     <div class="notification alert alert-dismissible"
          v-show="getNotificationVisible"
          :class="'alert-' + getNotificationLevel">
-      <a type="button"
-         class="close"
+      <a class="close"
          @click="NOTIFICATION_HIDE">&times;</a>
       <slot>{{getNotificationMessage}}</slot>
     </div>
