@@ -12,13 +12,12 @@
            v-if="getActiveAlbum">
         <h2>Album Info</h2>
         <AlbumDetail :album="getActiveAlbum"
-                     @buy="PAYMENT_METHOD_SHOW_SELECT_DIALOG"
+                     @buy="$eventHub.$emit('select-payment-show')"
                      @close="close"
         ></AlbumDetail>
       </div>
     </div>
-    <SelectPayment v-show="getSelectPaymentMethodVisible"
-                   @confirmSelect="buy"></SelectPayment>
+    <SelectPayment @confirmSelect="buy"></SelectPayment>
   </div>
 </template>
 
@@ -26,12 +25,9 @@
 import { mapActions, mapGetters, } from 'vuex';
 import {
   album as albumActions,
-  paymentMethod as paymentMethodActions,
   common as commonActions,
 } from '../store/types/';
 import { getters as albumGetters, } from '../store/modules/album';
-import { getters as paymentMethodGetters, }
-  from '../store/modules/paymentMethod';
 import AlbumsTable from './album/AlbumsTable.vue';
 import AlbumDetail from './album/AlbumDetail.vue';
 import SearchField from './utils/SearchField.vue';
@@ -47,12 +43,10 @@ export default {
   },
   computed: {
     ...mapGetters(Object.keys(albumGetters)),
-    ...mapGetters(Object.keys(paymentMethodGetters)),
   },
   methods: {
     ...mapActions(albumActions),
     ...mapActions(commonActions),
-    ...mapActions(paymentMethodActions),
     /**
      * Buy selected album
      */

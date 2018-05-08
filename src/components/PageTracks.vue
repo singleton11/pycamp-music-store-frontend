@@ -12,12 +12,11 @@
            v-if="getActiveTrack">
         <h2>Tracks Info</h2>
         <TrackDetail :track="getActiveTrack"
-                     @buy="PAYMENT_METHOD_SHOW_SELECT_DIALOG"
+                     @buy="$eventHub.$emit('select-payment-show')"
                      @close="close"></TrackDetail>
       </div>
     </div>
-    <SelectPayment v-show="getSelectPaymentMethodVisible"
-                   @confirmSelect="buy"></SelectPayment>
+    <SelectPayment @confirmSelect="buy"></SelectPayment>
   </div>
 </template>
 
@@ -25,12 +24,9 @@
 import { mapActions, mapGetters, } from 'vuex';
 import {
   track as trackActions,
-  paymentMethod as paymentMethodActions,
   common as commonActions,
 } from '../store/types/';
 import { getters as trackGetters, } from '../store/modules/track';
-import { getters as paymentMethodGetters, }
-  from '../store/modules/paymentMethod';
 import TracksTable from './track/TracksTable.vue';
 import TrackDetail from './track/TrackDetail.vue';
 import SearchField from './utils/SearchField.vue';
@@ -46,12 +42,10 @@ export default {
   },
   computed: {
     ...mapGetters(Object.keys(trackGetters)),
-    ...mapGetters(Object.keys(paymentMethodGetters)),
   },
   methods: {
     ...mapActions(trackActions),
     ...mapActions(commonActions),
-    ...mapActions(paymentMethodActions),
     /**
      * Buy track
      */

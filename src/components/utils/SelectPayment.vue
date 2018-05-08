@@ -1,7 +1,8 @@
 <template>
   <transition name="modal">
     <div class="modal modal-mask"
-         style="display: block">
+         style="display: block"
+         v-show="visible">
       <div class="modal-dialog"
            role="document">
         <div class="modal-container modal-content" >
@@ -56,16 +57,27 @@ export default {
   data() {
     return {
       selected: null,
+      visible: false,
     };
   },
   /**
-   * update payment methods list after mount component
-   * and select default method
+   * after mount component update payment list and
+   * subscribe on the events
    */
   mounted() {
-    this.PAYMENT_METHOD_LIST().then(() => {
-      this.selected = this.getPaymentMethods.find(item => item.is_default).id;
+    this.updatePaymentsList();
+
+    // subscribe on show event
+    this.$eventHub.$on('select-payment-show', () => {
+      this.visible = true;
     });
+  },
+  /**
+   * before destroy unsubscribe from all events
+   */
+  beforeDestroy() {
+    // unsubscribe on show event
+    this.$eventHub.$off('select-payment-show');
   },
   computed: {
     ...mapGetters(Object.keys(paymentMethodGetters)),
@@ -73,20 +85,28 @@ export default {
   methods: {
     ...mapActions(paymentMethodActions),
     /**
+     * Update list of payments
+     */
+    updatePaymentsList() {
+      this.PAYMENT_METHOD_LIST().then(() => {
+        this.selected = this.getPaymentMethods.find(item => item.is_default).id;
+      });
+    },
+    /**
      * Save selected payment method
      */
     confirm() {
       const paymentMethod = this.getPaymentMethodById(this.selected);
 
       this.PAYMENT_METHOD_SELECT(paymentMethod);
-      this.PAYMENT_METHOD_HIDE_SELECT_DIALOG();
+      this.visible = false;
       this.$emit('confirmSelect');
     },
     /**
      * Cancel select payment method
      */
     cancel() {
-      this.PAYMENT_METHOD_HIDE_SELECT_DIALOG();
+      this.visible = false;
     },
   },
 };
@@ -101,10 +121,7 @@ export default {
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
     transition: all .3s ease;
   }
-  .modal-enter {
-    opacity: 0;
-  }
-  .modal-leave-active {
+  .modal-enter, .modal-leave-active {
     opacity: 0;
   }
   .modal-enter .modal-container,
