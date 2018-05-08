@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <SearchField @change="ALBUM_SEARCH"></SearchField>
+    <SearchField v-model="searchText"></SearchField>
     <div class="row">
       <div class="col">
         <h2>Album List</h2>
@@ -23,10 +23,7 @@
 
 <script>
 import { mapActions, mapGetters, } from 'vuex';
-import {
-  album as albumActions,
-  common as commonActions,
-} from '../store/types/';
+import { album as albumActions, } from '../store/types/';
 import { getters as albumGetters, } from '../store/modules/album';
 import AlbumsTable from './album/AlbumsTable.vue';
 import AlbumDetail from './album/AlbumDetail.vue';
@@ -35,10 +32,17 @@ import SelectPayment from './utils/SelectPayment.vue';
 
 export default {
   /**
+   * Define data model properties available for the component
+   */
+  data() {
+    return {
+      searchText: '',
+    };
+  },
+  /**
    * update albums list after mount component
    */
   mounted() {
-    this.SEARCH_FIELD_CLEAR();
     this.ALBUM_LIST();
   },
   computed: {
@@ -46,7 +50,6 @@ export default {
   },
   methods: {
     ...mapActions(albumActions),
-    ...mapActions(commonActions),
     /**
      * Buy selected album
      */
@@ -62,6 +65,15 @@ export default {
      */
     close() {
       this.ALBUM_UNSELECT();
+    },
+  },
+  watch: {
+    /**
+     * Waiting for changes in the text in the search field,
+     * after which we update the list of albums.
+     */
+    searchText() {
+      this.ALBUM_SEARCH(this.searchText);
     },
   },
   components: {

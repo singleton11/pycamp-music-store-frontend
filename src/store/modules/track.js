@@ -79,10 +79,11 @@ const actions = {
   /**
    * Search tracks
    *
+   * @param {string} searchText - search text
    * @returns {Promise} List of founded tracks
    */
-  [TRACK_SEARCH]: ({ commit, getters, }) =>
-    api.track.list(getters.getSearchText).then((response) => {
+  [TRACK_SEARCH]: ({ commit, }, searchText) =>
+    api.track.list(searchText).then((response) => {
       commit(TRACK_LIST, response.data);
     }),
 

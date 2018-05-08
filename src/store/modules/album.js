@@ -58,10 +58,11 @@ const actions = {
   /**
    * Search albums
    *
+   * @param {string} searchText - search text
    * @returns {Promise} List of founded albums
    */
-  [ALBUM_SEARCH]: ({ commit, getters, }) =>
-    api.album.list(getters.getSearchText).then((response) => {
+  [ALBUM_SEARCH]: ({ commit, }, searchText) =>
+    api.album.list(searchText).then((response) => {
       commit(ALBUM_LIST, response.data);
     }),
 
