@@ -26,14 +26,14 @@ export default {
     /**
      * Method for processing text input in the search field.
      *
-     * @param $event - event (input)
+     * @param event - event (input)
      */
-    setValue($event) {
+    setValue(event) {
       clearTimeout(this.timer);
 
       // wait until the user stops typing
       this.timer = setTimeout(() => {
-        this.$emit('input', $event.target.value);
+        this.$emit('input', event.target.value);
       }, this.wait);
     },
   },
