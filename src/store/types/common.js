@@ -8,13 +8,6 @@ export const NOTIFICATION_SHOW_INFO = 'NOTIFICATION_SHOW_INFO';
 // Hide notification
 export const NOTIFICATION_HIDE = 'NOTIFICATION_HIDE';
 
-// Set value of the SearchField
-export const SEARCH_FIELD_SET_TEXT = 'SEARCH_FIELD_SET_TEXT';
-
-// Clear the SearchField
-export const SEARCH_FIELD_CLEAR = 'SEARCH_FIELD_CLEAR';
-
-
 export default {
   NOTIFICATION_SHOW,
   NOTIFICATION_SHOW_WARNING,
@@ -22,7 +15,4 @@ export default {
   NOTIFICATION_SHOW_SUCCESS,
   NOTIFICATION_SHOW_INFO,
   NOTIFICATION_HIDE,
-
-  SEARCH_FIELD_SET_TEXT,
-  SEARCH_FIELD_CLEAR,
 };

@@ -5,9 +5,6 @@ import {
   NOTIFICATION_SHOW_DANGER,
   NOTIFICATION_SHOW_SUCCESS,
   NOTIFICATION_SHOW_INFO,
-
-  SEARCH_FIELD_CLEAR,
-  SEARCH_FIELD_SET_TEXT,
 } from '../types/common';
 
 const state = {
@@ -15,8 +12,6 @@ const state = {
   visible: false,
   level: '',
   message: '',
-  // SearchField
-  searchText: '',
 };
 
 
@@ -24,7 +19,6 @@ export const getters = {
   getNotificationVisible: state => state.visible,
   getNotificationMessage: state => state.message,
   getNotificationLevel: state => state.level,
-  getSearchText: state => state.searchText,
 };
 
 const actions = {
@@ -61,23 +55,6 @@ const actions = {
   [NOTIFICATION_HIDE]: ({ commit, }) => {
     commit(NOTIFICATION_HIDE);
   },
-
-  /**
-   * Action for clear search field
-   */
-  [SEARCH_FIELD_CLEAR]: ({ dispatch, }) => {
-    dispatch(SEARCH_FIELD_SET_TEXT, '');
-  },
-
-  /**
-   * Action for set search text
-   *
-   * @param text - text for search
-   */
-  [SEARCH_FIELD_SET_TEXT]: ({ commit, }, text) => {
-    commit(SEARCH_FIELD_SET_TEXT, text);
-  },
-
 };
 
 const mutations = {
@@ -101,13 +78,6 @@ const mutations = {
     state.message = '';
     state.level = '';
     state.visible = false;
-  },
-
-  /**
-   * Mutation for setting search text
-   */
-  [SEARCH_FIELD_SET_TEXT]: (state, text) => {
-    state.searchText = text;
   },
 };
 
