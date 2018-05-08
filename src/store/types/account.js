@@ -1,6 +1,6 @@
-// Login to the app/
-export const ACCOUNT_BALANCE_UPDATE = 'ACCOUNT_BALANCE_UPDATE';
+// Update user information
+export const ACCOUNT_UPDATE_INFO = 'ACCOUNT_UPDATE_INFO';
 
 export default {
-  ACCOUNT_BALANCE_UPDATE,
+  ACCOUNT_UPDATE_INFO,
 };

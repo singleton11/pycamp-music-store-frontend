@@ -17,10 +17,6 @@
              class="collapse navbar-collapse">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <router-link :to="{name: 'home'}"
-                           class="nav-link">Home</router-link>
-            </li>
-            <li class="nav-item">
               <router-link :to="{name: 'payments'}"
                            class="nav-link">Payments</router-link>
             </li>
@@ -54,10 +50,23 @@
               </li>
             </template>
             <li v-else
-                class="nav-item">
-              <a class="nav-link"
-                 href="#"
-                 @click="logout">LogOut <i class="fas fa-sign-out-alt"></i></a>
+                class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle"
+                 data-toggle="dropdown"
+                 href="#">
+                {{ getEmail }}<span class="caret"></span>
+              </a>
+              <div class="dropdown-menu">
+                <span class="dropdown-item disabled">
+                  Balance: {{getBalance}}
+                </span>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item"
+                   href="#"
+                   @click="logout">
+                  LogOut <i class="fas fa-sign-out-alt"></i>
+                </a>
+              </div>
             </li>
             <li class="nav-item">
               <a class="nav-link"
@@ -83,32 +92,43 @@
 
 <script>
 import { mapGetters, mapActions, } from 'vuex';
-import { getters as authGetters, } from './store/modules/auth';
-import { AUTH_LOGOUT, } from './store/types/auth';
 import router from './router/router';
-import Notification from './components/utils/Notification.vue';
-import { NOTIFICATION_SHOW_INFO, } from './store/types/common';
+import { getters as authGetters, } from './store/modules/auth';
 import { getters as commonGetters, } from './store/modules/common';
+import { getters as accountGetters, } from './store/modules/account';
+import {
+  account as accountActions,
+  common as commonActions,
+  auth as authActions,
+} from './store/types/';
+import Notification from './components/utils/Notification.vue';
 
 export default {
   name: 'App',
+  /**
+   * Update info after mounting component
+   */
+  mounted() {
+    this.ACCOUNT_UPDATE_INFO();
+  },
   methods: {
     /**
      * Method for user logout and redirect on home page
      */
     logout() {
-      this.$store.dispatch(AUTH_LOGOUT).then(() => {
+      this.AUTH_LOGOUT().then(() => {
         this.NOTIFICATION_SHOW_INFO('You are signed out');
         router.push({ name: 'home', });
       });
     },
-    ...mapActions({
-      NOTIFICATION_SHOW_INFO,
-    }),
+    ...mapActions(commonActions),
+    ...mapActions(authActions),
+    ...mapActions(accountActions),
   },
   computed: {
     ...mapGetters(Object.keys(authGetters)),
     ...mapGetters(Object.keys(commonGetters)),
+    ...mapGetters(Object.keys(accountGetters)),
   },
   components: {
     Notification,

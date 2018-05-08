@@ -2,11 +2,11 @@ import axios from './axios';
 
 export default {
   /**
-   * Get user balance
+   * Get user information
    *
    * @returns {Promise}
    */
-  getBalance() {
+  getInfo() {
     return axios.get('music_store/account/');
   },
 };

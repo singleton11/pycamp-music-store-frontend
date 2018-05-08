@@ -33,6 +33,7 @@
 
 <script>
 import { AUTH_LOGIN, } from '../store/types/auth';
+import { ACCOUNT_UPDATE_INFO, } from '../store/types/account';
 import router from '../router/router';
 import {
   NOTIFICATION_SHOW_DANGER,
@@ -61,6 +62,7 @@ export default {
       this.$store.dispatch(AUTH_LOGIN, this.user).then(() => {
         // hide notification and redirect
         this.$store.dispatch(NOTIFICATION_HIDE);
+        this.$store.dispatch(ACCOUNT_UPDATE_INFO);
         router.push({ name: 'payments', });
       }, (error) => {
         // show notification about error
