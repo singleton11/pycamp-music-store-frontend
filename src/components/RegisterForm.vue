@@ -7,11 +7,11 @@
                type="text"
                autofocus>Email</FormGroup>
 
-    <FormGroup v-model="user.password1"
+    <FormGroup v-model="user.password"
                :errors="errors.password1"
                type="password">Password</FormGroup>
 
-    <FormGroup v-model="user.password2"
+    <FormGroup v-model="user.passwordConfirmation"
                :errors="errors.password2"
                type="password">Repeat password</FormGroup>
 
@@ -47,8 +47,8 @@ export default {
     return {
       user: {
         email: '',
-        password1: '',
-        password2: '',
+        password: '',
+        passwordConfirmation: '',
         firstName: '',
         lastName: '',
       },

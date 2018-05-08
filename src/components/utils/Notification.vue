@@ -2,8 +2,7 @@
   <transition name="notification">
     <div class="notification alert alert-dismissible"
          :class="'alert-' + level">
-      <a type="button"
-         class="close"
+      <a class="close"
          @click="$emit('close')">&times;</a>
       <slot></slot>
     </div>

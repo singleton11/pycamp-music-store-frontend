@@ -29,8 +29,8 @@ export default {
   register(user) {
     return axios.post('auth/register/', {
       email: user.email,
-      password1: user.password1,
-      password2: user.password2,
+      password1: user.password,
+      password2: user.passwordConfirmation,
       first_name: user.firstName,
       last_name: user.lastName,
     });
