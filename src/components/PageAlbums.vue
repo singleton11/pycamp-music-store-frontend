@@ -12,11 +12,12 @@
            v-if="getActiveAlbum">
         <h2>Album Info</h2>
         <AlbumDetail :album="getActiveAlbum"
-                     @buy="buy"
+                     @buy="$eventHub.$emit('select-payment-show')"
                      @close="close"
         ></AlbumDetail>
       </div>
     </div>
+    <SelectPayment @confirmSelect="buy"></SelectPayment>
   </div>
 </template>
 
@@ -30,6 +31,7 @@ import { getters as albumGetters, } from '../store/modules/album';
 import AlbumsTable from './album/AlbumsTable.vue';
 import AlbumDetail from './album/AlbumDetail.vue';
 import SearchField from './utils/SearchField.vue';
+import SelectPayment from './utils/SelectPayment.vue';
 
 export default {
   /**
@@ -46,23 +48,27 @@ export default {
     ...mapActions(albumActions),
     ...mapActions(commonActions),
     /**
-     * Event of buying a album.
+     * Buy selected album
      */
     buy() {
-      this.ALBUM_BUY();
-      this.NOTIFICATION_SHOW_SUCCESS('Purchase of the album was successful');
+      this.ALBUM_BUY().then(() => {
+        this.NOTIFICATION_SHOW_SUCCESS('Purchase of the album was successful');
+      }).catch((error) => {
+        this.NOTIFICATION_SHOW_DANGER(error.response.data.message);
+      });
     },
     /**
-     * Event of closing a album detail.
+     * Method for closing a album detail
      */
     close() {
-      this.ALBUM_UNSELECT(null);
+      this.ALBUM_UNSELECT();
     },
   },
   components: {
     AlbumsTable,
     AlbumDetail,
     SearchField,
+    SelectPayment,
   },
 };
 </script>

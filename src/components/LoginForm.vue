@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     /**
-     * Method for user login and redirect on payments page.
+     * Method for user login and redirect on payments page
      * If an error occurs during authorization, it is displayed
      */
     login() {

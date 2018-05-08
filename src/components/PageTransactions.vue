@@ -12,7 +12,7 @@
       </thead>
       <tbody>
       <tr v-for="transaction in getTransactions"
-          v-bind:key="transaction.id"
+          :key="transaction.id"
           :class="[transaction.amount > 0 ? 'table-success' : 'table-danger']">
         <td scope="col">{{transaction.created}}</td>
         <td scope="col">{{transaction.amount}}</td>

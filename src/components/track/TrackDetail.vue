@@ -13,12 +13,17 @@
         <p class="card-text">{{track.content}}</p>
       </div>
 
-      <div class="card-footer"
-           v-if="!track.is_bought">
+      <div class="card-footer">
         <button type="button"
                 class="btn btn-primary btn-lg btn-block"
-                @click.prevent="$emit('buy', track)">
+                @click.prevent="$emit('buy')"
+                v-if="!track.is_bought">
           Buy for {{track.price}} <i class="fas fa-dollar-sign"></i>
+        </button>
+        <button type="button"
+                class="btn btn-danger btn-lg btn-block"
+                @click.prevent="$emit('close')">
+          Close
         </button>
       </div>
     </div>

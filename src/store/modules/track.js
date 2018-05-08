@@ -4,6 +4,7 @@ import {
   TRACK_BUY,
   TRACK_LIST,
   TRACK_SELECT,
+  TRACK_UNSELECT,
   TRACK_SEARCH,
   TRACK_GET_BY_ID,
   TRACK_ADD_TO_LIST,
@@ -87,6 +88,7 @@ const actions = {
 
   /**
    * Select the track in the list
+   *
    * @param {object} track - Track to be selected
    */
   [TRACK_SELECT]: ({ commit, }, track) => {
@@ -94,16 +96,23 @@ const actions = {
   },
 
   /**
+   * Unselect the track
+   */
+  [TRACK_UNSELECT]: ({ commit, }) => {
+    commit(TRACK_UNSELECT);
+  },
+
+  /**
    * Buy the active track
    *
    * @param {object} track
    */
-  [TRACK_BUY]: ({ commit, getters, }) => {
-    api.track.buy({ track: getters.getActiveTrack, })
-      .then(() => {
-        commit(TRACK_BUY);
-      });
-  },
+  [TRACK_BUY]: ({ commit, getters, }) => api.track.buy({
+    track: getters.getActiveTrack,
+    payment: getters.getActivePaymentMethod,
+  }).then(() => {
+    commit(TRACK_BUY);
+  }),
 };
 
 /**
@@ -150,6 +159,15 @@ const mutations = {
     }
   },
 
+  /**
+   * Mutate the state and set proper reference for state.activeTrack
+   *
+   * @param {object} state - state of the module
+   */
+  [TRACK_UNSELECT]: (state) => {
+    state.activeTrack = null;
+    state.activeTrackIndex = null;
+  },
 
   /**
    * Buy track

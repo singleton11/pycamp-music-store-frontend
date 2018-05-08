@@ -3,7 +3,7 @@
     <li :class="liClass"
         v-if="tracks"
         v-for="track in tracks"
-        v-bind:key="track.id">
+        :key="track.id">
       {{track.author}} - {{track.title}}
     </li>
   </ul>

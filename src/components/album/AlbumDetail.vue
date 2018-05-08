@@ -20,7 +20,7 @@
         <button v-if="!album.is_bought"
                 type="button"
                 class="btn btn-primary btn-lg btn-block"
-                @click.prevent="$emit('buy', album)">
+                @click.prevent="$emit('buy')">
           Buy for {{album.price}} <i class="fas fa-dollar-sign"></i>
         </button>
         <button type="button"

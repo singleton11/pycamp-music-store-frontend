@@ -15,9 +15,12 @@ import { AUTH_LOGOUT, } from '../types/auth';
  * Payment method Vuex Store Module State
  *
  * @property {Array} paymentMethod - List of payment methods
- * @property {object} activePaymentMethod - Currently selected payment method from the list
- * @property {number} activePaymentMethodIndex - Index of the currently selected payment method
- * @property {object} newPaymentMethod - Sample object data defaults used a new payment method
+ * @property {object} activePaymentMethod - Currently selected payment method
+ *   from the list
+ * @property {number} activePaymentMethodIndex - Index of the currently selected
+ *   payment method
+ * @property {object} newPaymentMethod - Sample object data defaults used a new
+ *   payment method
  */
 const state = {
   paymentMethods: [],
@@ -42,8 +45,8 @@ const state = {
  * @property {Array} getPaymentMethods - Get full list of payment method
  */
 export const getters = {
-  getPaymentMethodById: state => state.paymentMethods
-    .find(paymentMethod => paymentMethod.id === paymentMethod),
+  getPaymentMethodById: state => paymentMethodId => state.paymentMethods
+    .find(item => item.id === paymentMethodId),
   getActivePaymentMethod: state => state.activePaymentMethod,
   getActivePaymentMethodIndex: state => state.activePaymentMethodIndex,
   getPaymentMethods: state => state.paymentMethods,
@@ -75,7 +78,7 @@ const actions = {
   /**
    * Edit (update) payment method
    * @param {object} update - Information about field and value that we're
-   *     changing
+   *   changing
    * @property {string} update.field - Name of the field of payment method
    * @property {string} update.value - Value of the field
    */

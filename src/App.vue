@@ -73,11 +73,7 @@
     <main role="main">
       <div class="container"
            style="margin-top: 75px;">
-        <Notification v-show="getNotificationVisible"
-                      @close="NOTIFICATION_HIDE"
-                      :level="getNotificationLevel">
-          {{getNotificationMessage}}
-        </Notification>
+        <Notification></Notification>
         <router-view/>
         <hr>
       </div>
@@ -91,17 +87,14 @@ import { getters as authGetters, } from './store/modules/auth';
 import { AUTH_LOGOUT, } from './store/types/auth';
 import router from './router/router';
 import Notification from './components/utils/Notification.vue';
-import {
-  NOTIFICATION_HIDE,
-  NOTIFICATION_SHOW_INFO,
-} from './store/types/common';
+import { NOTIFICATION_SHOW_INFO, } from './store/types/common';
 import { getters as commonGetters, } from './store/modules/common';
 
 export default {
   name: 'App',
   methods: {
     /**
-     * Method for user logout and redirect on home page.
+     * Method for user logout and redirect on home page
      */
     logout() {
       this.$store.dispatch(AUTH_LOGOUT).then(() => {
@@ -110,7 +103,6 @@ export default {
       });
     },
     ...mapActions({
-      NOTIFICATION_HIDE,
       NOTIFICATION_SHOW_INFO,
     }),
   },

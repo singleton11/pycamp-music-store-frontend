@@ -85,12 +85,12 @@ const actions = {
    *
    * @param {object} album
    */
-  [ALBUM_BUY]: ({ commit, getters, }) => {
-    api.album.buy({ album: getters.getActiveAlbum, })
-      .then(() => {
-        commit(ALBUM_BUY);
-      });
-  },
+  [ALBUM_BUY]: ({ commit, getters, }) => api.album.buy({
+    album: getters.getActiveAlbum,
+    payment: getters.getActivePaymentMethod,
+  }).then(() => {
+    commit(ALBUM_BUY);
+  }),
 
   /**
    * Get info about all tracks from selected album
@@ -163,7 +163,7 @@ const mutations = {
   },
 
   /**
-   * Mutate album object.
+   * Mutate album object
    * Set info about all tracks from current album into field `tracksInfo`
    *
    * @param {object} state - state of the module

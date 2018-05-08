@@ -12,9 +12,11 @@
            v-if="getActiveTrack">
         <h2>Tracks Info</h2>
         <TrackDetail :track="getActiveTrack"
-                     @buy="buy"></TrackDetail>
+                     @buy="$eventHub.$emit('select-payment-show')"
+                     @close="close"></TrackDetail>
       </div>
     </div>
+    <SelectPayment @confirmSelect="buy"></SelectPayment>
   </div>
 </template>
 
@@ -28,6 +30,7 @@ import { getters as trackGetters, } from '../store/modules/track';
 import TracksTable from './track/TracksTable.vue';
 import TrackDetail from './track/TrackDetail.vue';
 import SearchField from './utils/SearchField.vue';
+import SelectPayment from './utils/SelectPayment.vue';
 
 export default {
   /**
@@ -44,17 +47,27 @@ export default {
     ...mapActions(trackActions),
     ...mapActions(commonActions),
     /**
-     * Method of buying a track.
+     * Buy track
      */
     buy() {
-      this.TRACK_BUY();
-      this.NOTIFICATION_SHOW_SUCCESS('Purchase of the track was successful');
+      this.TRACK_BUY().then(() => {
+        this.NOTIFICATION_SHOW_SUCCESS('Purchase of the track was successful');
+      }).catch((error) => {
+        this.NOTIFICATION_SHOW_DANGER(error.response.data.message);
+      });
+    },
+    /**
+     * Event of closing a track detail
+     */
+    close() {
+      this.TRACK_UNSELECT();
     },
   },
   components: {
     TracksTable,
     TrackDetail,
     SearchField,
+    SelectPayment,
   },
 };
 </script>

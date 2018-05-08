@@ -12,7 +12,7 @@
       </thead>
       <tbody>
       <tr v-for="album in albums"
-          v-bind:key="album.id"
+          :key="album.id"
           @click.prevent="$emit('select', album)"
           :class="[album.is_bought ? 'table-success' : 'table-primary']">
         <td scope="col">{{album.author}}</td>
