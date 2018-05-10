@@ -11,22 +11,17 @@
       <div class="col"
            v-if="getActiveTrack">
         <h2>Tracks Info</h2>
-        <TrackDetail :track="getActiveTrack"
-                     @buy="$eventHub.$emit('select-payment-show')"
-                     @like="like"
-                     @close="close"></TrackDetail>
+        <TrackDetail :track="getActiveTrack"></TrackDetail>
       </div>
     </div>
-    <SelectPayment @confirmSelect="buy"></SelectPayment>
+    <SelectPayment @confirmSelect="$eventHub.$emit('buy-track')">
+    </SelectPayment>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, } from 'vuex';
-import {
-  track as trackActions,
-  common as commonActions,
-} from '../store/types/';
+import { track as trackActions, } from '../store/types/';
 import { getters as trackGetters, } from '../store/modules/track';
 import TracksTable from './track/TracksTable.vue';
 import TrackDetail from './track/TrackDetail.vue';
@@ -53,38 +48,6 @@ export default {
   },
   methods: {
     ...mapActions(trackActions),
-    ...mapActions(commonActions),
-    /**
-     * Buy track
-     */
-    buy() {
-      this.TRACK_BUY().then(() => {
-        this.NOTIFICATION_SHOW_SUCCESS('Purchase of the track was successful');
-      }).catch((error) => {
-        this.NOTIFICATION_SHOW_DANGER(error.response.data.message);
-      });
-    },
-    /**
-     * Event of closing a track detail
-     */
-    close() {
-      this.TRACK_UNSELECT();
-    },
-    /**
-     * Set like on track or delete like, if track already liked
-     */
-    like() {
-      this.TRACK_LIKE().then((data) => {
-        console.log(data);
-        if (data.status === 201) {
-          this.NOTIFICATION_SHOW_SUCCESS('You like this!');
-        }
-
-        if (data.status === 200) {
-          this.NOTIFICATION_SHOW_SUCCESS('You unlike this!');
-        }
-      });
-    },
   },
   watch: {
     /**
