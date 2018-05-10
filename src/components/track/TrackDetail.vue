@@ -55,9 +55,7 @@ export default {
    * Subscribe on buy-event after mount
    */
   mounted() {
-    this.$eventHub.$on('buy-track', () => {
-      this.buy();
-    });
+    this.$eventHub.$on('buy-track', this.buy);
   },
   /**
    * before destroy unsubscribe from all events
@@ -99,6 +97,8 @@ export default {
         if (data.status === 200) {
           this.NOTIFICATION_SHOW_SUCCESS('You unlike this!');
         }
+      }).catch((error) => {
+        this.NOTIFICATION_SHOW_DANGER(error.response.data.message);
       });
     },
   },
