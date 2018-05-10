@@ -15,6 +15,15 @@
 
       <div class="card-footer">
         <button type="button"
+                class="btn btn-info btn-lg btn-block"
+                @click.prevent="$emit('like')">
+          <i class="fas fa-heart"
+             v-if="track.is_liked"></i>
+          <i class="far fa-heart"
+             v-else></i>
+          {{track.count_likes}}
+        </button>
+        <button type="button"
                 class="btn btn-primary btn-lg btn-block"
                 @click.prevent="$emit('buy')"
                 v-if="!track.is_bought">

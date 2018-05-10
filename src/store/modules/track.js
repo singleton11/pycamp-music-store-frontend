@@ -8,6 +8,7 @@ import {
   TRACK_SEARCH,
   TRACK_GET_BY_ID,
   TRACK_ADD_TO_LIST,
+  TRACK_LIKE,
 } from '../types/track';
 
 import { AUTH_LOGOUT, } from '../types/auth';
@@ -105,8 +106,6 @@ const actions = {
 
   /**
    * Buy the active track
-   *
-   * @param {object} track
    */
   [TRACK_BUY]: ({ commit, getters, }) => api.track.buy({
     track: getters.getActiveTrack,
@@ -114,6 +113,29 @@ const actions = {
   }).then(() => {
     commit(TRACK_BUY);
   }),
+
+  /**
+   * Like or Unlike active track
+   */
+  [TRACK_LIKE]: ({ commit, getters, }) => {
+    const track = getters.getActiveTrack;
+
+    if (track.is_liked) {
+      // delete like
+      return api.track.unlike({ track, }).then((data) => {
+        commit(TRACK_LIKE, false);
+
+        return data;
+      });
+    }
+
+    // set like
+    return api.track.like({ track, }).then((data) => {
+      commit(TRACK_LIKE, true);
+
+      return data;
+    });
+  },
 };
 
 /**
@@ -174,10 +196,20 @@ const mutations = {
    * Buy track
    *
    * @param {object} state - state of the module
-   * @param {object} track - track to be selected
    */
   [TRACK_BUY]: (state) => {
     state.activeTrack.is_bought = true;
+  },
+
+  /**
+   * Like or Unlike track track
+   *
+   * @param {object} state - state of the module
+   * @param {bool} like - like track (true) or unlike (false)
+   */
+  [TRACK_LIKE]: (state, like) => {
+    state.activeTrack.is_liked = like;
+    state.activeTrack.count_likes += like ? 1 : -1;
   },
 
   /**

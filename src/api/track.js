@@ -45,4 +45,28 @@ export default {
 
     return axios.post(`music_store/tracks/${id}/buy/${paymentId}/`);
   },
+
+  /**
+   * Like the track
+   *
+   * @param {(object|number)} track - track object, or track id
+   * @returns {Promise}
+   */
+  like({ track, }) {
+    const id = track.id ? track.id : track;
+
+    return axios.post(`music_store/tracks/${id}/like/`);
+  },
+
+  /**
+   * Unlike the track
+   *
+   * @param {(object|number)} track - track object, or track id
+   * @returns {Promise}
+   */
+  unlike({ track, }) {
+    const id = track.id ? track.id : track;
+
+    return axios.delete(`music_store/tracks/${id}/like/`);
+  },
 };
