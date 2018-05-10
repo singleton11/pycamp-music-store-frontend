@@ -5,6 +5,7 @@ import {
   NOTIFICATION_SHOW_DANGER,
   NOTIFICATION_SHOW_SUCCESS,
   NOTIFICATION_SHOW_INFO,
+  NOTIFICATION_SET_TIMER,
 } from '../types/common';
 
 const state = {
@@ -12,6 +13,7 @@ const state = {
   visible: false,
   level: '',
   message: '',
+  timer: null,
 };
 
 
@@ -25,10 +27,17 @@ const actions = {
   /**
    * Action for show default notification
    *
-   * @param message - message to show
+   * @param data.message - message to show
+   * @param data.level - message level
    */
-  [NOTIFICATION_SHOW]: ({ dispatch, }, message) => {
-    dispatch(NOTIFICATION_SHOW_INFO, message);
+  [NOTIFICATION_SHOW]: ({ commit, }, data) => {
+    commit(NOTIFICATION_SHOW, data);
+
+    const t = setTimeout(() => {
+      commit(NOTIFICATION_HIDE);
+    }, 10000);
+
+    commit(NOTIFICATION_SET_TIMER, t);
   },
 
   /**
@@ -36,17 +45,17 @@ const actions = {
    *
    * @param message - message to show
    */
-  [NOTIFICATION_SHOW_WARNING]: ({ commit, }, message) => {
-    commit(NOTIFICATION_SHOW, { message, level: 'warning', });
+  [NOTIFICATION_SHOW_WARNING]: ({ dispatch, }, message) => {
+    dispatch(NOTIFICATION_SHOW, { message, level: 'warning', });
   },
-  [NOTIFICATION_SHOW_DANGER]: ({ commit, }, message) => {
-    commit(NOTIFICATION_SHOW, { message, level: 'danger', });
+  [NOTIFICATION_SHOW_DANGER]: ({ dispatch, }, message) => {
+    dispatch(NOTIFICATION_SHOW, { message, level: 'danger', });
   },
-  [NOTIFICATION_SHOW_SUCCESS]: ({ commit, }, message) => {
-    commit(NOTIFICATION_SHOW, { message, level: 'success', });
+  [NOTIFICATION_SHOW_SUCCESS]: ({ dispatch, }, message) => {
+    dispatch(NOTIFICATION_SHOW, { message, level: 'success', });
   },
-  [NOTIFICATION_SHOW_INFO]: ({ commit, }, message) => {
-    commit(NOTIFICATION_SHOW, { message, level: 'info', });
+  [NOTIFICATION_SHOW_INFO]: ({ dispatch, }, message) => {
+    dispatch(NOTIFICATION_SHOW, { message, level: 'info', });
   },
 
   /**
@@ -78,6 +87,14 @@ const mutations = {
     state.message = '';
     state.level = '';
     state.visible = false;
+  },
+
+  /**
+   * Mutation for delete old timer and set new timer to close notification
+   */
+  [NOTIFICATION_SET_TIMER]: (state, timer) => {
+    clearTimeout(state.timer);
+    state.timer = timer;
   },
 };
 
