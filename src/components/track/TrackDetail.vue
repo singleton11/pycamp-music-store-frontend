@@ -83,7 +83,7 @@ export default {
       });
     },
     /**
-     * Event of closing a track detail
+     * Method for closing a track detail
      */
     close() {
       this.TRACK_UNSELECT();
