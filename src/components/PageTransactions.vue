@@ -8,6 +8,9 @@
         <th scope="col">Date</th>
         <th scope="col">Sum</th>
         <th scope="col">Payment Method</th>
+        <th scope="col">Item Type</th>
+        <th scope="col">Item Name</th>
+        <th scope="col">Item Id</th>
       </tr>
       </thead>
       <tbody>
@@ -21,6 +24,9 @@
             {{transaction.payment_method.title}}
           </template>
         </td>
+        <td scope="col">{{transaction.purchase_type}}</td>
+        <td scope="col">{{transaction.purchase_info}}</td>
+        <td scope="col">{{transaction.purchase_id}}</td>
       </tr>
       </tbody>
     </table>
@@ -28,26 +34,59 @@
                 v-else>
       <p class="mb-0">Nothing to show</p>
     </blockquote>
+
+    <Paginator :count-items=count
+               :items-per-page=20
+               @changePage="changePage"></Paginator>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, } from 'vuex';
-import { transaction as transactionActions, } from '../store/types/';
+import { mapGetters, } from 'vuex';
 import { getters as transactionGetters, } from '../store/modules/transaction';
+import transactionService from '../services/transactionService';
+import Paginator from '../components/utils/Paginator.vue';
 
 export default {
+  /**
+   * Define data model properties available for the component
+   */
+  data() {
+    return {
+      count: 0, // count of all transactions
+    };
+  },
   /**
    * update transaction list after mount component
    */
   mounted() {
-    this.TRANSACTION_LIST();
+    this.getList();
   },
   computed: {
     ...mapGetters(Object.keys(transactionGetters)),
   },
   methods: {
-    ...mapActions(transactionActions),
+    /**
+     * Get list of transactions on this page
+     *
+     * @param page - transactions page
+     */
+    getList(page = 1) {
+      transactionService.list({ page, }).then((data) => {
+        this.count = data;
+      });
+    },
+    /**
+     * Method for change the page of transactions
+     *
+     * @param page - transactions page
+     */
+    changePage(page) {
+      this.getList(page);
+    },
+  },
+  components: {
+    Paginator,
   },
 };
 </script>
