@@ -14,8 +14,8 @@
         <TrackDetail :track="getActiveTrack"></TrackDetail>
       </div>
     </div>
-    <SelectPayment @confirmSelect="$eventHub.$emit('buy-track')">
-    </SelectPayment>
+    <SelectPayment @confirmSelect="$eventHub.$emit('buy-track')"/>
+    <TrackContentModal :track="getActiveTrack"/>
   </div>
 </template>
 
@@ -25,6 +25,7 @@ import { track as trackActions, } from '../store/types/';
 import { getters as trackGetters, } from '../store/modules/track';
 import TracksTable from './track/TracksTable.vue';
 import TrackDetail from './track/TrackDetail.vue';
+import TrackContentModal from './track/TrackContentModal.vue';
 import SearchField from './utils/SearchField.vue';
 import SelectPayment from './utils/SelectPayment.vue';
 
@@ -61,6 +62,7 @@ export default {
   components: {
     TracksTable,
     TrackDetail,
+    TrackContentModal,
     SearchField,
     SelectPayment,
   },

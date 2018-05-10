@@ -69,4 +69,16 @@ export default {
 
     return axios.delete(`music_store/tracks/${id}/like/`);
   },
+
+  /**
+   * Listen the track
+   *
+   * @param {(object|number)} track - track object, or track id
+   * @returns {Promise}
+   */
+  listen({ track, }) {
+    const id = track.id ? track.id : track;
+
+    return axios.post(`music_store/tracks/${id}/listen/`);
+  },
 };

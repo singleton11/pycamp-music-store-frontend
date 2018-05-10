@@ -9,9 +9,6 @@
         <li class="list-group-item">Price: {{track.price}}</li>
         <li class="list-group-item">Bought: {{track.is_bought}}</li>
       </ul>
-      <div class="card-body">
-        <p class="card-text">{{track.content}}</p>
-      </div>
 
       <div class="card-footer">
         <button type="button"
@@ -22,6 +19,12 @@
           <i class="far fa-heart"
              v-else></i>
           {{track.count_likes}}
+        </button>
+        <button type="button"
+                class="btn btn-info btn-lg btn-block"
+                @click.prevent="listen">
+          <i class="fas fa-headphones"></i>
+          Listen
         </button>
         <button type="button"
                 class="btn btn-primary btn-lg btn-block"
@@ -100,6 +103,12 @@ export default {
       }).catch((error) => {
         this.NOTIFICATION_SHOW_DANGER(error.response.data.message);
       });
+    },
+    /**
+     * Method for showing track content
+     */
+    listen() {
+      this.$eventHub.$emit('listen-track');
     },
   },
 };
