@@ -29,7 +29,6 @@ const mutations = {
    *
    * @param {object} state - state of the module
    * @param {Array} transactions - Array of transactions (API response)
-   * @param {Array} page - current page
    */
   [TRANSACTION_LIST]: (state, transactions) => {
     state.transactions = [
