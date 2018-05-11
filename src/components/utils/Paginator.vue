@@ -1,11 +1,15 @@
 <template>
-    <ul class="pagination pagination-lg">
+    <ul class="pagination pagination-lg justify-content-center"
+        v-show="countItems">
+      <!-- First page -->
       <li class="page-item"
           :class="{disabled: isFirstPage}">
         <a class="page-link"
            href="#"
            @click.prevent="changePage(1)">&laquo;</a>
       </li>
+
+      <!-- range of pages -->
       <li class="page-item"
           v-for="pageNum in rangePages"
           :key="pageNum"
@@ -15,6 +19,7 @@
            @click.prevent="changePage(pageNum)">{{ pageNum }}</a>
       </li>
 
+      <!-- Last page -->
       <li class="page-item"
           :class="{disabled: isLastPage}">
         <a class="page-link"
@@ -29,15 +34,14 @@ export default {
   props: [
     'countItems',
     'itemsPerPage',
+    'currentPage',
   ],
   /**
    * Define data model properties available for the component
    */
   data() {
     return {
-      // current page
-      currentPage: 1,
-      // the number of pages for each second from the current
+      // the number of pages for each side from the current
       pagesFromOneSide: 2,
     };
   },
@@ -69,7 +73,10 @@ export default {
     /**
      * Get range of pages
      *
-     * @returns {Array}
+     * @returns {Array} - range of pages, for example if pagesFromOneSide=2 then
+     *   page 1/10: [1, 2, 3]
+     *   page 6/10: [4, 5, 6, 7, 8]
+     *   page 9/10: [7, 8, 9, 10]
      */
     rangePages() {
       const a = [];
@@ -93,7 +100,6 @@ export default {
      * @param page - selected page
      */
     changePage(page) {
-      this.currentPage = page;
       this.$emit('changePage', page);
     },
   },

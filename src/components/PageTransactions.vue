@@ -37,6 +37,7 @@
 
     <Paginator :count-items=count
                :items-per-page=itemsPerPage
+               :current-page=currentPage
                @changePage="changePage"></Paginator>
   </div>
 </template>
@@ -55,6 +56,7 @@ export default {
   data() {
     return {
       count: 0, // count of all transactions
+      currentPage: 1,
       itemsPerPage: config.paginator.transaction.itemsPerPage,
     };
   },
@@ -70,11 +72,9 @@ export default {
   methods: {
     /**
      * Get list of transactions on this page
-     *
-     * @param page - transactions page
      */
-    getList(page = 1) {
-      transactionService.list({ page, }).then((data) => {
+    getList() {
+      transactionService.list({ page: this.currentPage, }).then((data) => {
         this.count = data;
       });
     },
@@ -84,7 +84,8 @@ export default {
      * @param page - transactions page
      */
     changePage(page) {
-      this.getList(page);
+      this.currentPage = page;
+      this.getList();
     },
   },
   components: {
