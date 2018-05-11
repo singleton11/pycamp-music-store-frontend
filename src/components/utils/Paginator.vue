@@ -41,8 +41,8 @@ export default {
    */
   data() {
     return {
-      // the number of pages for each side from the current
-      pagesFromOneSide: 2,
+      // the count of pages in range of pages
+      maxPages: 5,
     };
   },
   computed: {
@@ -74,17 +74,26 @@ export default {
      * Get range of pages
      *
      * @returns {Array} - range of pages, for example if pagesFromOneSide=2 then
-     *   page 1/10: [1, 2, 3]
+     *   page 1/10: [1, 2, 3, 4, 5]
      *   page 6/10: [4, 5, 6, 7, 8]
-     *   page 9/10: [7, 8, 9, 10]
+     *   page 9/10: [6, 7, 8, 9, 10]
      */
     rangePages() {
+      let start = this.currentPage - Math.floor((this.maxPages - 1) / 2);
+      let stop = this.currentPage + Math.floor(this.maxPages / 2);
+
+      if (start < 1) {
+        stop -= (start - 1);
+        start = 1;
+      }
+
+      if (stop > this.countPages) {
+        start -= (stop - this.countPages);
+        stop = this.countPages;
+      }
+      start = Math.max(1, start);
+
       const a = [];
-      const start = Math.max(1, this.currentPage - this.pagesFromOneSide);
-      const stop = Math.min(
-        this.countPages,
-        this.currentPage + this.pagesFromOneSide
-      );
 
       for (let i = start; i <= stop; i++) {
         a.push(i);
