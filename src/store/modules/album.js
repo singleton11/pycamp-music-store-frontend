@@ -10,6 +10,7 @@ import {
 } from '../types/album';
 
 import { AUTH_LOGOUT, } from '../types/auth';
+import { ACCOUNT_DECREASE_BALANCE, } from '../types/account';
 
 /**
  * Album Vuex Store Module State
@@ -79,11 +80,12 @@ const actions = {
    *
    * @param {object} album
    */
-  [ALBUM_BUY]: ({ commit, getters, }) => api.album.buy({
+  [ALBUM_BUY]: ({ commit, getters, dispatch, }) => api.album.buy({
     album: getters.getActiveAlbum,
     payment: getters.getActivePaymentMethod,
   }).then(() => {
     commit(ALBUM_BUY);
+    dispatch(ACCOUNT_DECREASE_BALANCE, getters.getActiveAlbum.price);
   }),
 
   /**
