@@ -4,7 +4,6 @@ import api from '../../api';
 import {
   ALBUM_BUY,
   ALBUM_LIST,
-  ALBUM_SEARCH,
   ALBUM_SELECT,
   ALBUM_UNSELECT,
   ALBUM_GET_TRACKS,
@@ -48,23 +47,17 @@ const actions = {
   /**
    * List albums
    *
-   * @returns {Promise} List of albums
+   * @param {string} search - search text
+   * @param {string} page - current page
+   * @returns {Promise} - count of albums
    */
-  [ALBUM_LIST]: ({ commit, }) => api.album.list()
-    .then((response) => {
-      commit(ALBUM_LIST, response.data);
-    }),
+  [ALBUM_LIST]: ({ commit, }, { search, page, }) => api.album.list({
+    search, page,
+  }).then((response) => {
+    commit(ALBUM_LIST, response.data.results);
 
-  /**
-   * Search albums
-   *
-   * @param {string} searchText - search text
-   * @returns {Promise} List of founded albums
-   */
-  [ALBUM_SEARCH]: ({ commit, }, searchText) =>
-    api.album.list(searchText).then((response) => {
-      commit(ALBUM_LIST, response.data);
-    }),
+    return response.data.count;
+  }),
 
   /**
    * Select the album in the list

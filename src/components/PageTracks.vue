@@ -76,9 +76,9 @@ export default {
       });
     },
     /**
-     * Method for change the page of transactions
+     * Method for change the page
      *
-     * @param page - transactions page
+     * @param page - current page
      */
     changePage(page) {
       this.getList(page);
