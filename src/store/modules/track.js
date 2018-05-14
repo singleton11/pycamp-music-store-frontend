@@ -5,7 +5,6 @@ import {
   TRACK_LIST,
   TRACK_SELECT,
   TRACK_UNSELECT,
-  TRACK_SEARCH,
   TRACK_GET_BY_ID,
   TRACK_ADD_TO_LIST,
 } from '../types/track';
@@ -50,12 +49,17 @@ const actions = {
   /**
    * List tracks
    *
+   * @param {string} search - search text
+   * @param {string} page - current page
    * @returns {Promise} List of tracks
    */
-  [TRACK_LIST]: ({ commit, }) => api.track.list()
-    .then((response) => {
-      commit(TRACK_LIST, response.data);
-    }),
+  [TRACK_LIST]: ({ commit, }, { search, page, }) => api.track.list({
+    search, page,
+  }).then((response) => {
+    commit(TRACK_LIST, response.data.results);
+
+    return response.data.count;
+  }),
 
   /**
    * Get track by ID
@@ -75,17 +79,6 @@ const actions = {
       return response.data;
     });
   },
-
-  /**
-   * Search tracks
-   *
-   * @param {string} searchText - search text
-   * @returns {Promise} List of founded tracks
-   */
-  [TRACK_SEARCH]: ({ commit, }, searchText) =>
-    api.track.list(searchText).then((response) => {
-      commit(TRACK_LIST, response.data);
-    }),
 
   /**
    * Select the track in the list

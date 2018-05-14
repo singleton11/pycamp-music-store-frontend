@@ -13,9 +13,12 @@
         <h2>Tracks Info</h2>
         <TrackDetail :track="getActiveTrack"
                      @buy="$eventHub.$emit('select-payment-show')"
-                     @close="close"></TrackDetail>
+                     @close="TRACK_UNSELECT"></TrackDetail>
       </div>
     </div>
+    <Paginator :count-items=count
+               :current-page=currentPage
+               @changePage="changePage"></Paginator>
     <SelectPayment @confirmSelect="buy"></SelectPayment>
   </div>
 </template>
@@ -28,6 +31,7 @@ import TracksTable from './track/TracksTable.vue';
 import TrackDetail from './track/TrackDetail.vue';
 import SearchField from './utils/SearchField.vue';
 import SelectPayment from './utils/SelectPayment.vue';
+import Paginator from '../components/utils/Paginator.vue';
 
 export default {
   /**
@@ -36,19 +40,31 @@ export default {
   data() {
     return {
       searchText: '',
+      count: 0, // count of all items
+      currentPage: 1,
     };
   },
   /**
    * update track list after mount component
    */
   mounted() {
-    this.TRACK_LIST();
+    this.getList(1);
   },
   computed: {
     ...mapGetters(Object.keys(trackGetters)),
   },
   methods: {
     ...mapActions(trackActions),
+    /**
+     * Get list of tracks on this page
+     */
+    getList(page) {
+      this.TRACK_LIST({ search: this.searchText, page, })
+        .then((data) => {
+          this.count = data;
+          this.currentPage = page;
+        });
+    },
     /**
      * Buy track
      */
@@ -60,10 +76,12 @@ export default {
       });
     },
     /**
-     * Event of closing a track detail
+     * Method for change the page of transactions
+     *
+     * @param page - transactions page
      */
-    close() {
-      this.TRACK_UNSELECT();
+    changePage(page) {
+      this.getList(page);
     },
   },
   watch: {
@@ -72,7 +90,7 @@ export default {
      * after which we update the list of tracks.
      */
     searchText() {
-      this.TRACK_SEARCH(this.searchText);
+      this.getList(1);
     },
   },
   components: {
@@ -80,6 +98,7 @@ export default {
     TrackDetail,
     SearchField,
     SelectPayment,
+    Paginator,
   },
 };
 </script>
