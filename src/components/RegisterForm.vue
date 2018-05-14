@@ -61,6 +61,12 @@ export default {
      * If register successful, redirect on login page
      */
     register() {
+      this.validate();
+
+      if (Object.keys(this.errors).length) {
+        return;
+      }
+
       this.$store.dispatch(AUTH_REGISTER, this.user).then(() => {
         // hide notification and redirect
         this.$store.dispatch(
@@ -75,6 +81,24 @@ export default {
         this.errors = error.response.data.data;
         this.$store.dispatch(NOTIFICATION_SHOW_DANGER, message);
       });
+    },
+    /**
+     * Validation of user data
+     */
+    validate() {
+      this.errors = {};
+
+      if (this.user.password.length < 6) {
+        this.$set(this.errors, 'password1', [
+          'Password must be a minimum of 6 characters.',
+        ]);
+      }
+
+      if (this.user.password !== this.user.passwordConfirmation) {
+        this.$set(this.errors, 'password2', [
+          'The two password fields didn\'t match.',
+        ]);
+      }
     },
   },
   components: {
