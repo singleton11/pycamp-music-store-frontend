@@ -36,7 +36,6 @@
     </blockquote>
 
     <Paginator :count-items=count
-               :items-per-page=itemsPerPage
                :current-page=currentPage
                @changePage="changePage"></Paginator>
   </div>
@@ -47,7 +46,6 @@ import { mapGetters, } from 'vuex';
 import { getters as transactionGetters, } from '../store/modules/transaction';
 import transactionService from '../services/transactionService';
 import Paginator from '../components/utils/Paginator.vue';
-import config from '../config';
 
 export default {
   /**
@@ -57,7 +55,6 @@ export default {
     return {
       count: 0, // count of all transactions
       currentPage: 1,
-      itemsPerPage: config.paginator.transaction.itemsPerPage,
     };
   },
   /**

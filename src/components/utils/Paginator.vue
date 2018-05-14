@@ -30,10 +30,11 @@
 </template>
 
 <script>
+import config from '../../config';
+
 export default {
   props: [
     'countItems',
-    'itemsPerPage',
     'currentPage',
   ],
   /**
@@ -43,6 +44,7 @@ export default {
     return {
       // the count of pages in range of pages
       maxPages: 5,
+      itemsPerPage: config.paginator.itemsPerPage,
     };
   },
   computed: {

@@ -3,8 +3,6 @@ export default {
     url: 'http://0.0.0.0:8000/api/v1/',
   },
   paginator: {
-    transaction: {
-      itemsPerPage: 20,
-    },
+    itemsPerPage: 20,
   },
 };
