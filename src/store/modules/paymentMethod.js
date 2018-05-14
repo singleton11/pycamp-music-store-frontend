@@ -188,10 +188,11 @@ const mutations = {
    * @param {object} state -  state of the module
    */
   [PAYMENT_METHOD_DISABLE_DEFAULT]: (state) => {
-    const oldDefault = state.paymentMethods
-      .find(item => item.is_default);
+    const oldDefault = state.paymentMethods.find(item => item.is_default);
 
-    oldDefault.is_default = false;
+    if (oldDefault) {
+      oldDefault.is_default = false;
+    }
   },
 
   /**

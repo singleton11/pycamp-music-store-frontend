@@ -30,5 +30,5 @@ export default {
   TRACK_BUY,
   TRACK_ADD_TO_LIST,
   TRACK_LIKE,
-  TRACK_UPDATE_ONE
+  TRACK_UPDATE_ONE,
 };
