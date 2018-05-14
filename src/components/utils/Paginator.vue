@@ -75,7 +75,7 @@ export default {
     /**
      * Get range of pages
      *
-     * @returns {Array} - range of pages, for example if pagesFromOneSide=2 then
+     * @returns {Array} - range of pages, for example if maxPages=5 then
      *   page 1/10: [1, 2, 3, 4, 5]
      *   page 6/10: [4, 5, 6, 7, 8]
      *   page 9/10: [6, 7, 8, 9, 10]
