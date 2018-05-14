@@ -97,7 +97,7 @@ const actions = {
     }
     api.track.getTracksFromAlbum({ album, })
       .then((response) => {
-        commit(ALBUM_GET_TRACKS, response.data);
+        commit(ALBUM_GET_TRACKS, response.data.results);
       });
   },
 };

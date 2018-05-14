@@ -20,12 +20,12 @@
         <button v-if="!album.is_bought"
                 type="button"
                 class="btn btn-primary btn-lg btn-block"
-                @click.prevent="$emit('buy')">
+                @click.prevent="$eventHub.$emit('select-payment-show')">
           Buy for {{album.price}} <i class="fas fa-dollar-sign"></i>
         </button>
         <button type="button"
                 class="btn btn-danger btn-lg btn-block"
-                @click.prevent="$emit('close')">
+                @click.prevent="ALBUM_UNSELECT">
           Close
         </button>
       </div>
@@ -34,8 +34,13 @@
 </template>
 
 <script>
+import { mapActions, } from 'vuex';
 import TrackList from '../track/TracksList.vue';
 import { ALBUM_GET_TRACKS, } from '../../store/types/album';
+import {
+  album as albumActions,
+  common as commonActions,
+} from '../../store/types/';
 import store from '../../store';
 
 export default {
@@ -43,12 +48,31 @@ export default {
     'album',
   ],
   /**
-   * update tracks of album after mount component
+   * update tracks of album after mount component and subscribe on buy-event
    */
   mounted() {
+    this.$eventHub.$on('buy-album', this.buy);
     this.updateInfo();
   },
+  /**
+   * before destroy unsubscribe from all events
+   */
+  beforeDestroy() {
+    this.$eventHub.$off('buy-album');
+  },
   methods: {
+    ...mapActions(albumActions),
+    ...mapActions(commonActions),
+    /**
+     * Buy selected album
+     */
+    buy() {
+      this.ALBUM_BUY().then(() => {
+        this.NOTIFICATION_SHOW_SUCCESS('Purchase of the album was successful');
+      }).catch((error) => {
+        this.NOTIFICATION_SHOW_DANGER(error.response.data.message);
+      });
+    },
     /**
      * Method for calling action to update album tracks
      */

@@ -31,7 +31,9 @@ export default {
   getTracksFromAlbum({ album, }) {
     const id = album.id ? album.id : album;
 
-    return axios.get(`music_store/tracks/?album=${id}`);
+    return axios.get('music_store/tracks/', {
+      params: { album: id, page_size: 100, },
+    });
   },
 
   /**
