@@ -19,6 +19,8 @@ export const TRACK_ADD_TO_LIST = 'TRACK_ADD_TO_LIST';
 // Set or delete like
 export const TRACK_LIKE = 'TRACK_LIKE';
 
+// Update info about one of tracks
+export const TRACK_UPDATE_ONE = 'TRACK_UPDATE_ONE';
 
 export default {
   TRACK_GET_BY_ID,
@@ -28,4 +30,5 @@ export default {
   TRACK_BUY,
   TRACK_ADD_TO_LIST,
   TRACK_LIKE,
+  TRACK_UPDATE_ONE
 };

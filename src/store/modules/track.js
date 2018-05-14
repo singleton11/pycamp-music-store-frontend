@@ -8,6 +8,7 @@ import {
   TRACK_GET_BY_ID,
   TRACK_ADD_TO_LIST,
   TRACK_LIKE,
+  TRACK_UPDATE_ONE,
 } from '../types/track';
 
 import { AUTH_LOGOUT, } from '../types/auth';
@@ -83,6 +84,19 @@ const actions = {
   },
 
   /**
+   * Update track info
+   *
+   * @returns {Promise} Track info
+   */
+  [TRACK_UPDATE_ONE]: ({ commit, }, track) => api.track.getById({
+    trackId: track.id,
+  }).then((response) => {
+    commit(TRACK_UPDATE_ONE, response.data);
+
+    return response.data;
+  }),
+
+  /**
    * Select the track in the list
    *
    * @param {object} track - Track to be selected
@@ -107,6 +121,7 @@ const actions = {
   }).then(() => {
     commit(TRACK_BUY);
     dispatch(ACCOUNT_DECREASE_BALANCE, getters.getActiveTrack.price);
+    dispatch(TRACK_UPDATE_ONE, getters.getActiveTrack);
   }),
 
   /**
@@ -148,6 +163,22 @@ const mutations = {
     state.tracks = [
       ...tracks,
     ];
+  },
+
+  /**
+   * Update one track from list
+   *
+   * @param {object} state - state of the module
+   * @param {Array} track - Data of track (API response)
+   */
+  [TRACK_UPDATE_ONE]: (state, track) => {
+    const trackIndex = state.tracks.findIndex(item => item.id === track.id);
+
+    state.tracks[trackIndex] = track;
+    state.tracks = [
+      ...state.tracks,
+    ];
+    state.activeTrack = state.tracks[state.activeTrackIndex];
   },
 
   /**
