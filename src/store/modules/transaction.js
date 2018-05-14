@@ -1,5 +1,3 @@
-import api from '../../api';
-
 import { TRANSACTION_LIST, } from '../types/transaction';
 import { AUTH_LOGOUT, } from '../types/auth';
 
@@ -19,22 +17,6 @@ const state = {
  */
 export const getters = {
   getTransactions: state => state.transactions,
-};
-
-/**
- * Transaction Vuex Store Module Actions
- */
-const actions = {
-  /**
-   * List transactions
-   *
-   * @returns {Promise} List of transactions
-   */
-  [TRANSACTION_LIST]: ({ commit, }) => {
-    api.transaction.list().then((response) => {
-      commit(TRANSACTION_LIST, response.data);
-    });
-  },
 };
 
 /**
@@ -68,6 +50,5 @@ const mutations = {
 export default {
   state,
   getters,
-  actions,
   mutations,
 };
