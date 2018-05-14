@@ -50,7 +50,7 @@ const actions = {
    * List tracks
    *
    * @param {string} search - search text
-   * @param {string} page - current page
+   * @param {number} page - current page
    * @returns {Promise} - count of tracks
    */
   [TRACK_LIST]: ({ commit, }, { search, page, }) => api.track.list({

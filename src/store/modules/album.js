@@ -48,7 +48,7 @@ const actions = {
    * List albums
    *
    * @param {string} search - search text
-   * @param {string} page - current page
+   * @param {number} page - current page
    * @returns {Promise} - count of albums
    */
   [ALBUM_LIST]: ({ commit, }, { search, page, }) => api.album.list({
