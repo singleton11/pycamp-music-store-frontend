@@ -16,6 +16,9 @@
     </div>
     <SelectPayment @confirmSelect="$eventHub.$emit('buy-track')"/>
     <TrackContentModal :track="getActiveTrack"/>
+    <Paginator :count-items=count
+               :current-page=currentPage
+               @changePage="changePage"></Paginator>
   </div>
 </template>
 
@@ -28,6 +31,7 @@ import TrackDetail from './track/TrackDetail.vue';
 import TrackContentModal from './track/TrackContentModal.vue';
 import SearchField from './utils/SearchField.vue';
 import SelectPayment from './utils/SelectPayment.vue';
+import Paginator from '../components/utils/Paginator.vue';
 
 export default {
   /**
@@ -36,19 +40,39 @@ export default {
   data() {
     return {
       searchText: '',
+      count: 0, // count of all items
+      currentPage: 1,
     };
   },
   /**
    * update track list after mount component
    */
   mounted() {
-    this.TRACK_LIST();
+    this.getList(1);
   },
   computed: {
     ...mapGetters(Object.keys(trackGetters)),
   },
   methods: {
     ...mapActions(trackActions),
+    /**
+     * Get list of tracks on this page
+     */
+    getList(page) {
+      this.TRACK_LIST({ search: this.searchText, page, })
+        .then((data) => {
+          this.count = data;
+          this.currentPage = page;
+        });
+    },
+    /**
+     * Method for change the page
+     *
+     * @param page - current page
+     */
+    changePage(page) {
+      this.getList(page);
+    },
   },
   watch: {
     /**
@@ -56,7 +80,7 @@ export default {
      * after which we update the list of tracks.
      */
     searchText() {
-      this.TRACK_SEARCH(this.searchText);
+      this.getList(1);
     },
   },
   components: {
@@ -65,6 +89,7 @@ export default {
     TrackContentModal,
     SearchField,
     SelectPayment,
+    Paginator,
   },
 };
 </script>

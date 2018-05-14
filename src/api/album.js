@@ -4,10 +4,12 @@ export default {
   /**
    * Get all albums
    *
+   * @param {string} search - string for search
+   * @param {number} page - current page
    * @returns {Promise}
    */
-  list(search) {
-    return axios.get('music_store/albums/', { params: { search, }, });
+  list({ search, page, }) {
+    return axios.get('music_store/albums/', { params: { search, page, }, });
   },
 
   /**

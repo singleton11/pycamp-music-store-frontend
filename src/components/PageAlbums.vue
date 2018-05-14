@@ -13,10 +13,13 @@
         <h2>Album Info</h2>
         <AlbumDetail :album="getActiveAlbum"
                      @buy="$eventHub.$emit('select-payment-show')"
-                     @close="close"
+                     @close="ALBUM_UNSELECT"
         ></AlbumDetail>
       </div>
     </div>
+    <Paginator :count-items=count
+               :current-page=currentPage
+               @changePage="changePage"></Paginator>
     <SelectPayment @confirmSelect="buy"></SelectPayment>
   </div>
 </template>
@@ -29,6 +32,7 @@ import AlbumsTable from './album/AlbumsTable.vue';
 import AlbumDetail from './album/AlbumDetail.vue';
 import SearchField from './utils/SearchField.vue';
 import SelectPayment from './utils/SelectPayment.vue';
+import Paginator from '../components/utils/Paginator.vue';
 
 export default {
   /**
@@ -37,19 +41,31 @@ export default {
   data() {
     return {
       searchText: '',
+      count: 0, // count of all items
+      currentPage: 1,
     };
   },
   /**
    * update albums list after mount component
    */
   mounted() {
-    this.ALBUM_LIST();
+    this.getList(1);
   },
   computed: {
     ...mapGetters(Object.keys(albumGetters)),
   },
   methods: {
     ...mapActions(albumActions),
+    /**
+     * Get list of albums on this page
+     */
+    getList(page) {
+      this.ALBUM_LIST({ search: this.searchText, page, })
+        .then((data) => {
+          this.count = data;
+          this.currentPage = page;
+        });
+    },
     /**
      * Buy selected album
      */
@@ -61,10 +77,12 @@ export default {
       });
     },
     /**
-     * Method for closing a album detail
+     * Method for change the page
+     *
+     * @param page - current page
      */
-    close() {
-      this.ALBUM_UNSELECT();
+    changePage(page) {
+      this.getList(page);
     },
   },
   watch: {
@@ -73,7 +91,7 @@ export default {
      * after which we update the list of albums.
      */
     searchText() {
-      this.ALBUM_SEARCH(this.searchText);
+      this.getList(1);
     },
   },
   components: {
@@ -81,6 +99,7 @@ export default {
     AlbumDetail,
     SearchField,
     SelectPayment,
+    Paginator,
   },
 };
 </script>
