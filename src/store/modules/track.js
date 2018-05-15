@@ -11,7 +11,7 @@ import {
 } from '../types/track';
 
 import { AUTH_LOGOUT, } from '../types/auth';
-import { ACCOUNT_DECREASE_BALANCE, } from '../types/account';
+import { ACCOUNT_UPDATE_INFO, } from '../types/account';
 
 /**
  * Track Vuex Store Module State
@@ -108,7 +108,7 @@ const actions = {
     const fullContent = data.data.content;
 
     commit(TRACK_BUY, fullContent);
-    dispatch(ACCOUNT_DECREASE_BALANCE, getters.getActiveTrack.price);
+    dispatch(ACCOUNT_UPDATE_INFO);
   }),
 
   /**

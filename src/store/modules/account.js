@@ -1,9 +1,6 @@
 import api from '../../api';
 
-import {
-  ACCOUNT_UPDATE_INFO,
-  ACCOUNT_DECREASE_BALANCE,
-} from '../types/account';
+import { ACCOUNT_UPDATE_INFO, } from '../types/account';
 import { AUTH_LOGOUT, } from '../types/auth';
 
 /**
@@ -40,14 +37,6 @@ const actions = {
       commit(ACCOUNT_UPDATE_INFO, response.data);
     });
   },
-
-  /**
-   * Decrease the user balance
-   */
-  [ACCOUNT_DECREASE_BALANCE]: ({ commit, }, amount) => {
-    commit(ACCOUNT_DECREASE_BALANCE, amount);
-  },
-
 };
 
 /**
@@ -63,16 +52,6 @@ const mutations = {
   [ACCOUNT_UPDATE_INFO]: (state, data) => {
     state.email = data.email;
     state.balance = data.balance;
-  },
-
-  /**
-   * Mutate user balance
-   *
-   * @param {object} state -  state of the module
-   * @param {object} amount - sum for decreasing
-   */
-  [ACCOUNT_DECREASE_BALANCE]: (state, amount) => {
-    state.balance -= amount;
   },
 
   /**

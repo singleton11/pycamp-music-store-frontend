@@ -61,7 +61,8 @@ export default {
      * If register successful, redirect on login page
      */
     register() {
-      this.validate();
+      this.errors = {};
+      this.validatePassword();
 
       if (Object.keys(this.errors).length) {
         return;
@@ -83,11 +84,9 @@ export default {
       });
     },
     /**
-     * Validation of user data
+     * Validate password fields
      */
-    validate() {
-      this.errors = {};
-
+    validatePassword() {
       if (this.user.password.length < 6) {
         this.$set(this.errors, 'password1', [
           'Password must be a minimum of 6 characters.',
