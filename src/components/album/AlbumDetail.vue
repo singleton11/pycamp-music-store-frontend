@@ -36,12 +36,10 @@
 <script>
 import { mapActions, } from 'vuex';
 import TrackList from '../track/TracksList.vue';
-import { ALBUM_GET_TRACKS, } from '../../store/types/album';
 import {
   album as albumActions,
   common as commonActions,
 } from '../../store/types/';
-import store from '../../store';
 
 export default {
   props: [
@@ -77,7 +75,7 @@ export default {
      * Method for calling action to update album tracks
      */
     updateInfo() {
-      store.dispatch(ALBUM_GET_TRACKS);
+      this.ALBUM_GET_TRACKS();
     },
   },
   watch: {

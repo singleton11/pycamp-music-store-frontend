@@ -75,7 +75,7 @@ export default {
   watch: {
     /**
      * Waiting for changes in the text in the search field,
-     * after which we update the list of albums.
+     * after which we update the list of albums
      */
     searchText() {
       this.getList(1);

@@ -24,7 +24,7 @@ export default {
   ],
   methods: {
     /**
-     * Method for processing text input in the search field.
+     * Method for processing text input in the search field
      *
      * @param event - event (input)
      */

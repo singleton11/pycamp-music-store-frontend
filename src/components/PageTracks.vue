@@ -77,7 +77,7 @@ export default {
   watch: {
     /**
      * Waiting for changes in the text in the search field,
-     * after which we update the list of tracks.
+     * after which we update the list of tracks
      */
     searchText() {
       this.getList(1);
