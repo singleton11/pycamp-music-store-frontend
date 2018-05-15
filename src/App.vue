@@ -68,11 +68,6 @@
                 </a>
               </div>
             </li>
-            <li class="nav-item">
-              <a class="nav-link"
-                 href="https://bootswatch.com/minty/"
-                 target="_blank">Theme</a>
-            </li>
           </ul>
 
         </div>

@@ -11,6 +11,7 @@ import {
 } from '../types/track';
 
 import { AUTH_LOGOUT, } from '../types/auth';
+import { ACCOUNT_UPDATE_INFO, } from '../types/account';
 
 /**
  * Track Vuex Store Module State
@@ -100,11 +101,14 @@ const actions = {
   /**
    * Buy the active track
    */
-  [TRACK_BUY]: ({ commit, getters, }) => api.track.buy({
+  [TRACK_BUY]: ({ commit, getters, dispatch, }) => api.track.buy({
     track: getters.getActiveTrack,
     payment: getters.getActivePaymentMethod,
-  }).then(() => {
-    commit(TRACK_BUY);
+  }).then((data) => {
+    const fullContent = data.data.content;
+
+    commit(TRACK_BUY, fullContent);
+    dispatch(ACCOUNT_UPDATE_INFO);
   }),
 
   /**
@@ -186,12 +190,14 @@ const mutations = {
   },
 
   /**
-   * Buy track
+   * Buy track and mutate it's content
    *
    * @param {object} state - state of the module
+   * @param {string} fullContent - full content of track
    */
-  [TRACK_BUY]: (state) => {
+  [TRACK_BUY]: (state, fullContent) => {
     state.activeTrack.is_bought = true;
+    state.activeTrack.content = fullContent;
   },
 
   /**

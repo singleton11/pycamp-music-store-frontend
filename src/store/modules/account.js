@@ -37,7 +37,6 @@ const actions = {
       commit(ACCOUNT_UPDATE_INFO, response.data);
     });
   },
-
 };
 
 /**

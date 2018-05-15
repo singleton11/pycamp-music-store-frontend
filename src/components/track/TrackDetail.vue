@@ -34,7 +34,7 @@
         </button>
         <button type="button"
                 class="btn btn-danger btn-lg btn-block"
-                @click.prevent="close">
+                @click.prevent="TRACK_UNSELECT">
           Close
         </button>
       </div>
@@ -81,12 +81,6 @@ export default {
       }).catch((error) => {
         this.NOTIFICATION_SHOW_DANGER(error.response.data.message);
       });
-    },
-    /**
-     * Method for closing a track detail
-     */
-    close() {
-      this.TRACK_UNSELECT();
     },
     /**
      * Set like on track or delete like, if track already liked

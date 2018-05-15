@@ -11,16 +11,13 @@
       <div class="col"
            v-if="getActiveAlbum">
         <h2>Album Info</h2>
-        <AlbumDetail :album="getActiveAlbum"
-                     @buy="$eventHub.$emit('select-payment-show')"
-                     @close="ALBUM_UNSELECT"
-        ></AlbumDetail>
+        <AlbumDetail :album="getActiveAlbum"></AlbumDetail>
       </div>
     </div>
+    <SelectPayment @confirmSelect="$eventHub.$emit('buy-album')"/>
     <Paginator :count-items=count
                :current-page=currentPage
                @changePage="changePage"></Paginator>
-    <SelectPayment @confirmSelect="buy"></SelectPayment>
   </div>
 </template>
 
@@ -67,16 +64,6 @@ export default {
         });
     },
     /**
-     * Buy selected album
-     */
-    buy() {
-      this.ALBUM_BUY().then(() => {
-        this.NOTIFICATION_SHOW_SUCCESS('Purchase of the album was successful');
-      }).catch((error) => {
-        this.NOTIFICATION_SHOW_DANGER(error.response.data.message);
-      });
-    },
-    /**
      * Method for change the page
      *
      * @param page - current page
@@ -88,7 +75,7 @@ export default {
   watch: {
     /**
      * Waiting for changes in the text in the search field,
-     * after which we update the list of albums.
+     * after which we update the list of albums
      */
     searchText() {
       this.getList(1);

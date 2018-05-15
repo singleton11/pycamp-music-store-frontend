@@ -26,12 +26,15 @@ export default {
    * Get full info about all tracks from album
    *
    * @param {(object|number)} album - album for getting tracks
+   * @param {number} pageSize - page size
    * @returns {Promise}
    */
-  getTracksFromAlbum({ album, }) {
+  getTracksFromAlbum({ album, pageSize = 100, }) {
     const id = album.id ? album.id : album;
 
-    return axios.get(`music_store/tracks/?album=${id}`);
+    return axios.get('music_store/tracks/', {
+      params: { album: id, page_size: pageSize, },
+    });
   },
 
   /**

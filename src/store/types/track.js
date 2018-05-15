@@ -19,7 +19,6 @@ export const TRACK_ADD_TO_LIST = 'TRACK_ADD_TO_LIST';
 // Set or delete like
 export const TRACK_LIKE = 'TRACK_LIKE';
 
-
 export default {
   TRACK_GET_BY_ID,
   TRACK_LIST,
