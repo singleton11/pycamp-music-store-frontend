@@ -17,7 +17,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body scrolled">
             <p v-for="(paragraph, index) in track.content.split('\n')"
                :key="index">{{paragraph}}</p>
             <p class="text-danger"
@@ -84,5 +84,9 @@ export default {
   .modal-leave .modal-container {
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
+  }
+  .scrolled {
+    max-height: 80vh;
+    overflow: scroll;
   }
 </style>
