@@ -4,7 +4,9 @@
            placeholder="Enter text to search"
            type="text"
            :value="value"
-           @input="setValue">
+           @input="setValue"
+           autofocus
+           ref="search">
   </div>
 </template>
 
@@ -22,6 +24,12 @@ export default {
   props: [
     'value',
   ],
+  /**
+   * When component is mounted, set focus on search input
+   */
+  mounted() {
+    this.$refs.search.focus();
+  },
   methods: {
     /**
      * Method for processing text input in the search field
