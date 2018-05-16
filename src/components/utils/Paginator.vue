@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       // the count of pages in range of pages
-      maxPages: 5,
+      maxPages: config.paginator.maxPages,
       itemsPerPage: config.paginator.itemsPerPage,
     };
   },

@@ -1,9 +1,11 @@
 export default {
   api: {
-    // url: 'http://0.0.0.0:8000/api/v1/',
     url: 'http://pycamp-music-store-dev.saritasa-hosting.com/api/v1/',
   },
   paginator: {
-    itemsPerPage: 20,
+    // the count of pages in range of pages
+    maxPages: 3,
+    // the count of items on page (how much backend return on one page)
+    itemsPerPage: 10,
   },
 };
