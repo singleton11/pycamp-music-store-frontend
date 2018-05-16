@@ -8,7 +8,7 @@
                      @select="TRACK_SELECT"></TracksTable>
       </div>
 
-      <div class="col"
+      <div class="col-5"
            v-if="getActiveTrack">
         <h2>Tracks Info</h2>
         <TrackDetail :track="getActiveTrack"></TrackDetail>

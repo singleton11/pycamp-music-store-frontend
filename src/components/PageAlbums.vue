@@ -8,7 +8,7 @@
                      @select="ALBUM_SELECT"></AlbumsTable>
       </div>
 
-      <div class="col"
+      <div class="col-5"
            v-if="getActiveAlbum">
         <h2>Album Info</h2>
         <AlbumDetail :album="getActiveAlbum"></AlbumDetail>
