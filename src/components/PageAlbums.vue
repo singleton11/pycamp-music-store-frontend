@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       searchText: '',
-      count: 0, // count of all items
+      count: 1, // count of all items
       currentPage: 1,
     };
   },

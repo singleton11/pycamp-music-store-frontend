@@ -53,7 +53,7 @@ export default {
    */
   data() {
     return {
-      count: 0, // count of all transactions
+      count: 1, // count of all transactions
       currentPage: 1,
     };
   },
