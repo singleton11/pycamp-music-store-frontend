@@ -18,7 +18,8 @@
             </button>
           </div>
           <div class="modal-body">
-            {{ track.content }}
+            <p v-for="(paragraph, index) in track.content.split('\n')"
+               :key="index">{{paragraph}}</p>
             <p class="text-danger"
                v-if="!track.is_bought">
               For seen full version buy the track
