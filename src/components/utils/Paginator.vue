@@ -36,14 +36,13 @@ export default {
   props: [
     'countItems',
     'currentPage',
+    'maxPages', // the count of pages in range of pages
   ],
   /**
    * Define data model properties available for the component
    */
   data() {
     return {
-      // the count of pages in range of pages
-      maxPages: config.paginator.maxPages,
       itemsPerPage: config.paginator.itemsPerPage,
     };
   },

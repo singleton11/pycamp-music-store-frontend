@@ -18,6 +18,7 @@
     <TrackContentModal :track="getActiveTrack"/>
     <Paginator :count-items=count
                :current-page=currentPage
+               :maxPages=3
                @changePage="changePage"></Paginator>
   </div>
 </template>
