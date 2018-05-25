@@ -1,3 +1,5 @@
+import AdminLoginForm from '../components/AdminLoginForm.vue';
+import PageEditableUsers from '../components/PageEditableUsers.vue';
 import LoginForm from '../components/LoginForm.vue';
 import RegisterForm from '../components/RegisterForm.vue';
 import Home from '../components/Home.vue';
@@ -14,6 +16,9 @@ export const PAYMENTS_PAGE = '/payments';
 export const TRACKS_PAGE = '/tracks';
 export const ALBUMS_PAGE = '/albums';
 export const TRANSACTIONS_PAGE = '/transactions';
+
+export const ADMIN_PAGE = '/admin-login';
+export const EDIT_USERS_PAGE = '/edit-users';
 
 
 export default [
@@ -57,5 +62,17 @@ export default [
     name: 'transactions',
     component: PageTransactions,
     beforeEnter: CheckAuthorization,
+  },
+  {
+    path: ADMIN_PAGE,
+    name: 'admin',
+    component: AdminLoginForm,
+    beforeEnter: CheckAuthorizationFalse,
+  },
+  {
+    path: EDIT_USERS_PAGE,
+    name: 'edit-users',
+    component: PageEditableUsers,
+    beforeEnter: CheckAuthorizationFalse,
   },
 ];

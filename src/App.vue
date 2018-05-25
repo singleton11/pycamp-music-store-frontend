@@ -43,6 +43,12 @@
                 </router-link>
               </li>
               <li class="nav-item">
+                <router-link :to="{name: 'admin'}"
+                             class="nav-link">
+                  Admin <i class="fas fa-sign-in-alt"></i>
+                </router-link>
+              </li>
+              <li class="nav-item">
                 <router-link :to="{name: 'register'}"
                              class="nav-link">
                   Register <i class="fas fa-user-plus"></i>
