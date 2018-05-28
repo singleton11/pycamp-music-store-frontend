@@ -5,6 +5,7 @@ import account from './account';
 import track from './track';
 import album from './album';
 import transaction from './transaction';
+import users from './users';
 
 export {
   auth,
@@ -14,4 +15,5 @@ export {
   album,
   account,
   transaction,
+  users,
 };

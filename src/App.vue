@@ -32,6 +32,11 @@
               <router-link :to="{name: 'albums'}"
                            class="nav-link">Albums</router-link>
             </li>
+            <li class="nav-item"
+                v-show="isAuthenticated">
+              <router-link :to="{name: 'edit-users'}"
+                           class="nav-link">Users</router-link>
+            </li>
           </ul>
 
           <ul class="nav navbar-nav ml-auto">

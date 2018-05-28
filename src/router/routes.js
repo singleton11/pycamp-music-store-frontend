@@ -73,6 +73,6 @@ export default [
     path: EDIT_USERS_PAGE,
     name: 'edit-users',
     component: PageEditableUsers,
-    beforeEnter: CheckAuthorizationFalse,
+    beforeEnter: CheckAuthorization,
   },
 ];

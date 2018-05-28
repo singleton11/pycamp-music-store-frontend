@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     /**
-     * Method for user login and redirect on payments page
+     * Method for user login and redirect to page with list of users
      * If an error occurs during authorization, it is displayed
      */
     login() {
@@ -50,10 +50,7 @@ export default {
         this.$store.dispatch(NOTIFICATION_HIDE);
         this.$store.dispatch(ACCOUNT_UPDATE_INFO);
 
-        const endpoint = 'edit-users';
-        console.log(endpoint);
-
-        router.push({ name: endpoint, });
+        router.push({ name: 'edit-users', });
       }).catch((error) => {
         // show notification about error
         const message = error.response.data.detail;

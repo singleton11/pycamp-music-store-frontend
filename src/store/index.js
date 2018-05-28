@@ -8,6 +8,7 @@ import account from './modules/account';
 import track from './modules/track';
 import album from './modules/album';
 import transaction from './modules/transaction';
+import user from './modules/users';
 
 Vue.use(Vuex);
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     track,
     album,
     transaction,
+    user,
   },
   plugins: [
     persistedState({

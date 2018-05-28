@@ -4,6 +4,7 @@ import account from './account';
 import track from './track';
 import album from './album';
 import transaction from './transaction';
+import user from './users';
 
 export default {
   auth,
@@ -12,4 +13,5 @@ export default {
   track,
   album,
   transaction,
+  user,
 };
