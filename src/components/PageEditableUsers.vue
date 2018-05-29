@@ -2,17 +2,25 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <h2>List of Users</h2>
+        <h2 align="center">List of Users</h2>
         <users-table :users="getUsers"
                      @select="USER_SELECT"></users-table>
       </div>
 
       <div class="col"
            v-if="getSelectedUser">
-        <h2>User Info</h2>
+        <h2 align="center">User Info</h2>
         <UserDetail :user="getSelectedUser"></UserDetail>
       </div>
     </div>
+    <div class="row">
+      <button type="button"
+              class="btn btn-primary btn-lg"
+              @click.prevent="USER_ADD_NEW">
+        Add New User
+      </button>
+    </div>
+    <UserAddModal/>
   </div>
 </template>
 
@@ -22,6 +30,7 @@ import { users as userActions, } from '../store/types/';
 import { getters as userGetters, } from '../store/modules/users';
 import UsersTable from './users/UsersTable.vue';
 import UserDetail from './users/UserDetail.vue';
+import UserAddModal from './users/UserAddModal.vue';
 
 export default {
   /**
@@ -56,10 +65,15 @@ export default {
   components: {
     UsersTable,
     UserDetail,
+    UserAddModal,
   },
 };
 </script>
 
 <style scoped>
-
+  button{
+    margin:auto;
+    display:block;
+    width:330px;
+  }
 </style>

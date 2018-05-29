@@ -4,6 +4,10 @@ import {
   USER_LIST,
   USER_SELECT,
   USER_DESELECT,
+  USER_EDIT_BALANCE,
+  USER_SET_BALANCE_CHANGE,
+  USER_EDIT_CURRENT,
+  USER_ADD_NEW,
 } from '../types/users';
 
 import { AUTH_LOGOUT, } from '../types/auth';
@@ -14,11 +18,15 @@ import { AUTH_LOGOUT, } from '../types/auth';
  * @property {Array} users - List of users
  * @property {object} selectedUser - Currently selected user from the list
  * @property {number} selectedUserIndex - Index of the currently selected user
+ * @property {number} changeBalance - Amount to add to selected user's balance
  */
-const state = {
+export const state = {
   users: [],
   selectedUser: null,
   selectedUserIndex: null,
+  changeBalance: 0,
+  addingUser: false,
+  editingUser: false,
 };
 
 /**
@@ -35,6 +43,9 @@ export const getters = {
   getSelectedUser: state => state.selectedUser,
   getSelectedUserIndex: state => state.selectedUserIndex,
   getUsers: state => state.users,
+  getChangeBalance: state => state.changeBalance,
+  getEditingUser: state => state.editingUser,
+  getAddingUser: state => state.addingUser,
 };
 
 /**
@@ -68,6 +79,31 @@ const actions = {
     commit(USER_DESELECT);
   },
 
+  /**
+   * Edit balance of selected user
+   */
+  [USER_EDIT_BALANCE]: ({ commit, getters, }) => api.user.editBalance({
+    user: state.selectedUser,
+    amount: state.changeBalance,
+  }).then((data) => {
+    const amount = getters.getChangeBalance;
+
+    commit(USER_EDIT_BALANCE, amount);
+  }),
+
+  /**
+   * Edit currently selected user
+   */
+  [USER_EDIT_CURRENT]: ({ commit, }) => {
+    commit(USER_EDIT_CURRENT);
+  },
+
+  /**
+   * Add new user
+   */
+  [USER_ADD_NEW]: ({ commit, }) => {
+    commit(USER_ADD_NEW);
+  },
 };
 
 /**
@@ -112,6 +148,44 @@ const mutations = {
   [USER_DESELECT]: (state) => {
     state.selectedUserIndex = null;
     state.selectedUser = null;
+  },
+
+  /**
+   * Edit balance of selected user
+   *
+   * @param {object} state - state of the module
+   * @param {number} amount - amount of balance change
+   */
+  [USER_EDIT_BALANCE]: (state, amount) => {
+    state.selectedUser.balance += amount;
+    state.changeBalance = 0;
+  },
+
+  /**
+   * Edit balance of selected user
+   *
+   * @param {object} state - state of the module
+   * @param {number} amount - amount of balance change
+   */
+  [USER_SET_BALANCE_CHANGE]: (state, amount) => {
+    // if (state.selectedUser.balance + amount >= 0) {
+    //   state.changeBalance = amount;
+    // }
+    state.changeBalance = amount;
+  },
+
+  /**
+   *
+   */
+  [USER_EDIT_CURRENT]: (state) => {
+    state.editingUser = !state.editingUser;
+  },
+
+  /**
+   *
+   */
+  [USER_ADD_NEW]: (state) => {
+    state.addingUser = !state.addingUser;
   },
 
   /**
