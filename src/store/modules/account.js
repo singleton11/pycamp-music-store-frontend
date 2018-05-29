@@ -12,6 +12,8 @@ import { AUTH_LOGOUT, } from '../types/auth';
 const state = {
   email: null,
   balance: null,
+  is_staff: false,
+  is_superuser: false,
 };
 
 /**
@@ -19,10 +21,12 @@ const state = {
  *
  * @property {object} getEmail - Get user's email
  * @property {object} getBalance - Get user's balance
+ * @property {object} getAdmin - Get user's balance
  */
 export const getters = {
   getEmail: state => state.email,
   getBalance: state => state.balance,
+  isAdmin: state => state.is_superuser,
 };
 
 /**
@@ -52,6 +56,8 @@ const mutations = {
   [ACCOUNT_UPDATE_INFO]: (state, data) => {
     state.email = data.email;
     state.balance = data.balance;
+    state.is_staff = data.is_staff;
+    state.is_superuser = data.is_superuser;
   },
 
   /**
@@ -63,6 +69,8 @@ const mutations = {
   [AUTH_LOGOUT]: (state) => {
     state.email = '';
     state.balance = 0;
+    state.is_staff = false;
+    state.is_superuser = false;
   },
 };
 

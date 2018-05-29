@@ -23,3 +23,15 @@ export const CheckAuthorizationFalse = (to, from, next) => {
   }
   next({ name: 'payments', });
 };
+
+/**
+ * Router checker: If user is admin
+ */
+export const CheckAdmin = (to, from, next) => {
+  if (store.getters.isAdmin) {
+    next();
+
+    return;
+  }
+  next({ name: 'home', });
+};

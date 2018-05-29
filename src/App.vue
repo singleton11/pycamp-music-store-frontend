@@ -33,7 +33,7 @@
                            class="nav-link">Albums</router-link>
             </li>
             <li class="nav-item"
-                v-show="isAuthenticated">
+                v-show="isAdmin">
               <router-link :to="{name: 'edit-users'}"
                            class="nav-link">Users</router-link>
             </li>
@@ -45,12 +45,6 @@
                 <router-link :to="{name: 'login'}"
                              class="nav-link">
                   LogIn <i class="fas fa-sign-in-alt"></i>
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link :to="{name: 'admin'}"
-                             class="nav-link">
-                  Admin <i class="fas fa-sign-in-alt"></i>
                 </router-link>
               </li>
               <li class="nav-item">
