@@ -27,8 +27,8 @@
           Edit user info
         </button>
         <button class="btn btn-warning btn-lg btn-block"
-                @click.prevent="USER_DELETE_CURRENT">
-          Delete user
+                @click.prevent="submitUserDeletion">
+          Delete {{ user.username }}
         </button>
       </div>
 
@@ -38,13 +38,15 @@
           <div class="form-group mx-sm-3 mb-2">
             <input class="form-control"
                    type="number"
-                   placeholder="Amount"
+                   placeholder="0"
                    v-model.number="changeBalance">
           </div>
           <button class="btn btn-primary mb-2"
-                  @click.prevent="USER_EDIT_BALANCE"
-                  :disabled="user.balance + changeBalance <= 0">
-            Add amount
+                  @click.prevent="editBalance"
+                  :disabled="invalidEditedBalance || changeBalance == 0">
+            <div v-if="changeBalance > 0">Add {{changeBalance}}</div>
+            <div v-else-if="changeBalance < 0">Take {{changeBalance * (-1)}}</div>
+            <div v-else>Change</div>
           </button>
         </form>
       </div>
@@ -57,6 +59,47 @@
       </div>
     </div>
     <UserEditModal :user="getSelectedUser"/>
+
+    <!--Modal dialog to confirm change of user balance-->
+    <Modal v-if="visibleEditBalanceConfirmation"
+           @close="visibleEditBalanceConfirmation=false">
+      <template slot="title">
+        Confirmation
+      </template>
+      <template slot="body">
+        <h4>Are you sure you want edit user balance?</h4>
+        <p>Balance before: {{ user.balance }}</p>
+        <p>Balance after: {{ user.balance + changeBalance }}</p>
+      </template>
+      <template slot="buttons">
+        <button type="button"
+                class="btn btn-primary"
+                @click.prevent="confirmChangeBalance">
+          Confirm
+        </button>
+      </template>
+    </Modal>
+
+    <!--Modal dialog to confirm deletion of user-->
+    <Modal v-if="visibleDeletionConfirmation"
+           @close="visibleDeletionConfirmation=false">
+      <template slot="title">
+        Confirmation
+      </template>
+      <template slot="body">
+        <h4>Are you sure you want to Delete user?</h4>
+        <p>Username: {{ getSelectedUser.username }}</p>
+        <p>E-mail: {{ getSelectedUser.email }}</p>
+      </template>
+      <template slot="buttons">
+        <button type="button"
+                class="btn btn-primary"
+                @click.prevent="confirmUserDeletion">
+          Confirm
+        </button>
+      </template>
+    </Modal>
+
   </div>
 </template>
 
@@ -68,16 +111,26 @@ import {
   // common as commonActions,
 } from '../../store/types/';
 import UserEditModal from './UserEditModal.vue';
+import Modal from '../utils/Modal.vue';
 
 export default {
-  components: {
-    UserEditModal,
+  data() {
+    return {
+      visibleEditBalanceConfirmation: false,
+      visibleDeletionConfirmation: false,
+    };
   },
   props: [
     'user',
   ],
   computed: {
     ...mapGetters(Object.keys(userGetters)),
+    /**
+     * Non positive balance after change is invalid
+     */
+    invalidEditedBalance() {
+      return (this.getSelectedUser.balance + this.changeBalance) < 0;
+    },
     changeBalance: {
       /**
        * Get value to add to current balance
@@ -101,6 +154,36 @@ export default {
     edit() {
       this.$eventHub.$emit('edit-user');
     },
+    /**
+     * Go to confirmation of change user balance
+     */
+    editBalance() {
+      this.visibleEditBalanceConfirmation = true;
+    },
+    /**
+     * Confirm change of user balance
+     */
+    confirmChangeBalance() {
+      this.USER_EDIT_BALANCE();
+      this.visibleEditBalanceConfirmation = false;
+    },
+    /**
+     * Go to confirmation of delete current user
+     */
+    submitUserDeletion() {
+      this.visibleDeletionConfirmation = true;
+    },
+    /**
+     * Confirm user deletion
+     */
+    confirmUserDeletion() {
+      this.USER_DELETE_CURRENT();
+      this.visibleDeletionConfirmation = false;
+    },
+  },
+  components: {
+    UserEditModal,
+    Modal,
   },
 };
 </script>
