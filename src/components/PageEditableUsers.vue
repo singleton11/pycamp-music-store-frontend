@@ -69,7 +69,7 @@ export default {
         });
     },
     /**
-     *
+     * Call the modal to add new user
      */
     addNewUser() {
       this.$eventHub.$emit('add-user');

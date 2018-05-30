@@ -54,7 +54,7 @@ const actions = {
   /**
    * List of users
    *
-   * @returns {Promise} - count of albums
+   * @returns {Promise} - count of users
    */
   [USER_LIST]: ({ commit, }) => api.user.list()
     .then((response) => {
@@ -65,7 +65,7 @@ const actions = {
 
   /**
    * Select the user in the list
-   * @param {object} user - USer to be selected
+   * @param {object} user - User to be selected
    */
   [USER_SELECT]: ({ commit, }, user) => {
     commit(USER_SELECT, user);
@@ -101,6 +101,8 @@ const actions = {
 
   /**
    * Add new user
+   *
+   * @param {object} userToAdd - user to add
    */
   [USER_ADD_NEW]: ({ commit, }, userToAdd) => api.user.addNewUser({
     userToAdd,
@@ -109,7 +111,7 @@ const actions = {
   }),
 
   /**
-   *
+   * Delete currently selected user
    */
   [USER_DELETE_CURRENT]: ({ commit, }) => api.user.deleteUser({
     userToDelete: state.selectedUser,
@@ -184,7 +186,10 @@ const mutations = {
   },
 
   /**
+   * Edit currently selected user
    *
+   * @param {object} state - state of the module
+   * @param {object} editedUser - user to edit
    */
   [USER_EDIT_CURRENT]: (state, editedUser) => {
     const editedUserIndex = state.users
@@ -194,14 +199,19 @@ const mutations = {
   },
 
   /**
+   * Create new user
    *
+   * @param {object} state - state of the module
+   * @param {object} newUser - user to add
    */
   [USER_ADD_NEW]: (state, newUser) => {
     state.users.push(newUser);
   },
 
   /**
+   * Delete currently selected user
    *
+   * @param {object} state - state of the module
    */
   [USER_DELETE_CURRENT]: (state) => {
     const idx = state.users
@@ -224,6 +234,7 @@ const mutations = {
     state.users = [];
     state.selectedUser = null;
     state.selectedUserIndex = null;
+    state.changeBalance = 0;
   },
 };
 

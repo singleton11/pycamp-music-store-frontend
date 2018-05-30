@@ -19,7 +19,7 @@ export const USER_EDIT_CURRENT = 'USER_EDIT_CURRENT';
 // Go creation of a new user
 export const USER_ADD_NEW = 'USER_ADD_NEW';
 
-// Go to editing currently selected user
+// Delete selected user
 export const USER_DELETE_CURRENT = 'USER_DELETE_CURRENT';
 
 export default {

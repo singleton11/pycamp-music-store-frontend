@@ -92,6 +92,9 @@ import {
   // common as commonActions,
 } from '../../store/types/';
 export default {
+  /**
+   * Define data model properties available for the component
+   */
   data() {
     return {
       visible: false,
@@ -104,14 +107,7 @@ export default {
   mounted() {
     this.$eventHub.$on('edit-user', () => {
       this.visible = true;
-
       this.editUser.id = this.getSelectedUser.id;
-      // this.editUser.username = this.getSelectedUser.username;
-      // this.editUser.email = this.getSelectedUser.email;
-      // this.editUser.is_staff = this.getSelectedUser.is_staff;
-      // this.editUser.is_active = this.getSelectedUser.is_active;
-      // this.editUser.first_name = this.getSelectedUser.first_name;
-      // this.editUser.last_name = this.getSelectedUser.last_name;
     });
   },
   /**
@@ -125,10 +121,18 @@ export default {
   ],
   computed: {
     ...mapGetters(Object.keys(userGetters)),
+    /**
+     * Username validation
+     * Must be unique and not empty
+     */
     usernameInvalid() {
       return this.editUser.username === '' ||
         this.getUsers.find(user => user.username === this.editUser.username);
     },
+    /**
+     * E-mail validation
+     * Must be unique and not empty
+     */
     emailInvalid() {
       return this.editUser.email === '' ||
         this.getUsers.find(user => user.email === this.editUser.email);
@@ -137,7 +141,7 @@ export default {
   methods: {
     ...mapActions(userActions),
     /**
-     *
+     * Edit selected user
      */
     edit() {
       this.USER_EDIT_CURRENT(this.editUser);

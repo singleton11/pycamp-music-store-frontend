@@ -12,6 +12,8 @@ export default {
   /**
    * Edit balance of selected user
    *
+   * @param {object} user - user to edit balance
+   * @param {number} amount - amount to add to user's balance
    * @returns {Promise}
    */
   editBalance({ user, amount, }) {
@@ -25,16 +27,17 @@ export default {
   /**
    * Create new user on server
    *
+   * @param {object} userToAdd - new user to create
    * @returns {Promise}
    */
   addNewUser({ userToAdd, }) {
     return axios.post('/edit-users/', userToAdd);
   },
   /**
+   * Edit user on server
    *
-   *
-   * @param editedUser
-   * @returns {*|PromiseLike<HttpResponse>|AxiosPromise<any>}
+   * @param {object} editedUser - user to edit
+   * @returns {Promise}
    */
   editUser({ editedUser, }) {
     const id = editedUser.id;
@@ -42,9 +45,10 @@ export default {
     return axios.patch(`/edit-users/${id}/`, editedUser);
   },
   /**
+   * Delete user on server
    *
-   * @param userToDelete
-   * @returns {*}
+   * @param {object} userToDelete - user to delete
+   * @returns {Promise}
    */
   deleteUser({ userToDelete, }) {
     const id = userToDelete.id;

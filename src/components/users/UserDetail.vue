@@ -79,9 +79,15 @@ export default {
   computed: {
     ...mapGetters(Object.keys(userGetters)),
     changeBalance: {
+      /**
+       * Get value to add to current balance
+       */
       get() {
         return this.getChangeBalance;
       },
+      /**
+       * Set value to add to current balance
+       */
       set(amount) {
         this.$store.commit('USER_SET_BALANCE_CHANGE', amount);
       },
@@ -90,7 +96,7 @@ export default {
   methods: {
     ...mapActions(userActions),
     /**
-     *
+     * Call the modal to edit current user
      */
     edit() {
       this.$eventHub.$emit('edit-user');

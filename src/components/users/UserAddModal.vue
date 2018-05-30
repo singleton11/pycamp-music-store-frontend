@@ -92,6 +92,9 @@ import {
 } from '../../store/types/';
 
 export default {
+  /**
+   * Define data model properties available for the component
+   */
   data() {
     return {
       editUser: {
@@ -122,17 +125,27 @@ export default {
   },
   computed: {
     ...mapGetters(Object.keys(userGetters)),
+    /**
+     * Username validation
+     * Must be unique and not empty
+     */
     usernameInvalid() {
-      return this.editUser.username === '' || this.getUsers.find(user => user.username === this.editUser.username);
+      return this.editUser.username === '' ||
+        this.getUsers.find(user => user.username === this.editUser.username);
     },
+    /**
+     * E-mail validation
+     * Must be unique and not empty
+     */
     emailInvalid() {
-      return this.editUser.email === '' || this.getUsers.find(user => user.email === this.editUser.email);
+      return this.editUser.email === '' ||
+        this.getUsers.find(user => user.email === this.editUser.email);
     },
   },
   methods: {
     ...mapActions(userActions),
     /**
-     *
+     * Add new user
      */
     addNewUser() {
       this.USER_ADD_NEW(this.editUser);
