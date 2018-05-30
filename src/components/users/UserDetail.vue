@@ -12,7 +12,7 @@
         <li class="list-group-item">Username: {{user.username}}</li>
         <li class="list-group-item">E-mail: {{user.email}}</li>
         <li class="list-group-item">Staff: {{user.is_staff}}</li>
-        <li class="list-group-item">Active: {{user.active}}</li>
+        <li class="list-group-item">Active: {{user.is_active}}</li>
       </ul>
       <h3 class="card-header">User details</h3>
       <ul class="list-group list-group-flush">
@@ -23,8 +23,12 @@
       </ul>
       <div class="card-footer">
         <button class="btn btn-primary btn-lg btn-block"
-                @click.prevent="USER_EDIT_CURRENT">
+                @click.prevent="edit">
           Edit user info
+        </button>
+        <button class="btn btn-warning btn-lg btn-block"
+                @click.prevent="USER_DELETE_CURRENT">
+          Delete user
         </button>
       </div>
 
@@ -40,7 +44,7 @@
           <button class="btn btn-primary mb-2"
                   @click.prevent="USER_EDIT_BALANCE"
                   :disabled="user.balance + changeBalance <= 0">
-            Set balance
+            Add amount
           </button>
         </form>
       </div>
@@ -85,6 +89,12 @@ export default {
   },
   methods: {
     ...mapActions(userActions),
+    /**
+     *
+     */
+    edit() {
+      this.$eventHub.$emit('edit-user');
+    },
   },
 };
 </script>

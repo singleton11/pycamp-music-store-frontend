@@ -22,4 +22,33 @@ export default {
 
     return axios.post(`/edit-users/${id}/edit-balance/`, changeBalanceData);
   },
+  /**
+   * Create new user on server
+   *
+   * @returns {Promise}
+   */
+  addNewUser({ userToAdd, }) {
+    return axios.post('/edit-users/', userToAdd);
+  },
+  /**
+   *
+   *
+   * @param editedUser
+   * @returns {*|PromiseLike<HttpResponse>|AxiosPromise<any>}
+   */
+  editUser({ editedUser, }) {
+    const id = editedUser.id;
+
+    return axios.patch(`/edit-users/${id}/`, editedUser);
+  },
+  /**
+   *
+   * @param userToDelete
+   * @returns {*}
+   */
+  deleteUser({ userToDelete, }) {
+    const id = userToDelete.id;
+
+    return axios.delete(`/edit-users/${id}/`);
+  },
 };

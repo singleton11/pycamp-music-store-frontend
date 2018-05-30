@@ -19,6 +19,9 @@ export const USER_EDIT_CURRENT = 'USER_EDIT_CURRENT';
 // Go creation of a new user
 export const USER_ADD_NEW = 'USER_ADD_NEW';
 
+// Go to editing currently selected user
+export const USER_DELETE_CURRENT = 'USER_DELETE_CURRENT';
+
 export default {
   USER_LIST,
   USER_SELECT,
@@ -27,4 +30,5 @@ export default {
   USER_SET_BALANCE_CHANGE,
   USER_EDIT_CURRENT,
   USER_ADD_NEW,
+  USER_DELETE_CURRENT,
 };

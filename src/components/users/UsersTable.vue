@@ -14,7 +14,7 @@
       <tr v-for="user in users"
           :key="user.id"
           @click.prevent="$emit('select', user)"
-          :class="[user.is_staff ? 'table-success' : [user.is_active ? 'table-primary' : 'table-danger']]">
+          :class="[user.is_staff ? 'table-success' :  'table-primary']">
         <td scope="col">{{user.username}}</td>
         <td scope="col">{{user.email}}</td>
         <td scope="col">{{user.balance}}</td>

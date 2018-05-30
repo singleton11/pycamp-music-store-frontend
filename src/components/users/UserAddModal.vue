@@ -1,6 +1,6 @@
 <template>
   <transition name="modal"
-              v-if="getAddingUser">
+              v-if="visible">
     <div class="modal modal-mask"
          style="display: block">
       <div class="modal-dialog"
@@ -15,7 +15,7 @@
             <button type="button"
                     class="close"
                     aria-label="Close"
-                    @click="USER_ADD_NEW">
+                    @click="visible = false">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -25,30 +25,34 @@
                 <label>Username</label>
                 <input type="text"
                        class="form-control"
-                       placeholder="Username">
+                       placeholder="Username"
+                       v-model="editUser.username">
               </div>
               <div class="form-group">
                 <label>Email address</label>
                 <input type="email"
                        class="form-control"
-                       placeholder="Enter email">
+                       placeholder="Enter email"
+                       v-model="editUser.email">
               </div>
               <div class="form-group">
                 <label>First Name</label>
                 <input type="text"
                        class="form-control"
-                       placeholder="First Name">
+                       placeholder="First Name"
+                       v-model="editUser.firstName">
               </div>
               <div class="form-group">
                 <label>Last Name</label>
                 <input type="text"
                        class="form-control"
-                       placeholder="Last Name">
+                       placeholder="Last Name"
+                       v-model="editUser.lastName">
               </div>
               <div class="form-check">
                 <input class="form-check-input"
                        type="checkbox"
-                       value=""
+                       v-model="editUser.is_staff"
                        id="defaultCheck1">
                 <label class="form-check-label"
                        for="defaultCheck1">
@@ -58,15 +62,17 @@
               <div class="form-check">
                 <input class="form-check-input"
                        type="checkbox"
-                       value=""
-                       id="defaultCheck2">
+                       id="defaultCheck2"
+                       v-model="editUser.is_active">
                 <label class="form-check-label"
                        for="defaultCheck2">
                   Active
                 </label>
               </div>
               <button type="submit"
-                      class="btn btn-primary">
+                      class="btn btn-primary"
+                      @click.prevent="addNewUser"
+                      :disabled="usernameInvalid || emailInvalid">
                 Submit
               </button>
             </form>
@@ -86,14 +92,52 @@ import {
 } from '../../store/types/';
 
 export default {
-  props: [
-    'user',
-  ],
+  data() {
+    return {
+      editUser: {
+        username: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        is_staff: false,
+        is_active: false,
+        notifications: {},
+      },
+      visible: false,
+    };
+  },
+  /**
+   * Subscribe on event after mount
+   */
+  mounted() {
+    this.$eventHub.$on('add-user', () => {
+      this.visible = true;
+    });
+  },
+  /**
+   * before destroy unsubscribe from all events
+   */
+  beforeDestroy() {
+    this.$eventHub.$off('add-user');
+  },
   computed: {
     ...mapGetters(Object.keys(userGetters)),
+    usernameInvalid() {
+      return this.editUser.username === '' || this.getUsers.find(user => user.username === this.editUser.username);
+    },
+    emailInvalid() {
+      return this.editUser.email === '' || this.getUsers.find(user => user.email === this.editUser.email);
+    },
   },
   methods: {
     ...mapActions(userActions),
+    /**
+     *
+     */
+    addNewUser() {
+      this.USER_ADD_NEW(this.editUser);
+      this.visible = false;
+    },
   },
 };
 </script>

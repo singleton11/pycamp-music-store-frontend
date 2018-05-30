@@ -16,7 +16,7 @@
     <div class="row">
       <button type="button"
               class="btn btn-primary btn-lg"
-              @click.prevent="USER_ADD_NEW">
+              @click.prevent="addNewUser">
         Add New User
       </button>
     </div>
@@ -42,10 +42,17 @@ export default {
     };
   },
   /**
+   * Subscribe on buy-event after mount
    * update user list after mount component
    */
   mounted() {
     this.getList();
+  },
+  /**
+   * before destroy unsubscribe from all events
+   */
+  beforeDestroy() {
+    this.$eventHub.$off('add-user');
   },
   computed: {
     ...mapGetters(Object.keys(userGetters)),
@@ -60,6 +67,12 @@ export default {
         .then((data) => {
           this.count = data;
         });
+    },
+    /**
+     *
+     */
+    addNewUser() {
+      this.$eventHub.$emit('add-user');
     },
   },
   components: {

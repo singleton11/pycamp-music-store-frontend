@@ -8,6 +8,7 @@ import {
   USER_SET_BALANCE_CHANGE,
   USER_EDIT_CURRENT,
   USER_ADD_NEW,
+  USER_DELETE_CURRENT,
 } from '../types/users';
 
 import { AUTH_LOGOUT, } from '../types/auth';
@@ -25,8 +26,6 @@ export const state = {
   selectedUser: null,
   selectedUserIndex: null,
   changeBalance: 0,
-  addingUser: false,
-  editingUser: false,
 };
 
 /**
@@ -85,7 +84,7 @@ const actions = {
   [USER_EDIT_BALANCE]: ({ commit, getters, }) => api.user.editBalance({
     user: state.selectedUser,
     amount: state.changeBalance,
-  }).then((data) => {
+  }).then(() => {
     const amount = getters.getChangeBalance;
 
     commit(USER_EDIT_BALANCE, amount);
@@ -94,16 +93,29 @@ const actions = {
   /**
    * Edit currently selected user
    */
-  [USER_EDIT_CURRENT]: ({ commit, }) => {
-    commit(USER_EDIT_CURRENT);
-  },
+  [USER_EDIT_CURRENT]: ({ commit, }, editedUser) => api.user.editUser({
+    editedUser,
+  }).then((response) => {
+    commit(USER_EDIT_CURRENT, response.data);
+  }),
 
   /**
    * Add new user
    */
-  [USER_ADD_NEW]: ({ commit, }) => {
-    commit(USER_ADD_NEW);
-  },
+  [USER_ADD_NEW]: ({ commit, }, userToAdd) => api.user.addNewUser({
+    userToAdd,
+  }).then((response) => {
+    commit(USER_ADD_NEW, response.data);
+  }),
+
+  /**
+   *
+   */
+  [USER_DELETE_CURRENT]: ({ commit, }) => api.user.deleteUser({
+    userToDelete: state.selectedUser,
+  }).then(() => {
+    commit(USER_DELETE_CURRENT);
+  }),
 };
 
 /**
@@ -168,24 +180,38 @@ const mutations = {
    * @param {number} amount - amount of balance change
    */
   [USER_SET_BALANCE_CHANGE]: (state, amount) => {
-    // if (state.selectedUser.balance + amount >= 0) {
-    //   state.changeBalance = amount;
-    // }
     state.changeBalance = amount;
   },
 
   /**
    *
    */
-  [USER_EDIT_CURRENT]: (state) => {
-    state.editingUser = !state.editingUser;
+  [USER_EDIT_CURRENT]: (state, editedUser) => {
+    const editedUserIndex = state.users
+      .findIndex(item => item.id === editedUser.id);
+
+    state.users[editedUserIndex] = editedUser;
   },
 
   /**
    *
    */
-  [USER_ADD_NEW]: (state) => {
-    state.addingUser = !state.addingUser;
+  [USER_ADD_NEW]: (state, newUser) => {
+    state.users.push(newUser);
+  },
+
+  /**
+   *
+   */
+  [USER_DELETE_CURRENT]: (state) => {
+    const idx = state.users
+      .findIndex(item => item.id === state.selectedUser.id);
+
+    state.users.splice(idx, 1);
+
+    // deselect user
+    state.selectedUserIndex = null;
+    state.selectedUser = null;
   },
 
   /**
