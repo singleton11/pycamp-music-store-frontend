@@ -72,12 +72,31 @@
               </div>
               <button type="submit"
                       class="btn btn-primary"
-                      @click="edit"
+                      @click="submit"
                       :disabled="usernameInvalid || emailInvalid">
                 Submit
               </button>
             </form>
           </div>
+
+          <!--Modal dialog to confirm modification of a user-->
+          <Modal v-if="visibleConfirmation"
+                 @close="visibleConfirmation=false">
+            <template slot="title">
+              Confirmation
+            </template>
+            <template slot="body">
+              <h4>Are you sure you want to confirm changes?</h4>
+            </template>
+            <template slot="buttons">
+              <button type="button"
+                      class="btn btn-primary"
+                      @click.prevent="confirmEditUser">
+                Confirm
+              </button>
+            </template>
+          </Modal>
+
         </div>
       </div>
     </div>
@@ -91,6 +110,8 @@ import {
   users as userActions,
   // common as commonActions,
 } from '../../store/types/';
+import Modal from '../utils/Modal.vue';
+
 export default {
   /**
    * Define data model properties available for the component
@@ -98,6 +119,7 @@ export default {
   data() {
     return {
       visible: false,
+      visibleConfirmation: false,
       editUser: { },
     };
   },
@@ -141,12 +163,22 @@ export default {
   methods: {
     ...mapActions(userActions),
     /**
-     * Edit selected user
+     * Submit edition of selected user
      */
-    edit() {
+    submit() {
+      this.visibleConfirmation = true;
+    },
+    /**
+     * Confirm edition of selected user
+     */
+    confirmEditUser() {
       this.USER_EDIT_CURRENT(this.editUser);
+      this.visibleConfirmation = false;
       this.visible = false;
     },
+  },
+  components: {
+    Modal,
   },
 };
 </script>

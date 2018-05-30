@@ -95,11 +95,6 @@
                       @click.prevent="confirmAddUser">
                 Confirm
               </button>
-              <button type="button"
-                      class="btn btn-danger"
-                      @click.prevent="declineAddUser()">
-                Decline
-              </button>
             </template>
           </Modal>
 
@@ -185,12 +180,6 @@ export default {
       this.USER_ADD_NEW(this.editUser);
       this.visibleConfirmation = false;
       this.visible = false;
-    },
-    /**
-     * Decline add new user
-     */
-    declineAddUser() {
-      this.visibleConfirmation = false;
     },
   },
   components: {
