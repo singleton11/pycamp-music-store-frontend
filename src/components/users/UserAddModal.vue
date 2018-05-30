@@ -71,12 +71,38 @@
               </div>
               <button type="submit"
                       class="btn btn-primary"
-                      @click.prevent="addNewUser"
+                      @click.prevent="submitAddUser"
                       :disabled="usernameInvalid || emailInvalid">
                 Submit
               </button>
             </form>
           </div>
+
+          <!--Modal dialog to confirm addition of a user-->
+          <Modal v-if="visibleConfirmation"
+                 @close="visibleConfirmation=false">
+            <template slot="title">
+              Confirmation
+            </template>
+            <template slot="body">
+              <h4>Are you sure you want to add user?</h4>
+              <p>Username: {{ editUser.username }}</p>
+              <p>E-mail: {{ editUser.email }}</p>
+            </template>
+            <template slot="buttons">
+              <button type="button"
+                      class="btn btn-primary"
+                      @click.prevent="confirmAddUser">
+                Confirm
+              </button>
+              <button type="button"
+                      class="btn btn-danger"
+                      @click.prevent="declineAddUser()">
+                Decline
+              </button>
+            </template>
+          </Modal>
+
         </div>
       </div>
     </div>
@@ -90,6 +116,7 @@ import {
   users as userActions,
   // common as commonActions,
 } from '../../store/types/';
+import Modal from '../utils/Modal.vue';
 
 export default {
   /**
@@ -107,6 +134,7 @@ export default {
         notifications: {},
       },
       visible: false,
+      visibleConfirmation: false,
     };
   },
   /**
@@ -145,12 +173,28 @@ export default {
   methods: {
     ...mapActions(userActions),
     /**
-     * Add new user
+     * Submit addition of a new user and go to confirmation dialog
      */
-    addNewUser() {
+    submitAddUser() {
+      this.visibleConfirmation = true;
+    },
+    /**
+     * Confirm add new user
+     */
+    confirmAddUser() {
       this.USER_ADD_NEW(this.editUser);
+      this.visibleConfirmation = false;
       this.visible = false;
     },
+    /**
+     * Decline add new user
+     */
+    declineAddUser() {
+      this.visibleConfirmation = false;
+    },
+  },
+  components: {
+    Modal,
   },
 };
 </script>
