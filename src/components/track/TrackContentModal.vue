@@ -24,6 +24,20 @@
                v-if="!track.is_bought">
               For seen full version buy the track
             </p>
+
+            <div id="controls">
+
+              <button class="btn btn-danger btn-lg"
+                      @click.prevent="playAudio">
+                Play
+              </button>
+
+              <button class="btn btn-danger btn-lg"
+                      @click.prevent="pauseAudio">
+                Pause
+              </button>
+
+            </div>
           </div>
         </div>
       </div>
@@ -32,7 +46,10 @@
 </template>
 
 <script>
+import { mapActions, mapGetters, } from 'vuex';
 import trackService from '../../services/trackService';
+import { track as trackActions, } from '../../store/types/';
+import { getters as trackGetters, } from '../../store/modules/track';
 
 export default {
   props: [
@@ -44,6 +61,7 @@ export default {
   data() {
     return {
       visible: false,
+      home: 'http://0.0.0.0:8000',
     };
   },
   /**
@@ -61,6 +79,21 @@ export default {
    */
   beforeDestroy() {
     this.$eventHub.$off('listen-track');
+  },
+  computed: {
+    ...mapGetters(Object.keys(trackGetters)),
+    audio() {
+      return new Audio(this.home + this.getActiveTrack.content);
+    },
+  },
+  methods: {
+    ...mapActions(trackActions),
+    playAudio() {
+      this.audio.play();
+    },
+    pauseAudio() {
+      this.audio.pause();
+    },
   },
 };
 </script>
