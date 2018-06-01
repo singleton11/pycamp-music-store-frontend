@@ -7,7 +7,7 @@ export default {
    * @returns {Promise}
    */
   list() {
-    return axios.get('/edit-users/');
+    return axios.get('/admin/users/');
   },
   /**
    * Edit balance of selected user
@@ -22,7 +22,7 @@ export default {
       amount,
     };
 
-    return axios.post(`/edit-users/${id}/edit-balance/`, changeBalanceData);
+    return axios.post(`/admin/users/${id}/edit-balance/`, changeBalanceData);
   },
   /**
    * Create new user on server
@@ -31,7 +31,7 @@ export default {
    * @returns {Promise}
    */
   addNewUser({ userToAdd, }) {
-    return axios.post('/edit-users/', userToAdd);
+    return axios.post('/admin/users/', userToAdd);
   },
   /**
    * Edit user on server
@@ -39,10 +39,10 @@ export default {
    * @param {object} editedUser - user to edit
    * @returns {Promise}
    */
-  editUser({ editedUser, }) {
+  newUser({ editedUser, }) {
     const id = editedUser.id;
 
-    return axios.patch(`/edit-users/${id}/`, editedUser);
+    return axios.patch(`/admin/users/${id}/`, editedUser);
   },
   /**
    * Delete user on server
@@ -53,6 +53,6 @@ export default {
   deleteUser({ userToDelete, }) {
     const id = userToDelete.id;
 
-    return axios.delete(`/edit-users/${id}/`);
+    return axios.delete(`/admin/users/${id}/`);
   },
 };

@@ -114,15 +114,25 @@ import UserEditModal from './UserEditModal.vue';
 import Modal from '../utils/Modal.vue';
 
 export default {
+  /**
+   * Define data model properties available for the component
+   *
+   * @property {boolean} visibleEditBalanceConfirmation - visibility mark for
+   *   modal to edit user
+   * @property {boolean} visibleDeletionConfirmation - visibility mark for
+   *   modal to delete confirmation
+   */
   data() {
     return {
       visibleEditBalanceConfirmation: false,
       visibleDeletionConfirmation: false,
     };
   },
-  props: [
-    'user',
-  ],
+  props: {
+    user: {
+      type: Object,
+    },
+  },
   computed: {
     ...mapGetters(Object.keys(userGetters)),
     /**

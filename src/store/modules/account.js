@@ -8,6 +8,8 @@ import { AUTH_LOGOUT, } from '../types/auth';
  *
  * @property {string} email - user email
  * @property {number} balance - user balance
+ * @property {boolean} is_staff - user is staff or not
+ * @property {boolean} is_superuser - user is superuser or not
  */
 const state = {
   email: null,

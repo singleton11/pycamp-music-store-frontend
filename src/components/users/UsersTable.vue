@@ -34,12 +34,10 @@ export default {
   /**
    * Define data model properties available for the component
    */
-  props: [
-    'users',
-  ],
+  props: {
+    users: {
+      type: Array,
+    },
+  },
 };
 </script>
-
-<style scoped>
-
-</style>

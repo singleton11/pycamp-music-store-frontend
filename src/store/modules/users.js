@@ -36,6 +36,8 @@ export const state = {
  * @property {number} getSelectedUserIndex - Get list index of the currently
  *   selected user
  * @property {Array} getUsers - Get full list of users
+ * @property {number} getChangeBalance - Get value on what current user's
+ *   balance to change
  */
 export const getters = {
   getUserById: state => state.users.find(item => item.id === item),
@@ -43,8 +45,6 @@ export const getters = {
   getSelectedUserIndex: state => state.selectedUserIndex,
   getUsers: state => state.users,
   getChangeBalance: state => state.changeBalance,
-  getEditingUser: state => state.editingUser,
-  getAddingUser: state => state.addingUser,
 };
 
 /**
@@ -93,7 +93,7 @@ const actions = {
   /**
    * Edit currently selected user
    */
-  [USER_EDIT_CURRENT]: ({ commit, }, editedUser) => api.user.editUser({
+  [USER_EDIT_CURRENT]: ({ commit, }, editedUser) => api.user.newUser({
     editedUser,
   }).then((response) => {
     commit(USER_EDIT_CURRENT, response.data);

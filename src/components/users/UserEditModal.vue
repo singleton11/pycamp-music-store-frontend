@@ -1,106 +1,68 @@
 <template>
-  <transition name="modal"
-              v-if="visible">
-    <div class="modal modal-mask"
-         style="display: block">
-      <div class="modal-dialog"
-           role="document">
-        <div class="modal-container modal-content" >
-          <div class="modal-header">
-            <h5 class="modal-title">
-              Edit user {{ getSelectedUser.username }}
-            </h5>
-            <button type="button"
-                    class="close"
-                    aria-label="Close"
-                    @click="visible = false">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label>Username</label>
-                <input type="text"
-                       class="form-control"
-                       :placeholder="getSelectedUser.username"
-                       v-model="editUser.username">
-              </div>
-              <div class="form-group">
-                <label>Email address</label>
-                <input type="email"
-                       class="form-control"
-                       :placeholder="getSelectedUser.email"
-                       v-model="editUser.email">
-                <p>{{ editUser.email }}</p>
-              </div>
-              <div class="form-group">
-                <label>First Name</label>
-                <input type="text"
-                       class="form-control"
-                       :placeholder="getSelectedUser.first_name"
-                       v-model="editUser.first_name">
-              </div>
-              <div class="form-group">
-                <label>Last Name</label>
-                <input type="text"
-                       class="form-control"
-                       :placeholder="getSelectedUser.last_name"
-                       v-model="editUser.last_name">
-              </div>
-              <div class="form-check">
-                <input class="form-check-input"
-                       type="checkbox"
-                       :placeholder="getSelectedUser.is_staff"
-                       v-model="editUser.is_staff"
-                       id="defaultCheck1">
-                <label class="form-check-label"
-                       for="defaultCheck1">
-                  Staff
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input"
-                       type="checkbox"
-                       :placeholder="getSelectedUser.is_active"
-                       v-model="editUser.is_active"
-                       id="defaultCheck2">
-                <label class="form-check-label"
-                       for="defaultCheck2">
-                  Active
-                </label>
-              </div>
-              <button type="submit"
-                      class="btn btn-primary"
-                      @click="submit"
-                      :disabled="usernameInvalid || emailInvalid">
-                Submit
-              </button>
-            </form>
-          </div>
+  <div>
+    <!--Modal dialog to Add new user-->
+    <Modal v-show="visible"
+           @close="visible = false">
+      <template slot="title">
+        Edit {{ getSelectedUser.username }}
+      </template>
+      <template slot="body">
+        <FormGroup v-model="editUser.username"
+                   :placeholder="getSelectedUser.username"
+                   type="text">Username</FormGroup>
+        <FormGroup v-model="editUser.email"
+                   :placeholder="getSelectedUser.email"
+                   type="text">Email address</FormGroup>
+        <FormGroup v-model="editUser.firstName"
+                   :placeholder="getSelectedUser.first_name"
+                   type="text">First Name</FormGroup>
+        <FormGroup v-model="editUser.lastName"
+                   :placeholder="getSelectedUser.last_name"
+                   type="text">Last Name</FormGroup>
 
-          <!--Modal dialog to confirm modification of a user-->
-          <Modal v-if="visibleConfirmation"
-                 @close="visibleConfirmation=false">
-            <template slot="title">
-              Confirmation
-            </template>
-            <template slot="body">
-              <h4>Are you sure you want to confirm changes?</h4>
-            </template>
-            <template slot="buttons">
-              <button type="button"
-                      class="btn btn-primary"
-                      @click.prevent="confirmEditUser">
-                Confirm
-              </button>
-            </template>
-          </Modal>
-
+        <div class="form-check">
+          <input class="form-check-input"
+                 type="checkbox"
+                 v-model="editUser.is_staff"
+                 id="defaultCheck1">
+          <label class="form-check-label"
+                 for="defaultCheck1">Staff</label>
         </div>
-      </div>
-    </div>
-  </transition>
+        <div class="form-check">
+          <input class="form-check-input"
+                 type="checkbox"
+                 id="defaultCheck2"
+                 v-model="editUser.is_active">
+          <label class="form-check-label"
+                 for="defaultCheck2">Active</label>
+        </div>
+      </template>
+      <template slot="buttons">
+        <button type="submit"
+                class="btn btn-primary"
+                @click.prevent="submit"
+                :disabled="usernameInvalid || emailInvalid">Submit</button>
+      </template>
+    </Modal>
+
+    <!--Modal dialog to confirm modification of a user-->
+    <Modal v-show="visibleConfirmation"
+           @close="visibleConfirmation=false">
+      <template slot="title">
+        Confirmation
+      </template>
+      <template slot="body">
+        <h4>Are you sure you want to confirm changes?</h4>
+      </template>
+      <template slot="buttons">
+        <button type="button"
+                class="btn btn-primary"
+                @click.prevent="confirmEditUser">
+          Confirm
+        </button>
+      </template>
+    </Modal>
+  </div>
 </template>
 
 <script>
@@ -111,16 +73,28 @@ import {
   // common as commonActions,
 } from '../../store/types/';
 import Modal from '../utils/Modal.vue';
+import FormGroup from '../utils/FormGroup.vue';
 
 export default {
   /**
    * Define data model properties available for the component
+   *
+   * @property {object} editUser - new user to add
+   *   @property {string} username - new user's username. Required
+   *   @property {string} email - new user's e-mail address. Required
+   *   @property {string} first_name - new user's first name
+   *   @property {string} last_name - new user's last name
+   *   @property {boolean} is_staff - if new user is staff or not
+   *   @property {boolean} is_active - if new user is active or not
+   *
+   * @property {boolean} visible - visibility mark for modal for add user
+   * @property {boolean} visibleConfirmation - visibility mark for confirmation
    */
   data() {
     return {
+      editUser: { },
       visible: false,
       visibleConfirmation: false,
-      editUser: { },
     };
   },
   /**
@@ -138,9 +112,11 @@ export default {
   beforeDestroy() {
     this.$eventHub.$off('edit-user');
   },
-  props: [
-    'user',
-  ],
+  props: {
+    user: {
+      type: Object,
+    },
+  },
   computed: {
     ...mapGetters(Object.keys(userGetters)),
     /**
@@ -179,6 +155,7 @@ export default {
   },
   components: {
     Modal,
+    FormGroup,
   },
 };
 </script>
